@@ -30,6 +30,7 @@
 
     <main id="board-region" class="board-grid">
       <section class="queue-rail" aria-labelledby="queue-caption">
+        <p id="queue-announcer" class="sr-only" aria-live="polite"></p>
         <table class="queue-table">
           <caption id="queue-caption">Waiting queue</caption>
           <colgroup>
@@ -71,7 +72,7 @@
       </aside>
     </main>
 
-    <section id="fairness-monitor" class="fairness-monitor" aria-labelledby="fairness-heading" hidden></section>
+    <main id="fairness-monitor" class="fairness-monitor" aria-labelledby="fairness-heading" hidden></main>
 
     <section class="simulation-console" aria-label="Prototype controls">
       <span>Prototype controls — not part of the clinical product</span>
@@ -96,7 +97,7 @@
     </footer>
   </div>
   <div id="sheet-backdrop" class="sheet-backdrop" hidden>
-    <section id="capture-sheet" class="capture-sheet" role="dialog" aria-modal="true"></section>
+    <section id="capture-sheet" class="capture-sheet" role="dialog" aria-modal="true" aria-labelledby="capture-sheet-heading"></section>
   </div>
   <section id="audit-drawer" class="audit-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-heading" hidden></section>
   <script type="module" src="assets/js/main.js"></script>

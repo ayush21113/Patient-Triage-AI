@@ -133,3 +133,50 @@ test("arrival and reassessment records recompute through the board", () => {
   assert.equal(reassessed.encounter.observations.at(-1).hr, 80);
   assert.ok(reassessed.assessment.confidence);
 });
+
+test("a resolving answer persists and immediately re-scores the encounter", () => {
+  const simulation = createBoardSimulation(structuredClone(cohort), protocol);
+  const before = simulation.board().find(({ encounter }) =>
+    encounter.encounter_id === "PT-0007"
+  );
+  assert.equal(before.assessment.confidence, "UNRESOLVED");
+
+  simulation.answerQuestion("PT-0007", "RQ-ABDO-02", "yes");
+  const after = simulation.board().find(({ encounter }) =>
+    encounter.encounter_id === "PT-0007"
+  );
+  assert.equal(after.assessment.confidence, "PROBABLE");
+  assert.equal(after.assessment.band, "P2");
+  assert.equal(
+    after.assessment.priorityIndex,
+    before.assessment.priorityIndex + 11
+  );
+  assert.deepEqual(after.assessment.derivation.information, [{
+    questionId: "RQ-ABDO-02",
+    question: "Is the abdomen rigid, or is there rebound tenderness?",
+    answer: "yes",
+    answeredAt: boardStartsAt,
+    shift: 11
+  }]);
+});
+
+test("cannot assess records no clinical shift and escalates exhausted inquiry", () => {
+  const simulation = createBoardSimulation(structuredClone(cohort), protocol);
+  const before = simulation.board().find(({ encounter }) =>
+    encounter.encounter_id === "PT-0007"
+  );
+  simulation.answerQuestion(
+    "PT-0007",
+    "RQ-ABDO-02",
+    "cannot_assess"
+  );
+  const after = simulation.board().find(({ encounter }) =>
+    encounter.encounter_id === "PT-0007"
+  );
+  assert.equal(after.assessment.priorityIndex, before.assessment.priorityIndex);
+  assert.equal(after.assessment.confidence, "UNRESOLVABLE");
+  assert.equal(
+    after.assessment.noQuestionReason,
+    "all_questions_already_answered"
+  );
+});

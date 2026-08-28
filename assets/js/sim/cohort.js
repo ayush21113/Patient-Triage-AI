@@ -120,6 +120,11 @@ export function projectEncounter(source, boardStartsAt, atMinute) {
     complaint_qualifiers: source.complaintQualifiers ?? [],
     language: source.language ?? null,
     preexisting_flags: source.preexistingFlags ?? [],
+    question_answers: (source.questionAnswers ?? []).map(answer => ({
+      question_id: answer.questionId,
+      answer: answer.answer,
+      answered_at: answer.answeredAt
+    })),
     observations: frames.map(frame => observationFrom(frame, boardStart))
   };
 }

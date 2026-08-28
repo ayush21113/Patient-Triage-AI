@@ -9,6 +9,7 @@ import { scorePresentation } from "./presentation.js";
 import { evaluateRules } from "./rules.js";
 import {
   classifyUncertainty,
+  questionAnswerEvidence,
   uncertaintyInterval
 } from "./uncertainty.js";
 
@@ -37,7 +38,7 @@ export function assertAssessmentContract(assessment) {
   }
   if (assessment.confidence === "UNRESOLVABLE" &&
       (assessment.noQuestionReason === null ||
-       assessment.resolvingQuestionId !== null)) {
+        assessment.resolvingQuestionId !== null)) {
     throw new Error("UNRESOLVABLE requires a reason and no question");
   }
   if (assessment.confidence !== "UNRESOLVABLE" &&
@@ -63,12 +64,17 @@ export function score(encounter, protocol, now) {
     protocol,
     now
   );
-  const index = priorityIndex(
+  const modelIndex = priorityIndex(
     physiology.score,
     presentation.score,
     hazard.score,
     protocol
   );
+  const information = questionAnswerEvidence(encounter, protocol);
+  const index = Math.min(100, Math.max(0, modelIndex + information.reduce(
+    (sum, answer) => sum + answer.shift,
+    0
+  )));
   const intervalResult = uncertaintyInterval(
     encounter,
     observations,
@@ -111,7 +117,12 @@ export function score(encounter, protocol, now) {
     alert: banding.modelLockedOut ? "immediate" : null,
     tieBrokenUpward: banding.tieBrokenUpward,
     rulesFired,
-    derivation: { physiology, presentation, hazard },
+    derivation: {
+      physiology,
+      presentation,
+      hazard,
+      ...(information.length > 0 ? { modelIndex, information } : {})
+    },
     resolvingQuestion: banding.resolvingQuestion,
     resolvingQuestionId: banding.resolvingQuestionId,
     expectedInformationGain: banding.expectedInformationGain,

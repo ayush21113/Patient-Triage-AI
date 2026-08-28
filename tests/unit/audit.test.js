@@ -106,3 +106,26 @@ test("JSON and CSV exports are complete and chain-verified", async () => {
     assert.match(csv.content, new RegExp(record.eventId));
   }
 });
+
+test("a resolving answer is a complete information event", async () => {
+  const records = [];
+  const audit = await createAuditLog(createMemoryAuditStore(records), {
+    shiftId: "SH-TEST",
+    actor: "STAFF-04"
+  });
+  const now = Date.parse(cohort.boardStartsAt);
+  const row = assessBoard(cohort, protocol, now).find(({ encounter }) =>
+    encounter.encounter_id === "PT-0007"
+  );
+  const question = protocol.resolvingQuestions.find(({ id }) =>
+    id === row.assessment.resolvingQuestionId
+  );
+  await audit.recordQuestionAnswered(row, question, "yes", now);
+  assert.equal(records[0].type, "QUESTION_ANSWERED");
+  assert.equal(records[0].encounterId, "PT-0007");
+  assert.equal(records[0].payload.questionId, "RQ-ABDO-02");
+  assert.equal(records[0].payload.appliedShift, 11);
+  assert.equal(records[0].payload.confidenceBefore, "UNRESOLVED");
+  assert.ok(records[0].payload.derivationSnapshot);
+  assert.equal(await audit.verify(), true);
+});

@@ -610,7 +610,7 @@ The prototype wraps the real engine in a synthetic environment. **No simulation 
 | Metric | Budget |
 |---|---|
 | Total transferred (cold, gzipped) | ≤ 120 kB including fonts |
-| JS, uncompressed | ≤ 60 kB |
+| JS, uncompressed | ≤ 135 kB |
 | CSS, uncompressed | ≤ 22 kB |
 | Cold load to interactive, mid-range tablet | ≤ 2 s |
 | Full board recompute, 60 encounters | ≤ 100 ms |

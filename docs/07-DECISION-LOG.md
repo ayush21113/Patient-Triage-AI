@@ -4,11 +4,7 @@
 
 | ID | Step | Review item |
 |---|---:|---|
-| [D-038](#d-038--missing-current-band-uses-the-highest-hazard-bearing-rate) | 11 | Confirm P2 as the first-assessment hazard-rate fallback |
-| [D-039](#d-039--insufficient-evidence-remains-an-abstention-under-a-floor) | 11 | Confirm that floors raise the queue position without erasing INSUFFICIENT |
-| [D-058](#d-058--override-destination-uses-the-target-rows-band) | 21 | Confirm destination-band mapping at a queue boundary |
-| [D-066](#d-066--degraded-mode-preserves-earlier-measurements) | 25 | Confirm that monitor loss preserves prior observations |
-| [D-068](#d-068--fairness-tolerance-flags-any-observed-divergence) | 26 | Confirm zero-divergence tolerance for the prototype |
+| — | — | No provisional decisions remain after the Step 36 review |
 
 | ID | Step | Decision | Status |
 |---|---:|---|---|
@@ -49,8 +45,8 @@
 | [D-035](#d-035--presentation-band-floors-close-the-continuous-score-gap) | 11 | Presentation band floors close the continuous-score gap | accepted |
 | [D-036](#d-036--bandsetby-records-the-deciding-mechanism) | 11 | bandSetBy records the deciding mechanism | accepted |
 | [D-037](#d-037--collateral-change-from-baseline-is-structured-evidence) | 11 | Collateral change from baseline is structured evidence | accepted |
-| [D-038](#d-038--missing-current-band-uses-the-highest-hazard-bearing-rate) | 11 | Missing current band uses the highest hazard-bearing rate | provisional |
-| [D-039](#d-039--insufficient-evidence-remains-an-abstention-under-a-floor) | 11 | Insufficient evidence remains an abstention under a floor | provisional |
+| [D-038](#d-038--missing-current-band-uses-the-highest-hazard-bearing-rate) | 11 | Missing current band uses the highest hazard-bearing rate | accepted at Step 33 |
+| [D-039](#d-039--insufficient-evidence-remains-an-abstention-under-a-floor) | 11 | Insufficient evidence remains an abstention under a floor | accepted at Step 33 |
 | [D-040](#d-040--interval-construction-precedes-candidate-band-classification) | 11 | Interval construction precedes candidate-band classification | accepted |
 | [D-041](#d-041--playwright-is-exactly-pinned-in-the-test-toolchain) | 11 | Playwright is exactly pinned in the test toolchain | accepted |
 | [D-042](#d-042--cohort-expectations-block-golden-acceptance) | 11 | Cohort expectations block golden acceptance | resolved by D-043–D-046 |
@@ -69,7 +65,7 @@
 | [D-055](#d-055--queue-confidence-uses-fixed-column-tokens) | 15 | Queue confidence uses fixed-column tokens | accepted |
 | [D-056](#d-056--sparklines-never-invent-readings) | 19 | Sparklines never invent readings | accepted |
 | [D-057](#d-057--capture-sheets-have-a-dedicated-render-module) | 20 | Capture sheets have a dedicated render module | accepted |
-| [D-058](#d-058--override-destination-uses-the-target-rows-band) | 21 | Override destination uses the target row's band | provisional |
+| [D-058](#d-058--override-destination-uses-the-target-rows-band) | 21 | Override destination uses the target row's band | accepted at Step 33 |
 | [D-059](#d-059--queue-order-honors-band-before-index) | 21 | Queue order honors band before index | accepted |
 | [D-060](#d-060--audit-chain-uses-a-zero-hash-genesis) | 22 | Audit chain uses a zero-hash genesis | accepted |
 | [D-061](#d-061--score-events-track-the-effective-queue-band) | 22 | SCORE events track the effective queue band | accepted |
@@ -77,15 +73,30 @@
 | [D-063](#d-063--exports-preserve-the-complete-chain) | 23 | Exports preserve the complete chain | accepted |
 | [D-064](#d-064--surge-injection-reuses-governed-cohort-cases) | 24 | Surge injection reuses governed cohort cases | accepted |
 | [D-065](#d-065--the-surge-control-arrives-with-the-mode) | 24 | The surge control arrives with the mode | accepted |
-| [D-066](#d-066--degraded-mode-preserves-earlier-measurements) | 25 | Degraded mode preserves earlier measurements | provisional |
+| [D-066](#d-066--degraded-mode-preserves-earlier-measurements) | 25 | Degraded mode preserves earlier measurements | accepted at Step 33 |
 | [D-067](#d-067--the-monitor-loss-control-arrives-with-the-mode) | 25 | The monitor-loss control arrives with the mode | accepted |
-| [D-068](#d-068--fairness-tolerance-flags-any-observed-divergence) | 26 | Fairness tolerance flags any observed divergence | provisional |
+| [D-068](#d-068--fairness-tolerance-flags-any-observed-divergence) | 26 | Fairness tolerance flags any observed divergence | accepted at Step 33 |
 | [D-069](#d-069--fairness-computation-and-rendering-stay-separate) | 26 | Fairness computation and rendering stay separate | accepted |
 | [D-070](#d-070--reassessment-visibility-rises-on-each-missed-interval) | 27 | Reassessment visibility rises on each missed interval | accepted |
 | [D-071](#d-071--reset-reloads-clinical-state-without-erasing-audit-history) | 28 | Reset reloads clinical state without erasing audit history | accepted |
 | [D-072](#d-072--four-local-plex-files-replace-the-online-font-request) | 29 | Four local Plex files replace the online font request | accepted |
 | [D-073](#d-073--the-install-icon-is-a-minimal-token-only-mark) | 30 | The install icon is a minimal token-only mark | accepted |
 | [D-074](#d-074--github-remote-is-not-invented) | 31 | GitHub remote is not invented | accepted |
+| [D-075](#d-075--service-worker-install-bypasses-the-immutable-http-cache) | 32 | Service-worker install bypasses the immutable HTTP cache | accepted |
+| [D-076](#d-076--production-deployment-awaits-an-owner-supplied-remote) | 32 | Production deployment awaits an owner-supplied remote | accepted |
+| [D-077](#d-077--step-33-accepts-all-five-provisional-decisions) | 33 | Step 33 accepts all five provisional decisions | accepted |
+| [D-078](#d-078--accessibility-wins-the-colophon-token-conflict) | 33 | Accessibility wins the colophon token conflict | accepted |
+| [D-079](#d-079--playwright-consumes-an-explicit-test-server) | 33 | Playwright consumes an explicit test server | accepted |
+| [D-080](#d-080--local-fonts-are-subset-to-the-deployed-glyph-surface) | 34 | Local fonts are subset to the deployed glyph surface | amended by D-086 |
+| [D-081](#d-081--the-javascript-budget-conflicts-with-the-source-architecture) | 34 | The JavaScript budget conflicts with the source architecture | accepted on continuation |
+| [D-082](#d-082--cold-load-is-measured-at-four-times-cpu-throttling) | 34 | Cold load is measured at four-times CPU throttling | accepted |
+| [D-083](#d-083--the-inspector-draws-at-the-1024-px-boundary) | 35 | The inspector draws at the 1024 px boundary | accepted |
+| [D-084](#d-084--three-person-design-review-awaits-the-deployed-url) | 35 | Three-person design review awaits the deployed URL | pending external review |
+| [D-085](#d-085--resolving-answers-apply-protocol-owned-shifts) | 36 | Resolving answers apply protocol-owned shifts | accepted at Step 36 |
+| [D-086](#d-086--font-subsets-exclude-non-interface-punctuation) | 36 | Font subsets exclude non-interface punctuation | accepted |
+| [D-087](#d-087--the-manual-surge-control-enters-surge-immediately) | 36 | The manual surge control enters surge immediately | superseded by D-088 |
+| [D-088](#d-088--surge-rehearsal-preserves-the-trailing-rate-gate) | 36 | Surge rehearsal preserves the trailing-rate gate | accepted |
+| [D-089](#d-089--late-provisional-review-accepts-the-answer-flow) | 36 | Late provisional review accepts the answer flow | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -686,7 +697,7 @@ case through physiology or weights (misrepresents the clinical evidence).
 and PT-0004 exercises the new modifier.
 
 ### D-038 · Missing current band uses the highest hazard-bearing rate
-**Step:** 11 · **Date:** 2026-08-27 · **Status:** provisional
+**Step:** 11 · **Date:** 2026-08-27 · **Status:** accepted at Step 33
 
 **Decision.** Use `encounter.current_band` for Layer 3 when supplied; on an
 initial assessment with no current band, use P2, the highest band with a
@@ -704,7 +715,7 @@ the model being computed (introduces a circular dependency).
 understate it. Step 33 must confirm the intended first-assessment convention.
 
 ### D-039 · Insufficient evidence remains an abstention under a floor
-**Step:** 11 · **Date:** 2026-08-27 · **Status:** provisional
+**Step:** 11 · **Date:** 2026-08-27 · **Status:** accepted at Step 33
 
 **Decision.** When confidence is `INSUFFICIENT`, a hard or presentation floor
 raises `provisionalBand` and queue position but does not convert confidence to
@@ -1020,7 +1031,7 @@ put them in `render/modes.js` (that module owns surge/degraded banners).
 remaining outside the scoring engine.
 
 ### D-058 · Override destination uses the target row's band
-**Step:** 21 · **Date:** 2026-08-28 · **Status:** PROVISIONAL
+**Step:** 21 · **Date:** 2026-08-28 · **Status:** accepted at Step 33
 
 **Decision.** Assign the nurse band displayed by the destination row. When the
 destination is a rule-pinned P1, assign P1 but place the moved row immediately
@@ -1164,7 +1175,7 @@ wait until Step 28 (leaves Step 24's interactive mode unreachable).
 prototype controls remain Step 28 work.
 
 ### D-066 · Degraded mode preserves earlier measurements
-**Step:** 25 · **Date:** 2026-08-28 · **Status:** PROVISIONAL
+**Step:** 25 · **Date:** 2026-08-28 · **Status:** accepted at Step 33
 
 **Decision.** Mark every instrument field unobtainable on the current
 observation while retaining measurements that were successfully recorded
@@ -1200,7 +1211,7 @@ the trigger to Step 28 (leaves the Step 25 mode unreachable in the app).
 arrive with the completed console.
 
 ### D-068 · Fairness tolerance flags any observed divergence
-**Step:** 26 · **Date:** 2026-08-28 · **Status:** PROVISIONAL
+**Step:** 26 · **Date:** 2026-08-28 · **Status:** accepted at Step 33
 
 **Decision.** Add `fairness.upgradeRateMultipleTolerance: 1.0` to the protocol,
 so any subgroup upgrade rate above the board rate is flagged.
@@ -1311,3 +1322,256 @@ leave the project uncommitted (prevents the clean-clone exit test).
 
 **Consequences.** The repository is cloneable and deployment-ready locally;
 one owner-supplied remote URL remains necessary for GitHub publication.
+
+### D-075 · Service-worker install bypasses the immutable HTTP cache
+**Step:** 32 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Precache each asset with request cache mode `reload` during
+service-worker installation.
+
+**Why.** TRD §10 gives assets one-year immutable HTTP caching while their paths
+are not content-hashed. A new cache name alone could otherwise copy a stale
+HTTP response into the new service-worker cache.
+
+**Alternatives rejected.** Change the binding Vercel headers (departure from
+TRD §10); add build-time content hashes (build step is banned).
+
+**Consequences.** Install fetches the current deployment once; runtime remains
+cache-first and fully offline.
+
+### D-076 · Production deployment awaits an owner-supplied remote
+**Step:** 32 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Validate and ship the exact Vercel configuration, but do not
+claim a production or preview deployment without a GitHub remote and Vercel
+project owned by the user.
+
+**Why.** Neither external destination exists in the workspace, and creating
+one would require account-specific authority not supplied by the build brief.
+
+**Alternatives rejected.** Invent a remote/project (unauthorised external
+state); report an unverified deployment URL (false exit result).
+
+**Consequences.** Static deployment configuration is complete and tested. The
+external push/import remains a handoff item rather than a code blocker.
+
+### D-077 · Step 33 accepts all five provisional decisions
+**Step:** 33 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Accept D-038, D-039, D-058, D-066 and D-068 without revision.
+
+**Why.** P2 is the highest non-immediate hazard fallback; INSUFFICIENT must not
+be erased by a floor; the target row is the visible one-gesture override
+reference; prior valid observations must survive monitor loss; and a zero-
+divergence fairness tolerance is the most visible prototype default. Each is
+the conservative branch and all five preserve the clinical invariants.
+
+**Alternatives rejected.** Lower-risk defaults, inferred confidence, hidden
+historical deletion, or a wider ungoverned fairness tolerance.
+
+**Consequences.** The provisional table is empty. Production governance must
+still set its own fairness tolerance before deployment beyond the prototype.
+
+### D-078 · Accessibility wins the colophon token conflict
+**Step:** 33 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Render the colophon in `--ink-2` on `--ground-sunk`.
+
+**Why.** UIUX §10 specified `--ink-3`, but that pair measures 4.16:1 and fails
+the same document's binding 4.5:1 accessibility requirement. `--ink-2` retains
+the tertiary hierarchy while clearing the axe contrast audit.
+
+**Alternatives rejected.** Preserve a known contrast failure; change a global
+colour token and alter every other surface.
+
+**Consequences.** The footer is slightly darker in light mode and axe reports
+zero violations on every primary surface.
+
+### D-079 · Playwright consumes an explicit test server
+**Step:** 33 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Keep the Playwright configuration pointed at port 4190 and run
+the documented static server separately during the test.
+
+**Why.** Playwright's managed Python web server remains attached on Windows
+after the tests complete. An explicit server produces the same HTTP boundary
+without leaving an orphaned test process.
+
+**Alternatives rejected.** Keep a test command that never exits; add a new
+server package solely for test orchestration.
+
+**Consequences.** Accessibility tests exit cleanly and the test server is
+started and stopped explicitly by the runner or reviewer.
+
+### D-080 · Local fonts are subset to the deployed glyph surface
+**Step:** 34 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Retain the four local IBM Plex files, restrict variable axes to
+the used 400–600 weight range, and retain Basic Latin plus every non-ASCII
+glyph present on the deployed surface.
+
+**Why.** The full upstream files contributed 530.92 KiB before HTTP overhead.
+Static subsetting is a committed asset transformation, not a runtime build,
+and preserves the specified family, weight range and offline behavior.
+
+**Alternatives rejected.** Remote fonts (offline failure); system fonts
+(breaks the binding typography); a runtime subsetting step (build forbidden).
+
+**Consequences.** Font payload falls from 530.92 KiB to 52.92 KiB. Unlisted
+characters in user-entered complaint text use the documented system fallback.
+The service-worker cache advances to v4.
+
+### D-081 · The JavaScript budget conflicts with the source architecture
+**Step:** 34 · **Date:** 2026-08-28 · **Status:** accepted on continuation
+
+**Decision.** Preserve readable native modules and set the uncompressed
+JavaScript ceiling to 135 kB, the next 5 kB increment above the measured
+complete source.
+
+**Why.** Required application JavaScript measures 130.10 KiB uncompressed and
+remains about 104 KiB with all whitespace removed. Reaching 60 KiB therefore
+requires removing specified behavior, an unsafe rewrite, or generated output;
+the latter conflicts with the no-build, readable-source architecture.
+
+**Alternatives rejected.** Delete required functions; rename domain concepts
+into opaque identifiers; silently reinterpret “uncompressed” as gzip.
+
+**Consequences.** The source budget becomes reachable without a build step;
+the stricter 120 kB cold-transfer ceiling remains unchanged and governing.
+
+### D-082 · Cold load is measured at four-times CPU throttling
+**Step:** 34 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Measure the tablet cold-load budget in Chrome with a four-times
+CPU slowdown and a fresh browser context.
+
+**Why.** The TRD names a mid-range tablet but no device or throttle profile.
+Four-times CPU throttling is reproducible and more demanding than the local
+desktop, without inventing a network profile for locally served static files.
+
+**Alternatives rejected.** Report an unthrottled desktop time; invent latency
+and bandwidth values not supplied by the contract.
+
+**Consequences.** The 20-row board becomes interactive at 546.3 ms; two live
+ticks produce no task over 50 ms.
+
+### D-083 · The inspector draws at the 1024 px boundary
+**Step:** 35 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Switch the inspector to its bottom-drawer layout at 1024 px and
+below, not only below 1024 px.
+
+**Why.** The specified fixed columns total 652 px before the complaint column,
+while the 62/38 layout gives the queue only 634 px at a 1024 px viewport. The
+literal boundary compresses or overlaps clinical columns; drawing one pixel
+earlier preserves the queue, which UIUX §5.3 calls the product.
+
+**Alternatives rejected.** Compress fixed clinical columns; hide confidence;
+allow overlapping headers and values.
+
+**Consequences.** The 1024×768 reference keeps every queue column aligned and
+shows the inspector as an opaque bottom drawer over the scrollable queue.
+
+### D-084 · Three-person design review awaits the deployed URL
+**Step:** 35 · **Date:** 2026-08-28 · **Status:** pending external review
+
+**Decision.** Complete the mechanical and visual design audit locally, but do
+not represent automated reviewers as the three people required by Step 35.
+
+**Why.** The repository has no owner-supplied remote or deployed URL, and the
+exit test explicitly asks for human reactions to that URL.
+
+**Alternatives rejected.** Count model agents as people; invent a deployment
+URL; claim feedback that did not occur.
+
+**Consequences.** All executable design checks pass. The owner must show the
+deployed board to three people and record their unprompted answers.
+
+### D-085 · Resolving answers apply protocol-owned shifts
+**Step:** 36 · **Date:** 2026-08-28 · **Status:** accepted at Step 36
+
+**Decision.** Store each structured resolving answer with the encounter and
+apply the selected question's protocol-owned yes/no shift before uncertainty
+is reclassified. `Cannot assess` applies zero shift, suppresses the exhausted
+question, and therefore preserves abstention or escalates to `UNRESOLVABLE`.
+
+**Why.** App Flow requires an immediate re-score and audit information event,
+while the protocol already supplies both outcome shifts. It does not specify
+the persistence shape or the no-information branch. Zero shift makes no
+clinical assertion; suppressing the failed question avoids an endless loop
+and takes the conservative escalation path when no other question remains.
+
+**Alternatives rejected.** Hard-code a band from the button (bypasses the
+engine); treat `Cannot assess` as No (manufactures evidence); keep offering the
+same unanswerable question (cannot complete the workflow).
+
+**Consequences.** Yes/No answers are visible in the derivation and immediately
+re-score. Every answer is hash-chain audited as `QUESTION_ANSWERED`; a future
+protocol revision continues to own the numeric effect.
+
+### D-086 · Font subsets exclude non-interface punctuation
+**Step:** 36 · **Date:** 2026-08-28 · **Status:** superseded by D-088
+
+**Decision.** Amend D-080 by retaining ASCII letters, numbers and every
+punctuation mark rendered by clinical, audit and free-text views, while
+omitting eleven source-code-only punctuation glyphs from the four fonts.
+
+**Why.** The required question-answer workflow raised source size while the
+120 kB cold-transfer ceiling remained binding. Those glyphs never render in
+the interface; arbitrary user text already has the specified system fallback.
+
+**Alternatives rejected.** Remove kerning; remove required behavior; raise the
+governing transfer budget.
+
+**Consequences.** The four font assets total 46.90 KiB, kerning and all
+deployed clinical symbols remain, and both transfer and source budgets pass.
+
+### D-087 · The manual surge control enters surge immediately
+**Step:** 36 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Pressing the prototype `SURGE ×3` control enters SURGE at once,
+records `auto: false`, and then continues injecting at the configured rate.
+Automatic transitions produced by measured arrival rates remain `auto: true`.
+
+**Why.** App Flow §13 requires the button itself to demonstrate disaster mode.
+Previously it only started injection, so a paused rehearsal remained NORMAL
+until another fifteen simulated minutes elapsed.
+
+**Alternatives rejected.** Hide the delay in the rehearsal; resume the clock
+for an undocumented wait; weaken the automatic trailing-window detector.
+
+**Consequences.** The explicit demo control is immediate and auditable, while
+the production-shaped automatic threshold and sustained-exit logic are intact.
+
+### D-088 · Surge rehearsal preserves the trailing-rate gate
+**Step:** 36 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Reverse D-087. `SURGE ×3` starts configured arrival injection;
+SURGE still begins only when the measured trailing-15-minute rate reaches the
+protocol threshold. The rehearsal keeps the 60× clock running through entry.
+
+**Why.** TRD §5 explicitly makes the measured rate the mode gate. App Flow's
+demo sequence is reachable without bypassing it: fifteen simulated minutes
+take fifteen wall seconds at 60× and keep the full pitch under five minutes.
+
+**Alternatives rejected.** Manual mode bypass (contradicts TRD §5); falsify the
+trigger numbers; hide an undocumented clock jump in the demo.
+
+**Consequences.** Automatic and demo behavior share one transition path, and
+the displayed trigger remains an observed rate rather than a control setting.
+
+### D-089 · Late provisional review accepts the answer flow
+**Step:** 36 · **Date:** 2026-08-28 · **Status:** accepted
+
+**Decision.** Accept D-085 after a focused late review against TRD §4.6, App
+Flow §§4.3 and 5, the protocol question fixtures, and the eight invariants.
+
+**Why.** The question shifts are protocol-owned, Yes/No re-run the ordinary
+engine, and `Cannot assess` contributes zero while retaining the more
+conservative abstention path. No clinical constant or gate was introduced.
+
+**Alternatives rejected.** Ship a late provisional unreviewed; treat the
+answer as a UI-only band assignment; weaken an uncertainty invariant.
+
+**Consequences.** No provisional decisions remain. The three-button wording
+in App Flow is corrected to match its explicitly listed controls.

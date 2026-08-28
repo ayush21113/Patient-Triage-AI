@@ -169,6 +169,18 @@ export function createBoardSimulation(
         left.atMinute - right.atMinute
       );
       recompute();
+    },
+    answerQuestion(encounterId, questionId, answer) {
+      const encounter = cohort.encounters.find(source =>
+        source.encounterId === encounterId
+      );
+      encounter.questionAnswers ??= [];
+      encounter.questionAnswers.push({
+        questionId,
+        answer,
+        answeredAt: clock.now()
+      });
+      recompute();
     }
   };
 }

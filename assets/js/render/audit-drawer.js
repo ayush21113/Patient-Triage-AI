@@ -91,7 +91,7 @@ export async function renderAuditDrawer(
   const key = `${records.at(-1)?.hash ?? "empty"}:${valid}`;
   if (renderedHash.get(drawer) === key) return;
   renderedHash.set(drawer, key);
-  const header = el("header", { class: "audit-header" });
+  const header = el("div", { class: "audit-header" });
   const title = el("h2", { id: "audit-heading" });
   title.textContent = "Audit trail";
   const status = el("span", {

@@ -196,6 +196,28 @@ export async function createAuditLog(store, {
         actor
       );
     },
+    recordQuestionAnswered(row, question, answer, at) {
+      return append(
+        "QUESTION_ANSWERED",
+        row.encounter.encounter_id,
+        {
+          questionId: question.id,
+          question: question.question,
+          answer,
+          appliedShift: answer === "yes"
+            ? question.expectedShiftIfYes
+            : answer === "no" ? question.expectedShiftIfNo : 0,
+          engineBandBefore: row.assessment.band,
+          provisionalBandBefore: row.assessment.provisionalBand,
+          confidenceBefore: row.assessment.confidence,
+          priorityIndexBefore: row.assessment.priorityIndex,
+          intervalBefore: row.assessment.interval,
+          derivationSnapshot: row.assessment.derivation
+        },
+        at,
+        actor
+      );
+    },
     records: () => store.all(),
     verify: async () => verifyAuditChain(await store.all(), cryptoApi)
   };

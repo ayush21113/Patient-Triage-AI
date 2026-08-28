@@ -51,4 +51,5 @@ test("service worker is versioned, cache-first and cleans old caches", async () 
   assert.match(source, /cached \?\? fetch\(event\.request\)/);
   assert.match(source, /name !== CACHE_NAME/);
   assert.match(source, /caches\.delete/);
+  assert.match(source, /new Request\(path, \{ cache: "reload" \}\)/);
 });

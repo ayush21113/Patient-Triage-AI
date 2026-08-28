@@ -137,7 +137,7 @@ One row per waiting patient, ordered by Priority Index descending. This list *is
 | Drop, or `Enter` | Commit override. **No dialog. No justification field.** Audit record written immediately. |
 | Tap `[+ ARRIVAL]` | Open S3 |
 | Tap the vitals strip | Open S4 for that patient |
-| Tap the resolve line | Open a two-button answer for the resolving question (`Yes` / `No` / `Cannot assess`) |
+| Tap the resolve line | Open a three-button answer for the resolving question (`Yes` / `No` / `Cannot assess`) |
 | `Esc` | Deselect |
 | `A` | Open audit drawer |
 | `F` | Open fairness monitor |

@@ -1,4 +1,4 @@
-const CACHE_NAME = "patienttriage-v2";
+const CACHE_NAME = "patienttriage-v6";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -43,7 +43,7 @@ const PRECACHE = [
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache =>
-    cache.addAll(PRECACHE)
+    cache.addAll(PRECACHE.map(path => new Request(path, { cache: "reload" })))
   ).then(() => self.skipWaiting()));
 });
 

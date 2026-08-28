@@ -64,7 +64,22 @@ function render(board = simulation.board(), now = simulation.clock.now()) {
     encounterId => store.dispatch({ type: "OPEN_REASSESS", encounterId })
   );
   renderHeader(boardHeader, board, now, store.getState().overrides);
-  renderInspector(inspector, board, now, store.getState(), protocol);
+  renderInspector(inspector, board, now, store.getState(), protocol, {
+    onQuestionAnswer: (row, answer) => {
+      const question = protocol.resolvingQuestions.find(({ id }) =>
+        id === row.assessment.resolvingQuestionId
+      );
+      audit?.recordQuestionAnswered(row, question, answer, now).catch(() => {
+        persistenceStatus.hidden = false;
+        persistenceStatus.textContent = "AUDIT CHAIN BROKEN";
+      });
+      simulation.answerQuestion(
+        row.encounter.encounter_id,
+        question.id,
+        answer
+      );
+    }
+  });
   renderModeStrip(modeStrip, store.getState().modeDetail, board);
   renderEmergencyAlert(
     emergencyAlert,
@@ -178,16 +193,21 @@ bindOverrideInteractions(tableBody, {
   }
 });
 on(document, "keydown", event => {
+  const state = store.getState();
   if (event.key.toLowerCase() === "a" &&
       !["INPUT", "TEXTAREA"].includes(event.target.tagName)) {
     store.dispatch({ type: "OPEN_AUDIT" });
   } else if (event.key.toLowerCase() === "f" &&
       !["INPUT", "TEXTAREA"].includes(event.target.tagName)) {
     store.dispatch({ type: "OPEN_FAIRNESS" });
-  } else if (event.key === "Escape" && store.getState().fairnessOpen) {
+  } else if (event.key === "Escape" && state.sheet) {
+    store.dispatch({ type: "CLOSE_SHEET" });
+  } else if (event.key === "Escape" && state.fairnessOpen) {
     store.dispatch({ type: "CLOSE_FAIRNESS" });
-  } else if (event.key === "Escape" && store.getState().auditOpen) {
+  } else if (event.key === "Escape" && state.auditOpen) {
     store.dispatch({ type: "CLOSE_AUDIT" });
+  } else if (event.key === "Escape" && state.selectedEncounterId) {
+    store.dispatch({ type: "SELECT_ENCOUNTER", encounterId: null });
   }
 });
 render();
