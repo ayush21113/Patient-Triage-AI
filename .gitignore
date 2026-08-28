@@ -1,0 +1,8 @@
+node_modules/
+tests/e2e/.playwright/
+tests/e2e/test-results/
+tests/e2e/playwright-report/
+coverage/
+.DS_Store
+Thumbs.db
+.vercel/

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Queue row state fixture</title>
+  <link rel="stylesheet" href="/assets/css/board.css">
+</head>
+<body>
+  <table class="queue-table">
+    <caption>Queue row state visual fixture</caption>
+    <colgroup>
+      <col class="col-band">
+      <col class="col-id">
+      <col class="col-age-sex">
+      <col>
+      <col class="col-hr">
+      <col class="col-bp">
+      <col class="col-rr">
+      <col class="col-spo2">
+      <col class="col-temp">
+      <col class="col-wait">
+      <col class="col-confidence">
+    </colgroup>
+    <thead>
+      <tr>
+        <th scope="col">Band</th>
+        <th scope="col">ID</th>
+        <th scope="col">Age / sex</th>
+        <th scope="col">Complaint</th>
+        <th scope="col">HR</th>
+        <th scope="col">BP</th>
+        <th scope="col">RR</th>
+        <th scope="col">SpO₂</th>
+        <th scope="col">Temp</th>
+        <th scope="col">Wait</th>
+        <th scope="col">Confidence</th>
+      </tr>
+    </thead>
+    <tbody id="queue-body"></tbody>
+  </table>
+  <script type="module" src="row-states.js"></script>
+</body>
+</html>

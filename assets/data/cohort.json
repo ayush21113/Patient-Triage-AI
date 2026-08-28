@@ -1,0 +1,955 @@
+{
+  "cohortVersion": "1.0",
+  "protocolVersion": "v1",
+  "notice": "SYNTHETIC DATA. Every encounter is fabricated for demonstration. No real patient information appears here, and nothing in this file may be used clinically.",
+  "boardStartsAt": "2026-08-23T14:00:00+05:30",
+  "timeBase": "atMinute and arrivedAtMinute are relative to board start. Negative values are patients already waiting at t=0.",
+  "trajectoryRule": "Keyframes are linearly interpolated between atMinute values and held constant after the last keyframe. Values are rounded to the precision of the field. A single keyframe means a static patient.",
+  "visualRule": "Only true flags are listed. Any flag absent from a keyframe is false.",
+  "expectRule": "Each encounter carries expectations at named minutes. `band`/`confidence` assert an exact value; `bandIn`/`confidenceIn` accept any member of a list, used where the exact value is not the clinical point and over-specifying it would make the fixture brittle rather than informative. Step 11 asserts these directly. Golden snapshots capture the full assessment, are generated from the engine, and are reviewed once against these expectations.",
+  "encounters": [
+    {
+      "encounterId": "PT-0001",
+      "proves": "Baseline P2 by presentation floor. Normal physiology, dangerous presentation.",
+      "arrivedAtMinute": -22,
+      "arrivalMode": "walk_in",
+      "ageValue": 47,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Chest pain since this morning, spreading to left arm",
+      "complaintClass": "chest_pain",
+      "complaintQualifiers": [
+        "radiating"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -22,
+          "acvpu": "A",
+          "painScore": 7,
+          "vitals": {
+            "hr": 96,
+            "sbp": 138,
+            "dbp": 86,
+            "rr": 18,
+            "spo2": 97,
+            "tempC": 36.8
+          },
+          "visual": {
+            "diaphoretic": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "presentation_floor",
+        "confidence": "ESTABLISHED",
+        "rulesFired": []
+      }
+    },
+    {
+      "encounterId": "PT-0002",
+      "proves": "The queue is alive. Rises P4 to P3 to P2 on measured drift alone.",
+      "arrivedAtMinute": 0,
+      "arrivalMode": "walk_in",
+      "ageValue": 34,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "en",
+      "complaintText": "Short of breath since last night, getting worse",
+      "complaintClass": "breathlessness",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": 0,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 98,
+            "sbp": 118,
+            "dbp": 74,
+            "rr": 22,
+            "spo2": 96,
+            "tempC": 37.1
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 15,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 104,
+            "sbp": 116,
+            "dbp": 72,
+            "rr": 24,
+            "spo2": 95,
+            "tempC": 37.2
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 30,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 111,
+            "sbp": 112,
+            "dbp": 70,
+            "rr": 26,
+            "spo2": 93,
+            "tempC": 37.3
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 45,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 124,
+            "sbp": 100,
+            "dbp": 66,
+            "rr": 29,
+            "spo2": 90,
+            "tempC": 37.4
+          },
+          "visual": {
+            "cannot_speak_full_sentences": true
+          }
+        }
+      ],
+      "expect": [
+        {
+          "at": 0,
+          "band": "P3",
+          "bandSetBy": "presentation_floor",
+          "note": "Breathlessness base 11 clears the P3 floor at the door. Physiology is only mildly deranged; the floor is doing the work."
+        },
+        {
+          "at": 30,
+          "bandIn": [
+            "P3",
+            "P2"
+          ],
+          "note": "Mid-drift. Either band is defensible here and the demo does not depend on which."
+        },
+        {
+          "at": 45,
+          "band": "P2",
+          "bandSetBy": "model",
+          "confidenceIn": [
+            "PROBABLE",
+            "ESTABLISHED"
+          ],
+          "note": "SpO2 90 and RR 29 are both NEWS2 3s and SBP 100 adds a fourth point. RR is held below 30 deliberately: at 30 RULE-RESP-02 pins to P1 and the point of the case, a gradual model-driven rise, is lost. All four parameters move monotonically across four readings, so the consistency term narrows the interval rather than widening it."
+        }
+      ]
+    },
+    {
+      "encounterId": "PT-0003",
+      "proves": "P5 floor. Fast-track. The system must not inflate the well.",
+      "arrivedAtMinute": -8,
+      "arrivalMode": "walk_in",
+      "ageValue": 29,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Twisted ankle playing football",
+      "complaintClass": "limb_injury",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -8,
+          "acvpu": "A",
+          "painScore": 4,
+          "vitals": {
+            "hr": 76,
+            "sbp": 124,
+            "dbp": 78,
+            "rr": 14,
+            "spo2": 99,
+            "tempC": 36.6
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P5",
+        "bandSetBy": "model",
+        "confidence": "ESTABLISHED",
+        "rulesFired": []
+      }
+    },
+    {
+      "encounterId": "PT-0004",
+      "proves": "Geriatric atypical presentation. Afebrile sepsis with unremarkable vitals reaches P2 on collateral history.",
+      "arrivedAtMinute": -35,
+      "arrivalMode": "referred",
+      "ageValue": 82,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "hi",
+      "complaintText": "Daughter says she is just not right today, off her food, very quiet",
+      "complaintClass": "weakness_nonspecific",
+      "complaintQualifiers": [
+        "reported_change_from_baseline"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -35,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 104,
+            "sbp": 112,
+            "dbp": 68,
+            "rr": 20,
+            "spo2": 95,
+            "tempC": 36.2
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 40,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 110,
+            "sbp": 104,
+            "dbp": 62,
+            "rr": 22,
+            "spo2": 94,
+            "tempC": 35.9
+          },
+          "visual": {
+            "pale": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "presentation_floor",
+        "note": "Presentation score 16 = base 5 + PM-WK-01 6 + PM-WK-02 5. Temperature is normal and no hard rule fires. This is the case a vitals-driven system sends to the back of the queue."
+      }
+    },
+    {
+      "encounterId": "PT-0005",
+      "proves": "Thunderclap qualifier drives the band, not the vitals.",
+      "arrivedAtMinute": -14,
+      "arrivalMode": "walk_in",
+      "ageValue": 55,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Worst headache of my life, came on all at once an hour ago",
+      "complaintClass": "headache",
+      "complaintQualifiers": [
+        "thunderclap"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -14,
+          "acvpu": "A",
+          "painScore": 9,
+          "vitals": {
+            "hr": 88,
+            "sbp": 158,
+            "dbp": 94,
+            "rr": 18,
+            "spo2": 98,
+            "tempC": 36.9
+          },
+          "visual": {
+            "distressed": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "presentation_floor",
+        "rulesFired": [],
+        "note": "Presentation 5 + PM-HD-01 10 = 15, exactly at the P2 floor. Every vital sign is unremarkable; blood pressure 158 scores 0 on the adult table."
+      }
+    },
+    {
+      "encounterId": "PT-0006",
+      "proves": "Obstetric threshold shift. SBP 148 is normal on the adult table and abnormal in pregnancy.",
+      "arrivedAtMinute": -18,
+      "arrivalMode": "walk_in",
+      "ageValue": 23,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "hi",
+      "pregnancyStatus": "pregnant",
+      "gestationWeeks": 32,
+      "complaintText": "Headache and swelling in hands for two days",
+      "complaintClass": "headache",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -18,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 96,
+            "sbp": 148,
+            "dbp": 96,
+            "rr": 18,
+            "spo2": 98,
+            "tempC": 36.7
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 50,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 98,
+            "sbp": 156,
+            "dbp": 102,
+            "rr": 19,
+            "spo2": 98,
+            "tempC": 36.7
+          },
+          "visual": {
+            "distressed": true
+          }
+        }
+      ],
+      "expect": [
+        {
+          "at": 0,
+          "band": "P3",
+          "note": "Presentation 5 + PM-HD-03 8 = 13 clears the P3 floor. SBP 148 scores 1 on obstetricOverrides and 0 on the adult table — the shifted band is the whole point of the case."
+        },
+        {
+          "at": 50,
+          "band": "P2",
+          "bandSetBy": "hard_rule",
+          "rulesFired": [
+            "RULE-OBS-01"
+          ],
+          "note": "SBP crosses 150"
+        }
+      ]
+    },
+    {
+      "encounterId": "PT-0007",
+      "proves": "THE ABSTENTION CASE. The system refuses to guess and names one question.",
+      "arrivedAtMinute": -38,
+      "arrivalMode": "walk_in",
+      "ageValue": 61,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Bad stomach ache since lunch, sort of goes up into my shoulder",
+      "complaintClass": "abdominal_pain",
+      "complaintQualifiers": [
+        "radiating"
+      ],
+      "preexistingFlags": [],
+      "trajectory": [
+        {
+          "atMinute": -38,
+          "acvpu": "A",
+          "painScore": 6,
+          "vitals": {
+            "hr": 120,
+            "sbp": 104,
+            "dbp": 68,
+            "rr": 20,
+            "spo2": 96,
+            "tempC": null
+          },
+          "visual": {},
+          "unobtainable": [
+            "tempC"
+          ]
+        },
+        {
+          "atMinute": -8,
+          "acvpu": "A",
+          "painScore": 7,
+          "vitals": {
+            "hr": 132,
+            "sbp": 98,
+            "dbp": 62,
+            "rr": 24,
+            "spo2": 94,
+            "tempC": null
+          },
+          "visual": {},
+          "unobtainable": [
+            "tempC"
+          ]
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": null,
+        "provisionalBand": "P2",
+        "confidence": "UNRESOLVED",
+        "candidateBands": [
+          "P2",
+          "P3"
+        ],
+        "resolvingQuestionId": "RQ-ABDO-02",
+        "tieBrokenUpward": true,
+        "note": "RQ-ABDO-01 is suppressed because the radiating qualifier is already recorded. Temperature unobtainable widens the interval. This is the workedExamples fixture."
+      }
+    },
+    {
+      "encounterId": "PT-0008",
+      "proves": "Anticoagulation modifier. A minor mechanism with a major consequence.",
+      "arrivedAtMinute": -52,
+      "arrivalMode": "ambulance",
+      "ageValue": 71,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Fell down two steps at home, hit the back of his head",
+      "complaintClass": "trauma_minor",
+      "complaintQualifiers": [],
+      "preexistingFlags": [
+        "anticoagulated"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -52,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 82,
+            "sbp": 142,
+            "dbp": 84,
+            "rr": 16,
+            "spo2": 97,
+            "tempC": 36.5
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P3",
+        "bandSetBy": "presentation_floor",
+        "note": "Presentation 3 + PM-TR-01 7 = 10, exactly at the P3 floor. Age 71 does not reach the 75 modifier, so anticoagulation alone carries it. Vitals are normal and will stay normal until they are not."
+      }
+    },
+    {
+      "encounterId": "PT-0009",
+      "proves": "Stable P4. Known diagnosis, no red flags.",
+      "arrivedAtMinute": -61,
+      "arrivalMode": "walk_in",
+      "ageValue": 40,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "en",
+      "complaintText": "Migraine like my usual ones, took my tablets, no better",
+      "complaintClass": "headache",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -61,
+          "acvpu": "A",
+          "painScore": 6,
+          "vitals": {
+            "hr": 78,
+            "sbp": 122,
+            "dbp": 76,
+            "rr": 15,
+            "spo2": 99,
+            "tempC": 36.7
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P4",
+        "bandSetBy": "model",
+        "confidenceIn": [
+          "PROBABLE",
+          "ESTABLISHED"
+        ],
+        "note": "One observation set means singleReadingPenalty applies and the interval is wide. PROBABLE is correct, not a defect; every patient looks like this at the door."
+      }
+    },
+    {
+      "encounterId": "PT-0010",
+      "proves": "Slow physiologic drift crosses a band boundary without any rule firing.",
+      "arrivedAtMinute": -25,
+      "arrivalMode": "walk_in",
+      "ageValue": 66,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Cough and fever for three days, now wheezy and short of breath",
+      "complaintClass": "breathlessness",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -25,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 94,
+            "sbp": 128,
+            "dbp": 78,
+            "rr": 20,
+            "spo2": 95,
+            "tempC": 38.2
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 20,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 102,
+            "sbp": 122,
+            "dbp": 74,
+            "rr": 23,
+            "spo2": 94,
+            "tempC": 38.6
+          },
+          "visual": {}
+        },
+        {
+          "atMinute": 60,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 118,
+            "sbp": 100,
+            "dbp": 66,
+            "rr": 27,
+            "spo2": 90,
+            "tempC": 39.3
+          },
+          "visual": {
+            "pale": true
+          }
+        }
+      ],
+      "expect": [
+        {
+          "at": 0,
+          "band": "P3",
+          "bandSetBy": "presentation_floor"
+        },
+        {
+          "at": 60,
+          "band": "P2",
+          "bandSetBy": "model",
+          "rulesFired": [],
+          "note": "Crosses on physiology alone with no rule firing — the case that shows the continuous score doing real work rather than the floors carrying everything. SBP falling to 100 completes the septic picture."
+        }
+      ]
+    },
+    {
+      "encounterId": "PT-0011",
+      "proves": "PAEDIATRIC. Age-band scoring. The same numbers in an adult would score differently.",
+      "arrivedAtMinute": -11,
+      "arrivalMode": "walk_in",
+      "ageValue": 3,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "hi",
+      "complaintText": "Hot and floppy since this morning, not drinking",
+      "complaintClass": "fever",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -11,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 168,
+            "sbp": 96,
+            "dbp": 58,
+            "rr": 34,
+            "spo2": 97,
+            "tempC": 38.5,
+            "capRefillS": 3.0
+          },
+          "visual": {
+            "pale": true,
+            "drowsy": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "hard_rule",
+        "rulesFired": [
+          "RULE-PAED-03"
+        ],
+        "note": "HR 168 exceeds the preschool ESI ceiling of 120. Compensated shock: blood pressure is still normal, and in a child that is the last thing to go. An adult HR of 168 would score 3 on NEWS2; here it is a rule."
+      }
+    },
+    {
+      "encounterId": "PT-0012",
+      "proves": "P4, single resource. Nothing interesting, and the board should say so.",
+      "arrivedAtMinute": -44,
+      "arrivalMode": "walk_in",
+      "ageValue": 19,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Cut my hand on a tin, bleeding stopped",
+      "complaintClass": "trauma_minor",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -44,
+          "acvpu": "A",
+          "painScore": 3,
+          "vitals": {
+            "hr": 84,
+            "sbp": 126,
+            "dbp": 74,
+            "rr": 15,
+            "spo2": 99,
+            "tempC": 36.7
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "bandIn": [
+          "P4",
+          "P5"
+        ],
+        "bandSetBy": "model",
+        "confidenceIn": [
+          "ESTABLISHED",
+          "PROBABLE"
+        ],
+        "note": "P4 or P5 both prove the point. The engine must NOT abstain here: P4/P5 is not a safety-relevant boundary, so it tie-breaks upward and reports PROBABLE."
+      }
+    },
+    {
+      "encounterId": "PT-0013",
+      "proves": "ZERO HISTORY. No name, no age, no complaint. Complete record, pinned to P1.",
+      "arrivedAtMinute": -3,
+      "arrivalMode": "walk_in",
+      "ageValue": 40,
+      "ageUnit": "years",
+      "ageEstimated": true,
+      "sex": "unknown",
+      "language": null,
+      "complaintText": null,
+      "complaintClass": "unknown",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -3,
+          "acvpu": "U",
+          "vitals": {
+            "hr": 126,
+            "sbp": 88,
+            "dbp": 54,
+            "rr": 26,
+            "spo2": 92,
+            "tempC": null
+          },
+          "visual": {
+            "pale": true,
+            "drowsy": true
+          },
+          "unobtainable": [
+            "tempC"
+          ]
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P1",
+        "bandSetBy": "hard_rule",
+        "modelLockedOut": true,
+        "rulesFired": [
+          "RULE-CONSC-01",
+          "RULE-CIRC-01"
+        ],
+        "alert": "immediate",
+        "note": "Brought in by a passer-by. No identity, no history, no complaint, estimated age. The record is complete and scoreable without any of them. Unknown is the normal case, not a special mode."
+      }
+    },
+    {
+      "encounterId": "PT-0014",
+      "proves": "FLOOR_P2 hard rule on an isolated rate abnormality in a conversant patient.",
+      "arrivedAtMinute": -16,
+      "arrivalMode": "walk_in",
+      "ageValue": 58,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "en",
+      "complaintText": "Heart racing since this afternoon, feels like fluttering",
+      "complaintClass": "chest_pain",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -16,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 132,
+            "sbp": 118,
+            "dbp": 72,
+            "rr": 19,
+            "spo2": 97,
+            "tempC": 36.8
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "hard_rule",
+        "rulesFired": [
+          "RULE-CIRC-02"
+        ],
+        "note": "Floored, not pinned. She is talking and perfusing; this is a high-risk situation, not a lifesaving-intervention situation."
+      }
+    },
+    {
+      "encounterId": "PT-0015",
+      "proves": "Infant band. Low absolute numbers, high relative deviation. An adult table would miss this entirely.",
+      "arrivedAtMinute": -6,
+      "arrivalMode": "walk_in",
+      "ageValue": 6,
+      "ageUnit": "months",
+      "sex": "M",
+      "language": "hi",
+      "complaintText": "Not feeding properly for two days, sleepy",
+      "complaintClass": "weakness_nonspecific",
+      "complaintQualifiers": [
+        "reported_change_from_baseline"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -6,
+          "acvpu": "A",
+          "vitals": {
+            "hr": 184,
+            "sbp": 78,
+            "dbp": 46,
+            "rr": 48,
+            "spo2": 96,
+            "tempC": 37.8,
+            "capRefillS": 2.5
+          },
+          "visual": {
+            "drowsy": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "hard_rule",
+        "rulesFired": [
+          "RULE-PAED-03"
+        ],
+        "note": "HR 184 is 4 above the infant ESI ceiling of 180 and would be unremarkable in a toddler. Temperature 37.8 is not a fever by any adult standard. The age band is the entire difference between a rule firing and not."
+      }
+    },
+    {
+      "encounterId": "PT-0016",
+      "proves": "Time hazard accrual. A low-acuity patient who has waited a very long time.",
+      "arrivedAtMinute": -95,
+      "arrivalMode": "walk_in",
+      "ageValue": 45,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Lower back pain after lifting boxes yesterday",
+      "complaintClass": "trauma_minor",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -95,
+          "acvpu": "A",
+          "painScore": 5,
+          "vitals": {
+            "hr": 80,
+            "sbp": 130,
+            "dbp": 82,
+            "rr": 16,
+            "spo2": 98,
+            "tempC": 36.6
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P4",
+        "overdueReassessment": true,
+        "note": "95 minutes at the P4 hazard rate of 0.035. He does not become sick from waiting, but he becomes visible, and he is never dropped from surveillance."
+      }
+    },
+    {
+      "encounterId": "PT-0017",
+      "proves": "New confusion floors to P2 in an older adult. Delirium as a presenting sign.",
+      "arrivedAtMinute": -29,
+      "arrivalMode": "ambulance",
+      "ageValue": 77,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "en",
+      "complaintText": "Confused since yesterday evening, does not know where she is",
+      "complaintClass": "altered_behaviour",
+      "complaintQualifiers": [
+        "reported_change_from_baseline"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -29,
+          "acvpu": "C",
+          "vitals": {
+            "hr": 98,
+            "sbp": 116,
+            "dbp": 70,
+            "rr": 20,
+            "spo2": 96,
+            "tempC": 37.4
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "hard_rule",
+        "rulesFired": [
+          "RULE-CONSC-02"
+        ]
+      }
+    },
+    {
+      "encounterId": "PT-0018",
+      "proves": "P4 with pain. Pain is not acuity, and the board must not confuse them.",
+      "arrivedAtMinute": -37,
+      "arrivalMode": "walk_in",
+      "ageValue": 31,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Burnt my hand on a pan, running it under water",
+      "complaintClass": "trauma_minor",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -37,
+          "acvpu": "A",
+          "painScore": 8,
+          "vitals": {
+            "hr": 92,
+            "sbp": 128,
+            "dbp": 78,
+            "rr": 17,
+            "spo2": 99,
+            "tempC": 36.8
+          },
+          "visual": {
+            "distressed": true
+          }
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "bandIn": [
+          "P4",
+          "P5"
+        ],
+        "bandSetBy": "model",
+        "confidenceIn": [
+          "ESTABLISHED",
+          "PROBABLE"
+        ],
+        "note": "Pain score 8 with entirely normal physiology. Pain is not acuity, and the board must not confuse them."
+      }
+    },
+    {
+      "encounterId": "PT-0019",
+      "proves": "DEGRADED INSTRUMENTS. No monitor available. INSUFFICIENT, and the queue keeps moving.",
+      "arrivedAtMinute": -20,
+      "arrivalMode": "walk_in",
+      "ageValue": 88,
+      "ageUnit": "years",
+      "sex": "M",
+      "language": "en",
+      "complaintText": "Very weak, could not get out of the chair this morning",
+      "complaintClass": "weakness_nonspecific",
+      "complaintQualifiers": [
+        "reported_change_from_baseline"
+      ],
+      "trajectory": [
+        {
+          "atMinute": -20,
+          "acvpu": "A",
+          "vitals": {
+            "hr": null,
+            "sbp": null,
+            "dbp": null,
+            "rr": null,
+            "spo2": null,
+            "tempC": null
+          },
+          "visual": {
+            "pale": true,
+            "drowsy": true
+          },
+          "unobtainable": [
+            "hr",
+            "sbp",
+            "dbp",
+            "rr",
+            "spo2",
+            "tempC"
+          ]
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": null,
+        "provisionalBand": "P2",
+        "confidence": "INSUFFICIENT",
+        "note": "Evidence completeness 0.32 from complaint, ACVPU and visual checks alone — below the 0.45 threshold. The presentation floor still places him at P2 while unresolved. Abstention is never a reason to defer care."
+      }
+    },
+    {
+      "encounterId": "PT-0020",
+      "proves": "THE OVERRIDE CASE. Normal vitals, dismissible history, and the nurse is right.",
+      "arrivedAtMinute": -41,
+      "arrivalMode": "walk_in",
+      "ageValue": 52,
+      "ageUnit": "years",
+      "sex": "F",
+      "language": "en",
+      "complaintText": "Chest feels tight, been anxious lately, probably nothing",
+      "complaintClass": "chest_pain",
+      "complaintQualifiers": [],
+      "trajectory": [
+        {
+          "atMinute": -41,
+          "acvpu": "A",
+          "painScore": 4,
+          "vitals": {
+            "hr": 88,
+            "sbp": 126,
+            "dbp": 78,
+            "rr": 17,
+            "spo2": 98,
+            "tempC": 36.7
+          },
+          "visual": {}
+        }
+      ],
+      "expect": {
+        "at": 0,
+        "band": "P2",
+        "bandSetBy": "presentation_floor",
+        "note": "Presentation 12 + PM-CP-02 female 3 = 15, exactly at the P2 floor. Every vital sign is normal. Women's cardiac presentations are under-recognised, which is precisely why the sex modifier exists and why this case sits at the boundary rather than comfortably inside it. The demo override moves her to the top; the audit record captures the state the nurse was looking at when she did."
+      }
+    }
+  ]
+}

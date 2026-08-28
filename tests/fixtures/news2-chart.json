@@ -1,0 +1,45 @@
+{
+  "rr": [
+    { "values": [8], "score": 3 },
+    { "values": [9, 11], "score": 1 },
+    { "values": [12, 20], "score": 0 },
+    { "values": [21, 24], "score": 2 },
+    { "values": [25], "score": 3 }
+  ],
+  "spo2": [
+    { "values": [91], "score": 3 },
+    { "values": [92, 93], "score": 2 },
+    { "values": [94, 95], "score": 1 },
+    { "values": [96], "score": 0 }
+  ],
+  "spo2_on_oxygen": [
+    { "values": [false], "score": 0 },
+    { "values": [true], "score": 2 }
+  ],
+  "sbp": [
+    { "values": [90], "score": 3 },
+    { "values": [91, 100], "score": 2 },
+    { "values": [101, 110], "score": 1 },
+    { "values": [111, 219], "score": 0 },
+    { "values": [220], "score": 3 }
+  ],
+  "hr": [
+    { "values": [40], "score": 3 },
+    { "values": [41, 50], "score": 1 },
+    { "values": [51, 90], "score": 0 },
+    { "values": [91, 110], "score": 1 },
+    { "values": [111, 130], "score": 2 },
+    { "values": [131], "score": 3 }
+  ],
+  "acvpu": [
+    { "values": ["A"], "score": 0 },
+    { "values": ["C", "V", "P", "U"], "score": 3 }
+  ],
+  "temp_c": [
+    { "values": [35], "score": 3 },
+    { "values": [35.1, 36], "score": 1 },
+    { "values": [36.1, 38], "score": 0 },
+    { "values": [38.1, 39], "score": 1 },
+    { "values": [39.1], "score": 2 }
+  ]
+}

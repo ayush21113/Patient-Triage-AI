@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PatientTriage.ai</title>
+  <meta name="theme-color" content="#F2F0EA">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/maskable.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/board.css">
+</head>
+<body>
+  <div class="app-shell">
+    <section id="emergency-alert" class="emergency-alert" aria-live="assertive" hidden></section>
+    <header class="board-header">
+      <h1>Emergency Department · Triage Board</h1>
+      <p class="header-status">
+        <time id="board-clock" class="numeric">——:——:——</time>
+        <span id="waiting-count">Waiting ——</span>
+        <span id="p1-count">P1 ——</span>
+        <span id="p2-count">P2 ——</span>
+        <span id="recompute-age">Recompute ——</span>
+        <span id="persistence-status" hidden>NOT PERSISTING</span>
+        <button id="open-fairness" type="button">Fairness</button>
+        <button id="open-audit" type="button">Audit</button>
+      </p>
+    </header>
+
+    <section id="mode-strip" class="mode-strip" aria-live="polite" hidden></section>
+
+    <main id="board-region" class="board-grid">
+      <section class="queue-rail" aria-labelledby="queue-caption">
+        <table class="queue-table">
+          <caption id="queue-caption">Waiting queue</caption>
+          <colgroup>
+            <col class="col-band">
+            <col class="col-id">
+            <col class="col-age-sex">
+            <col>
+            <col class="col-hr">
+            <col class="col-bp">
+            <col class="col-rr">
+            <col class="col-spo2">
+            <col class="col-temp">
+            <col class="col-wait">
+            <col class="col-confidence">
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Band</th>
+              <th scope="col">ID</th>
+              <th scope="col">Age / sex</th>
+              <th scope="col">Complaint</th>
+              <th scope="col">HR</th>
+              <th scope="col">BP</th>
+              <th scope="col">RR</th>
+              <th scope="col">SpO₂</th>
+              <th scope="col">Temp</th>
+              <th scope="col">Wait</th>
+              <th scope="col">Confidence</th>
+            </tr>
+          </thead>
+          <tbody id="queue-body"></tbody>
+        </table>
+      </section>
+
+      <div class="board-divider" aria-hidden="true"></div>
+
+      <aside id="inspector" class="inspector" aria-labelledby="inspector-heading">
+        <h2 id="inspector-heading">Board summary</h2>
+      </aside>
+    </main>
+
+    <section id="fairness-monitor" class="fairness-monitor" aria-labelledby="fairness-heading" hidden></section>
+
+    <section class="simulation-console" aria-label="Prototype controls">
+      <span>Prototype controls — not part of the clinical product</span>
+      <div class="simulation-controls">
+        <button id="clock-toggle" type="button" aria-label="Pause simulation">❚❚</button>
+        <button class="speed-control" data-speed="1" type="button">1×</button>
+        <button class="speed-control" data-speed="10" type="button">10×</button>
+        <button class="speed-control" data-speed="60" type="button">60×</button>
+        <button id="surge-control" type="button">Surge ×3</button>
+        <button id="degraded-control" type="button">Lose monitors</button>
+        <button id="reset-control" type="button">Reset</button>
+        <button id="jump-control" type="button">t + 15 min</button>
+        <button id="open-arrival" type="button">+ Arrival</button>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      PatientTriage.ai · engine 1.0.0 · protocol v1 · board rendered
+      <time class="numeric">14:32:07 IST</time> · This display is decision support.
+      It does not assign a triage category, move a patient, or order treatment.
+      The attending clinician's judgement governs.
+    </footer>
+  </div>
+  <div id="sheet-backdrop" class="sheet-backdrop" hidden>
+    <section id="capture-sheet" class="capture-sheet" role="dialog" aria-modal="true"></section>
+  </div>
+  <section id="audit-drawer" class="audit-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-heading" hidden></section>
+  <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

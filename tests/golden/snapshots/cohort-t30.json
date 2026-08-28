@@ -1,0 +1,1825 @@
+[
+  {
+    "encounterId": "PT-0001",
+    "assessment": {
+      "encounterId": "PT-0001",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 40.875,
+      "interval": [
+        29.875,
+        51.875
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 1,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 18,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 97,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 138,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 96,
+              "score": 1
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.8,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "chest_pain",
+          "base": 12,
+          "modifiers": [
+            {
+              "label": "Diaphoretic",
+              "points": 4
+            }
+          ],
+          "score": 16,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 11.44,
+          "waitedMinutes": 52,
+          "timeHazard": 11.44,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787473380000
+    }
+  },
+  {
+    "encounterId": "PT-0002",
+    "assessment": {
+      "encounterId": "PT-0002",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 55.208333333333336,
+      "interval": [
+        47.61378333333334,
+        62.802883333333334
+      ],
+      "band": "P3",
+      "provisionalBand": "P3",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 7,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 26,
+              "score": 3
+            },
+            {
+              "parameter": "spo2",
+              "value": 93,
+              "score": 2
+            },
+            {
+              "parameter": "sbp",
+              "value": 112,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 111,
+              "score": 2
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 37.3,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "breathlessness",
+          "base": 11,
+          "modifiers": [],
+          "score": 11,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 30,
+          "timeHazard": 6.6,
+          "drift": 21.18,
+          "driftDetail": "RR ↑4 · SpO₂ ↓3 · HR ↑13 · SBP ↓6 · Temp ↑0.19999999999999574 over 30 min",
+          "singleReading": false
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787477400000
+    }
+  },
+  {
+    "encounterId": "PT-0003",
+    "assessment": {
+      "encounterId": "PT-0003",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 12.041666666666664,
+      "interval": [
+        1.0416666666666643,
+        23.041666666666664
+      ],
+      "band": "P4",
+      "provisionalBand": "P4",
+      "bandSetBy": "model",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 14,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 99,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 124,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 76,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.6,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "limb_injury",
+          "base": 2,
+          "modifiers": [],
+          "score": 2,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 8.36,
+          "waitedMinutes": 38,
+          "timeHazard": 8.36,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787476920000
+    }
+  },
+  {
+    "encounterId": "PT-0004",
+    "assessment": {
+      "encounterId": "PT-0004",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 61.25,
+      "interval": [
+        48.42400000000001,
+        74.076
+      ],
+      "band": null,
+      "provisionalBand": "P2",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [
+        "P2",
+        "P3"
+      ],
+      "confidence": "UNRESOLVED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 6,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 22,
+              "score": 2
+            },
+            {
+              "parameter": "spo2",
+              "value": 94,
+              "score": 1
+            },
+            {
+              "parameter": "sbp",
+              "value": 105,
+              "score": 1
+            },
+            {
+              "parameter": "hr",
+              "value": 109,
+              "score": 1
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 35.9,
+              "score": 1
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "weakness_nonspecific",
+          "base": 5,
+          "modifiers": [
+            {
+              "label": "Age 75 or over — the most under-weighted geriatric complaint",
+              "points": 6
+            },
+            {
+              "label": "Carer or referrer reports a change from baseline",
+              "points": 5
+            }
+          ],
+          "score": 16,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 65,
+          "timeHazard": 14.3,
+          "drift": 11.179999999999998,
+          "driftDetail": "RR ↑2 · SpO₂ ↓1 · HR ↑5 · SBP ↓7 · Temp ↓0.30000000000000426 over 65 min",
+          "singleReading": false
+        }
+      },
+      "resolvingQuestion": "Is the weakness one-sided, or is there new difficulty speaking?",
+      "resolvingQuestionId": "RQ-WEAK-01",
+      "expectedInformationGain": 0.84,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787476500000
+    }
+  },
+  {
+    "encounterId": "PT-0005",
+    "assessment": {
+      "encounterId": "PT-0005",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 35.083333333333336,
+      "interval": [
+        24.083333333333336,
+        46.083333333333336
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 18,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 98,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 158,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 88,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.9,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "headache",
+          "base": 5,
+          "modifiers": [
+            {
+              "label": "Sudden onset or worst ever — thunderclap",
+              "points": 10
+            }
+          ],
+          "score": 15,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 9.68,
+          "waitedMinutes": 44,
+          "timeHazard": 9.68,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787473860000
+    }
+  },
+  {
+    "encounterId": "PT-0006",
+    "assessment": {
+      "encounterId": "PT-0006",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 35.479166666666664,
+      "interval": [
+        29.289166666666667,
+        41.66916666666666
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-OBS-01",
+          "label": "Pregnancy or postpartum with abnormal systolic pressure",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "ESI v5 lists pregnant or postpartum patients with systolic pressure below 90 or above 150 as high risk. The upper bound is pre-eclampsia; the lower bound is concealed haemorrhage, which pregnancy physiology masks until late.",
+          "source": "ESI Handbook v5 2023, obstetric high-risk criteria",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 2,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 19,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 98,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 154,
+              "score": 2
+            },
+            {
+              "parameter": "hr",
+              "value": 97,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.7,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "headache",
+          "base": 5,
+          "modifiers": [
+            {
+              "label": "Pregnant or postpartum",
+              "points": 8
+            }
+          ],
+          "score": 13,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 8.860000000000001,
+          "waitedMinutes": 48,
+          "timeHazard": 10.56,
+          "drift": -1.6999999999999997,
+          "driftDetail": "RR ↑1 · HR ↑1 · SBP ↑6 over 48 min",
+          "singleReading": false
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787476500000
+    }
+  },
+  {
+    "encounterId": "PT-0007",
+    "assessment": {
+      "encounterId": "PT-0007",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 60.83333333333334,
+      "interval": [
+        46.95333333333335,
+        74.71333333333334
+      ],
+      "band": null,
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [
+        "P2",
+        "P3"
+      ],
+      "confidence": "UNRESOLVED",
+      "evidenceCompleteness": 0.92,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-CIRC-02",
+          "label": "Extreme heart rate",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "NEWS2 single-parameter 3 at pulse <=40 or >=131. Floored rather than pinned because an isolated rate abnormality in a conversant patient is a high-risk situation, not a lifesaving-intervention situation.",
+          "source": "RCP NEWS2 2017; ESI Handbook v5 2023, decision point D",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 8,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 24,
+              "score": 2
+            },
+            {
+              "parameter": "spo2",
+              "value": 94,
+              "score": 1
+            },
+            {
+              "parameter": "sbp",
+              "value": 98,
+              "score": 2
+            },
+            {
+              "parameter": "hr",
+              "value": 132,
+              "score": 3
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen",
+            "temp_c"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "abdominal_pain",
+          "base": 6,
+          "modifiers": [
+            {
+              "label": "Age 55 or over with diaphoresis or radiating pain — atypical ACS pattern",
+              "points": 7
+            }
+          ],
+          "score": 13,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 68,
+          "timeHazard": 14.96,
+          "drift": 18.799999999999997,
+          "driftDetail": "RR ↑4 · SpO₂ ↓2 · HR ↑12 · SBP ↓6 over 30 min",
+          "singleReading": false
+        }
+      },
+      "resolvingQuestion": "Is the abdomen rigid, or is there rebound tenderness?",
+      "resolvingQuestionId": "RQ-ABDO-02",
+      "expectedInformationGain": 0.72,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787474220000
+    }
+  },
+  {
+    "encounterId": "PT-0008",
+    "assessment": {
+      "encounterId": "PT-0008",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 35.458333333333336,
+      "interval": [
+        24.458333333333336,
+        46.458333333333336
+      ],
+      "band": "P3",
+      "provisionalBand": "P3",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 16,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 97,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 142,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 82,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.5,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "trauma_minor",
+          "base": 3,
+          "modifiers": [
+            {
+              "label": "Anticoagulated",
+              "points": 7
+            }
+          ],
+          "score": 10,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 18.04,
+          "waitedMinutes": 82,
+          "timeHazard": 18.04,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787472480000
+    }
+  },
+  {
+    "encounterId": "PT-0009",
+    "assessment": {
+      "encounterId": "PT-0009",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 29.166666666666668,
+      "interval": [
+        18.166666666666668,
+        40.16666666666667
+      ],
+      "band": "P3",
+      "provisionalBand": "P3",
+      "bandSetBy": "model",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 15,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 99,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 122,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 78,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.7,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "headache",
+          "base": 5,
+          "modifiers": [],
+          "score": 5,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 91,
+          "timeHazard": 20.02,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787471940000
+    }
+  },
+  {
+    "encounterId": "PT-0010",
+    "assessment": {
+      "encounterId": "PT-0010",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 52.916666666666664,
+      "interval": [
+        45.216766666666665,
+        60.616566666666664
+      ],
+      "band": "P3",
+      "provisionalBand": "P3",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 6,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 24,
+              "score": 2
+            },
+            {
+              "parameter": "spo2",
+              "value": 93,
+              "score": 2
+            },
+            {
+              "parameter": "sbp",
+              "value": 117,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 106,
+              "score": 1
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 38.8,
+              "score": 1
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "breathlessness",
+          "base": 11,
+          "modifiers": [],
+          "score": 11,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 55,
+          "timeHazard": 12.1,
+          "drift": 22.039999999999996,
+          "driftDetail": "RR ↑4 · SpO₂ ↓2 · HR ↑12 · SBP ↓11 · Temp ↑0.5999999999999943 over 55 min",
+          "singleReading": false
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787477400000
+    }
+  },
+  {
+    "encounterId": "PT-0011",
+    "assessment": {
+      "encounterId": "PT-0011",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 29.8125,
+      "interval": [
+        18.8125,
+        40.8125
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-PAED-03",
+          "label": "Heart or respiratory rate beyond the age-band ceiling",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "ESI v5 publishes age-specific high-risk vital-sign ceilings. An adult-calibrated threshold applied to a child is silently unsafe in both directions.",
+          "source": "ESI Handbook v5 2023, paediatric danger-zone vital signs",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 6,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 34,
+              "score": 2
+            },
+            {
+              "parameter": "spo2",
+              "value": 97,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 96,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 168,
+              "score": 3
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 38.5,
+              "score": 1
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "fever",
+          "base": 4,
+          "modifiers": [],
+          "score": 4,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 9.02,
+          "waitedMinutes": 41,
+          "timeHazard": 9.02,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787474040000
+    }
+  },
+  {
+    "encounterId": "PT-0012",
+    "assessment": {
+      "encounterId": "PT-0012",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 21.958333333333332,
+      "interval": [
+        10.958333333333332,
+        32.95833333333333
+      ],
+      "band": "P4",
+      "provisionalBand": "P4",
+      "bandSetBy": "model",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 15,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 99,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 126,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 84,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.7,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "trauma_minor",
+          "base": 3,
+          "modifiers": [],
+          "score": 3,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 16.28,
+          "waitedMinutes": 74,
+          "timeHazard": 16.28,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787474760000
+    }
+  },
+  {
+    "encounterId": "PT-0013",
+    "assessment": {
+      "encounterId": "PT-0013",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 50.6875,
+      "interval": [
+        37.307500000000005,
+        64.0675
+      ],
+      "band": "P1",
+      "provisionalBand": "P1",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 0.92,
+      "modelLockedOut": true,
+      "alert": "immediate",
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-CONSC-01",
+          "label": "Unresponsive or pain-responsive",
+          "action": "PIN_P1",
+          "alert": "immediate",
+          "rationale": "ESI v5 decision point A. A patient who does not respond to voice cannot protect their airway and cannot report deterioration.",
+          "source": "ESI Handbook v5 2023, decision point A; RCP NEWS2 2017 (ACVPU single-parameter 3)",
+          "modelLockedOut": true
+        },
+        {
+          "ruleId": "RULE-CIRC-01",
+          "label": "Hypotension with hypoperfusion",
+          "action": "PIN_P1",
+          "alert": "immediate",
+          "rationale": "ESI v5 decision point A includes hypotension with signs of hypoperfusion. Systolic pressure alone is not sufficient; the compensatory tachycardia or the pallor is what distinguishes shock from a low baseline.",
+          "source": "ESI Handbook v5 2023, decision point A; local protocol v1",
+          "modelLockedOut": true
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 13,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 26,
+              "score": 3
+            },
+            {
+              "parameter": "spo2",
+              "value": 92,
+              "score": 2
+            },
+            {
+              "parameter": "sbp",
+              "value": 88,
+              "score": 3
+            },
+            {
+              "parameter": "hr",
+              "value": 126,
+              "score": 2
+            },
+            {
+              "parameter": "acvpu",
+              "value": "U",
+              "score": 3
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen",
+            "temp_c"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "unknown",
+          "base": 8,
+          "modifiers": [],
+          "score": 8,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 7.26,
+          "waitedMinutes": 33,
+          "timeHazard": 7.26,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787473620000
+    }
+  },
+  {
+    "encounterId": "PT-0014",
+    "assessment": {
+      "encounterId": "PT-0014",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 42.416666666666664,
+      "interval": [
+        31.416666666666664,
+        53.416666666666664
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-CIRC-02",
+          "label": "Extreme heart rate",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "NEWS2 single-parameter 3 at pulse <=40 or >=131. Floored rather than pinned because an isolated rate abnormality in a conversant patient is a high-risk situation, not a lifesaving-intervention situation.",
+          "source": "RCP NEWS2 2017; ESI Handbook v5 2023, decision point D",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 3,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 19,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 97,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 118,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 132,
+              "score": 3
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.8,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "chest_pain",
+          "base": 12,
+          "modifiers": [
+            {
+              "label": "Female — atypical ACS under-recognition",
+              "points": 3
+            }
+          ],
+          "score": 15,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 10.12,
+          "waitedMinutes": 46,
+          "timeHazard": 10.12,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787473740000
+    }
+  },
+  {
+    "encounterId": "PT-0015",
+    "assessment": {
+      "encounterId": "PT-0015",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 34.083333333333336,
+      "interval": [
+        23.083333333333336,
+        45.083333333333336
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-PAED-03",
+          "label": "Heart or respiratory rate beyond the age-band ceiling",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "ESI v5 publishes age-specific high-risk vital-sign ceilings. An adult-calibrated threshold applied to a child is silently unsafe in both directions.",
+          "source": "ESI Handbook v5 2023, paediatric danger-zone vital signs",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 4,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 48,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 96,
+              "score": 1
+            },
+            {
+              "parameter": "sbp",
+              "value": 78,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 184,
+              "score": 3
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 37.8,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "weakness_nonspecific",
+          "base": 5,
+          "modifiers": [
+            {
+              "label": "Carer or referrer reports a change from baseline",
+              "points": 5
+            }
+          ],
+          "score": 10,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 7.92,
+          "waitedMinutes": 36,
+          "timeHazard": 7.92,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787474340000
+    }
+  },
+  {
+    "encounterId": "PT-0016",
+    "assessment": {
+      "encounterId": "PT-0016",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 25.833333333333332,
+      "interval": [
+        14.833333333333332,
+        36.83333333333333
+      ],
+      "band": "P4",
+      "provisionalBand": "P4",
+      "bandSetBy": "model",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 16,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 98,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 130,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 80,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.6,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "trauma_minor",
+          "base": 3,
+          "modifiers": [],
+          "score": 3,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 20,
+          "waitedMinutes": 125,
+          "timeHazard": 27.5,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787471700000
+    }
+  },
+  {
+    "encounterId": "PT-0017",
+    "assessment": {
+      "encounterId": "PT-0017",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 46.02083333333334,
+      "interval": [
+        35.02083333333334,
+        57.02083333333334
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "hard_rule",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [
+        {
+          "ruleId": "RULE-CONSC-02",
+          "label": "New confusion or voice-responsive only",
+          "action": "FLOOR_P2",
+          "alert": "none",
+          "rationale": "ESI v5 decision point B lists new-onset confusion, lethargy or disorientation as a high-risk situation. In older adults it is frequently the only presenting sign of sepsis.",
+          "source": "ESI Handbook v5 2023, decision point B; RCP NEWS2 2017",
+          "modelLockedOut": false
+        }
+      ],
+      "derivation": {
+        "physiology": {
+          "score": 4,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 20,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 96,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 116,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 98,
+              "score": 1
+            },
+            {
+              "parameter": "acvpu",
+              "value": "C",
+              "score": 3
+            },
+            {
+              "parameter": "temp_c",
+              "value": 37.4,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": true
+        },
+        "presentation": {
+          "class": "altered_behaviour",
+          "base": 10,
+          "modifiers": [
+            {
+              "label": "Age 70 or over — delirium as a sepsis presentation",
+              "points": 4
+            }
+          ],
+          "score": 14,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 12.98,
+          "waitedMinutes": 59,
+          "timeHazard": 12.98,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787472960000
+    }
+  },
+  {
+    "encounterId": "PT-0018",
+    "assessment": {
+      "encounterId": "PT-0018",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 22.645833333333332,
+      "interval": [
+        11.645833333333332,
+        33.64583333333333
+      ],
+      "band": "P4",
+      "provisionalBand": "P4",
+      "bandSetBy": "model",
+      "candidateBands": [],
+      "confidence": "PROBABLE",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": true,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 1,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 17,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 99,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 128,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 92,
+              "score": 1
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.8,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "trauma_minor",
+          "base": 3,
+          "modifiers": [],
+          "score": 3,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 14.74,
+          "waitedMinutes": 67,
+          "timeHazard": 14.74,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787475180000
+    }
+  },
+  {
+    "encounterId": "PT-0019",
+    "assessment": {
+      "encounterId": "PT-0019",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 38.125,
+      "interval": [
+        19.645,
+        56.605000000000004
+      ],
+      "band": null,
+      "provisionalBand": "P2",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [
+        "P3",
+        "P4"
+      ],
+      "confidence": "INSUFFICIENT",
+      "evidenceCompleteness": 0.32,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            }
+          ],
+          "missing": [
+            "rr",
+            "spo2",
+            "spo2_on_oxygen",
+            "sbp",
+            "hr",
+            "temp_c"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "weakness_nonspecific",
+          "base": 5,
+          "modifiers": [
+            {
+              "label": "Age 75 or over — the most under-weighted geriatric complaint",
+              "points": 6
+            },
+            {
+              "label": "Carer or referrer reports a change from baseline",
+              "points": 5
+            }
+          ],
+          "score": 16,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 11,
+          "waitedMinutes": 50,
+          "timeHazard": 11,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787473500000
+    }
+  },
+  {
+    "encounterId": "PT-0020",
+    "assessment": {
+      "encounterId": "PT-0020",
+      "engineVersion": "1.0.0",
+      "protocolVersion": "v1",
+      "computedAt": 1787475600000,
+      "priorityIndex": 41.27083333333333,
+      "interval": [
+        30.27083333333333,
+        52.27083333333333
+      ],
+      "band": "P2",
+      "provisionalBand": "P2",
+      "bandSetBy": "presentation_floor",
+      "candidateBands": [],
+      "confidence": "ESTABLISHED",
+      "evidenceCompleteness": 1,
+      "modelLockedOut": false,
+      "alert": null,
+      "tieBrokenUpward": false,
+      "rulesFired": [],
+      "derivation": {
+        "physiology": {
+          "score": 0,
+          "perParameter": [
+            {
+              "parameter": "rr",
+              "value": 17,
+              "score": 0
+            },
+            {
+              "parameter": "spo2",
+              "value": 98,
+              "score": 0
+            },
+            {
+              "parameter": "sbp",
+              "value": 126,
+              "score": 0
+            },
+            {
+              "parameter": "hr",
+              "value": 88,
+              "score": 0
+            },
+            {
+              "parameter": "acvpu",
+              "value": "A",
+              "score": 0
+            },
+            {
+              "parameter": "temp_c",
+              "value": 36.7,
+              "score": 0
+            }
+          ],
+          "missing": [
+            "spo2_on_oxygen"
+          ],
+          "singleParameterThree": false
+        },
+        "presentation": {
+          "class": "chest_pain",
+          "base": 12,
+          "modifiers": [
+            {
+              "label": "Female — atypical ACS under-recognition",
+              "points": 3
+            }
+          ],
+          "score": 15,
+          "clamped": false
+        },
+        "hazard": {
+          "score": 15.62,
+          "waitedMinutes": 71,
+          "timeHazard": 15.62,
+          "drift": 0,
+          "driftDetail": null,
+          "singleReading": true
+        }
+      },
+      "resolvingQuestion": null,
+      "resolvingQuestionId": null,
+      "expectedInformationGain": null,
+      "noQuestionReason": null,
+      "reassessDueAt": 1787472240000
+    }
+  }
+]

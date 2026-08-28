@@ -1,0 +1,19 @@
+{
+  "name": "PatientTriage.ai",
+  "short_name": "Triage Board",
+  "description": "Emergency-department waiting-room decision support.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#F2F0EA",
+  "theme_color": "#F2F0EA",
+  "icons": [
+    {
+      "src": "assets/icons/maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,1678 @@
+{
+  "protocolVersion": "v1",
+  "hospital": "REFERENCE-ED",
+  "effectiveFrom": "2026-08-01",
+  "approvedBy": "ED Clinical Governance Committee (reference protocol, not clinically approved for use)",
+  "supersedes": null,
+  "populations": [
+    "adult",
+    "paediatric",
+    "obstetric"
+  ],
+  "notice": "Reference protocol for a prototype. Synthetic data only. A deploying hospital replaces this file through its own clinical governance; no code change is required.",
+  "ageBands": [
+    {
+      "band": "neonate",
+      "minDays": 0,
+      "maxDays": 27,
+      "population": "paediatric"
+    },
+    {
+      "band": "infant",
+      "minDays": 28,
+      "maxDays": 364,
+      "population": "paediatric"
+    },
+    {
+      "band": "toddler",
+      "minDays": 365,
+      "maxDays": 1094,
+      "population": "paediatric"
+    },
+    {
+      "band": "preschool",
+      "minDays": 1095,
+      "maxDays": 2189,
+      "population": "paediatric"
+    },
+    {
+      "band": "school",
+      "minDays": 2190,
+      "maxDays": 4379,
+      "population": "paediatric"
+    },
+    {
+      "band": "adolescent",
+      "minDays": 4380,
+      "maxDays": 5843,
+      "population": "paediatric"
+    },
+    {
+      "band": "adult",
+      "minDays": 5844,
+      "maxDays": 23739,
+      "population": "adult"
+    },
+    {
+      "band": "older_adult",
+      "minDays": 23740,
+      "maxDays": 29219,
+      "population": "adult"
+    },
+    {
+      "band": "elderly",
+      "minDays": 29220,
+      "maxDays": null,
+      "population": "adult"
+    }
+  ],
+  "ageBandFallback": {
+    "whenAgeUnknown": "adult",
+    "setEstimatedFlag": true,
+    "note": "An unknown age scores on the adult table and widens the interval. It never blocks scoring."
+  },
+  "rules": [
+    {
+      "id": "RULE-AIRWAY-01",
+      "label": "Airway compromise",
+      "population": "all",
+      "condition": {
+        "field": "visual.airway_compromise",
+        "op": "isTrue"
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "ESI v5 decision point A. A threatened airway requires an immediate lifesaving intervention; no queue position is acceptable.",
+      "source": "ESI Handbook v5 2023, decision point A; local protocol v1"
+    },
+    {
+      "id": "RULE-CONSC-01",
+      "label": "Unresponsive or pain-responsive",
+      "population": "all",
+      "condition": {
+        "field": "acvpu",
+        "op": "in",
+        "value": [
+          "P",
+          "U"
+        ]
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "ESI v5 decision point A. A patient who does not respond to voice cannot protect their airway and cannot report deterioration.",
+      "source": "ESI Handbook v5 2023, decision point A; RCP NEWS2 2017 (ACVPU single-parameter 3)"
+    },
+    {
+      "id": "RULE-CONSC-02",
+      "label": "New confusion or voice-responsive only",
+      "population": "all",
+      "condition": {
+        "field": "acvpu",
+        "op": "in",
+        "value": [
+          "C",
+          "V"
+        ]
+      },
+      "action": "FLOOR_P2",
+      "alert": "none",
+      "rationale": "ESI v5 decision point B lists new-onset confusion, lethargy or disorientation as a high-risk situation. In older adults it is frequently the only presenting sign of sepsis.",
+      "source": "ESI Handbook v5 2023, decision point B; RCP NEWS2 2017"
+    },
+    {
+      "id": "RULE-BLEED-01",
+      "label": "Active major haemorrhage",
+      "population": "all",
+      "condition": {
+        "field": "visual.active_major_bleeding",
+        "op": "isTrue"
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "ESI v5 decision point A. Uncontrolled external bleeding requires a haemodynamic intervention now; vital signs lag the blood loss.",
+      "source": "ESI Handbook v5 2023, decision point A; local protocol v1"
+    },
+    {
+      "id": "RULE-SEIZ-01",
+      "label": "Seizure in progress",
+      "population": "all",
+      "condition": {
+        "field": "visual.seizure_active",
+        "op": "isTrue"
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "ESI v5 decision point A. An active seizure requires immediate medication and airway attention.",
+      "source": "ESI Handbook v5 2023, decision point A; local protocol v1"
+    },
+    {
+      "id": "RULE-RESP-01",
+      "label": "Critical hypoxaemia",
+      "population": "adult",
+      "condition": {
+        "field": "spo2",
+        "op": "<",
+        "value": 85
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "NEWS2 scores SpO2 at or below 91 as a single-parameter 3. A margin below that threshold is an oxygenation emergency rather than a deterioration risk.",
+      "source": "RCP NEWS2 2017; ESI Handbook v5 2023 danger-zone vitals; local protocol v1"
+    },
+    {
+      "id": "RULE-RESP-02",
+      "label": "Extreme respiratory rate",
+      "population": "adult",
+      "condition": {
+        "any": [
+          {
+            "field": "rr",
+            "op": ">=",
+            "value": 30
+          },
+          {
+            "field": "rr",
+            "op": "<=",
+            "value": 8
+          }
+        ]
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "Respiratory rate is the earliest and most predictive single vital sign. Both extremes indicate imminent failure; bradypnoea in particular precedes arrest.",
+      "source": "RCP NEWS2 2017 (single-parameter 3 at RR <=8 and >=25, extended here); local protocol v1"
+    },
+    {
+      "id": "RULE-CIRC-01",
+      "label": "Hypotension with hypoperfusion",
+      "population": "adult",
+      "condition": {
+        "all": [
+          {
+            "field": "sbp",
+            "op": "<",
+            "value": 90
+          },
+          {
+            "any": [
+              {
+                "field": "hr",
+                "op": ">",
+                "value": 120
+              },
+              {
+                "field": "visual.pale",
+                "op": "isTrue"
+              }
+            ]
+          }
+        ]
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "ESI v5 decision point A includes hypotension with signs of hypoperfusion. Systolic pressure alone is not sufficient; the compensatory tachycardia or the pallor is what distinguishes shock from a low baseline.",
+      "source": "ESI Handbook v5 2023, decision point A; local protocol v1"
+    },
+    {
+      "id": "RULE-CIRC-02",
+      "label": "Extreme heart rate",
+      "population": "adult",
+      "condition": {
+        "any": [
+          {
+            "field": "hr",
+            "op": ">=",
+            "value": 131
+          },
+          {
+            "field": "hr",
+            "op": "<=",
+            "value": 30
+          }
+        ]
+      },
+      "action": "FLOOR_P2",
+      "alert": "none",
+      "rationale": "NEWS2 single-parameter 3 at pulse <=40 or >=131. Floored rather than pinned because an isolated rate abnormality in a conversant patient is a high-risk situation, not a lifesaving-intervention situation.",
+      "source": "RCP NEWS2 2017; ESI Handbook v5 2023, decision point D"
+    },
+    {
+      "id": "RULE-PAED-01",
+      "label": "Fever or hypothermia in an infant under 90 days",
+      "population": "paediatric",
+      "condition": {
+        "all": [
+          {
+            "field": "age_days",
+            "op": "<",
+            "value": 90
+          },
+          {
+            "any": [
+              {
+                "field": "temp_c",
+                "op": ">=",
+                "value": 38.0
+              },
+              {
+                "field": "temp_c",
+                "op": "<",
+                "value": 36.0
+              }
+            ]
+          }
+        ]
+      },
+      "action": "FLOOR_P2",
+      "alert": "none",
+      "rationale": "ESI v5 assigns at least level 2 to any infant under 90 days with a temperature at or above 38.0 C. Serious bacterial infection cannot be excluded clinically at this age, and hypothermia carries the same weight as fever.",
+      "source": "ESI Handbook v5 2023, paediatric fever criteria"
+    },
+    {
+      "id": "RULE-PAED-02",
+      "label": "Paediatric hypotension",
+      "population": "paediatric",
+      "condition": {
+        "field": "sbp",
+        "op": "belowPaediatricHypotensionFloor"
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "Children compensate until they do not. Hypotension in a child is a late and pre-terminal sign of shock, not an early one, and warrants a higher response than the same finding in an adult.",
+      "source": "PALS/AHA age-band hypotension thresholds; formula 70 + (2 x age in years) for ages 1-10"
+    },
+    {
+      "id": "RULE-PAED-03",
+      "label": "Heart or respiratory rate beyond the age-band ceiling",
+      "population": "paediatric",
+      "condition": {
+        "any": [
+          {
+            "field": "hr",
+            "op": "aboveAgeBandCeiling",
+            "table": "paediatricHighRiskCeilings.hr"
+          },
+          {
+            "field": "rr",
+            "op": "aboveAgeBandCeiling",
+            "table": "paediatricHighRiskCeilings.rr"
+          }
+        ]
+      },
+      "action": "FLOOR_P2",
+      "alert": "none",
+      "rationale": "ESI v5 publishes age-specific high-risk vital-sign ceilings. An adult-calibrated threshold applied to a child is silently unsafe in both directions.",
+      "source": "ESI Handbook v5 2023, paediatric danger-zone vital signs"
+    },
+    {
+      "id": "RULE-PAED-04",
+      "label": "Critical hypoxaemia in a child",
+      "population": "paediatric",
+      "condition": {
+        "field": "spo2",
+        "op": "<",
+        "value": 90
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "The paediatric pinning threshold sits above the adult one, not below it. Children maintain saturation by increasing respiratory effort until that effort fails, so a desaturating child is closer to arrest than an adult at the same reading. RULE-RESP-01 is adult-only and must never be applied to a child.",
+      "source": "APLS/PALS respiratory failure criteria; ESI Handbook v5 2023 paediatric danger-zone vitals; local protocol v1"
+    },
+    {
+      "id": "RULE-PAED-05",
+      "label": "Paediatric bradypnoea",
+      "population": "paediatric",
+      "condition": {
+        "field": "rr",
+        "op": "belowPaediatricBradypnoeaFloor"
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "A falling respiratory rate in a child is exhaustion, not improvement, and precedes respiratory arrest. RULE-RESP-02 catches this in adults at RR 8 or below; that constant is meaningless in a child whose normal rate is 30.",
+      "source": "APLS/PALS; derived as 30 percent below the lower bound of physiology.paediatricNormals.rr for each age band"
+    },
+    {
+      "id": "RULE-OBS-01",
+      "label": "Pregnancy or postpartum with abnormal systolic pressure",
+      "population": "obstetric",
+      "condition": {
+        "all": [
+          {
+            "field": "pregnancy_status",
+            "op": "in",
+            "value": [
+              "pregnant",
+              "postpartum"
+            ]
+          },
+          {
+            "any": [
+              {
+                "field": "sbp",
+                "op": "<",
+                "value": 90
+              },
+              {
+                "field": "sbp",
+                "op": ">",
+                "value": 150
+              }
+            ]
+          }
+        ]
+      },
+      "action": "FLOOR_P2",
+      "alert": "none",
+      "rationale": "ESI v5 lists pregnant or postpartum patients with systolic pressure below 90 or above 150 as high risk. The upper bound is pre-eclampsia; the lower bound is concealed haemorrhage, which pregnancy physiology masks until late.",
+      "source": "ESI Handbook v5 2023, obstetric high-risk criteria"
+    },
+    {
+      "id": "RULE-OBS-02",
+      "label": "Heavy vaginal bleeding in pregnancy or postpartum",
+      "population": "obstetric",
+      "condition": {
+        "all": [
+          {
+            "field": "pregnancy_status",
+            "op": "in",
+            "value": [
+              "pregnant",
+              "postpartum"
+            ]
+          },
+          {
+            "field": "visual.heavy_vaginal_bleeding",
+            "op": "isTrue"
+          }
+        ]
+      },
+      "action": "PIN_P1",
+      "alert": "immediate",
+      "rationale": "Postpartum haemorrhage is a leading cause of maternal death and can exsanguinate a patient whose vital signs remain normal for a considerable time.",
+      "source": "ESI Handbook v5 2023, obstetric high-risk criteria; local protocol v1"
+    }
+  ],
+  "physiology": {
+    "adultNEWS2": {
+      "note": "Royal College of Physicians NEWS2, transcribed unmodified. Bounds are inclusive. A parameter scoring 3 is itself a trigger, independent of the aggregate.",
+      "rr": [
+        {
+          "max": 8,
+          "score": 3
+        },
+        {
+          "min": 9,
+          "max": 11,
+          "score": 1
+        },
+        {
+          "min": 12,
+          "max": 20,
+          "score": 0
+        },
+        {
+          "min": 21,
+          "max": 24,
+          "score": 2
+        },
+        {
+          "min": 25,
+          "score": 3
+        }
+      ],
+      "spo2": [
+        {
+          "max": 91,
+          "score": 3
+        },
+        {
+          "min": 92,
+          "max": 93,
+          "score": 2
+        },
+        {
+          "min": 94,
+          "max": 95,
+          "score": 1
+        },
+        {
+          "min": 96,
+          "score": 0
+        }
+      ],
+      "sbp": [
+        {
+          "max": 90,
+          "score": 3
+        },
+        {
+          "min": 91,
+          "max": 100,
+          "score": 2
+        },
+        {
+          "min": 101,
+          "max": 110,
+          "score": 1
+        },
+        {
+          "min": 111,
+          "max": 219,
+          "score": 0
+        },
+        {
+          "min": 220,
+          "score": 3
+        }
+      ],
+      "hr": [
+        {
+          "max": 40,
+          "score": 3
+        },
+        {
+          "min": 41,
+          "max": 50,
+          "score": 1
+        },
+        {
+          "min": 51,
+          "max": 90,
+          "score": 0
+        },
+        {
+          "min": 91,
+          "max": 110,
+          "score": 1
+        },
+        {
+          "min": 111,
+          "max": 130,
+          "score": 2
+        },
+        {
+          "min": 131,
+          "score": 3
+        }
+      ],
+      "temp_c": [
+        {
+          "max": 35.0,
+          "score": 3
+        },
+        {
+          "min": 35.1,
+          "max": 36.0,
+          "score": 1
+        },
+        {
+          "min": 36.1,
+          "max": 38.0,
+          "score": 0
+        },
+        {
+          "min": 38.1,
+          "max": 39.0,
+          "score": 1
+        },
+        {
+          "min": 39.1,
+          "score": 2
+        }
+      ],
+      "onOxygen": {
+        "air": 0,
+        "oxygen": 2
+      },
+      "acvpu": {
+        "A": 0,
+        "C": 3,
+        "V": 3,
+        "P": 3,
+        "U": 3
+      },
+      "singleParameterTriggerScore": 3,
+      "aggregateBands": [
+        {
+          "max": 0,
+          "label": "routine"
+        },
+        {
+          "min": 1,
+          "max": 4,
+          "label": "low"
+        },
+        {
+          "min": 5,
+          "max": 6,
+          "label": "medium"
+        },
+        {
+          "min": 7,
+          "label": "high"
+        }
+      ]
+    },
+    "paediatricNormals": {
+      "note": "Score the deviation from the age band, never from an adult constant. Select the band before any lookup.",
+      "neonate": {
+        "hr": [
+          100,
+          205
+        ],
+        "rr": [
+          30,
+          60
+        ],
+        "sbp": [
+          67,
+          84
+        ]
+      },
+      "infant": {
+        "hr": [
+          100,
+          190
+        ],
+        "rr": [
+          30,
+          53
+        ],
+        "sbp": [
+          72,
+          104
+        ]
+      },
+      "toddler": {
+        "hr": [
+          98,
+          140
+        ],
+        "rr": [
+          22,
+          37
+        ],
+        "sbp": [
+          86,
+          106
+        ]
+      },
+      "preschool": {
+        "hr": [
+          80,
+          120
+        ],
+        "rr": [
+          20,
+          28
+        ],
+        "sbp": [
+          89,
+          112
+        ]
+      },
+      "school": {
+        "hr": [
+          75,
+          118
+        ],
+        "rr": [
+          18,
+          25
+        ],
+        "sbp": [
+          97,
+          115
+        ]
+      },
+      "adolescent": {
+        "hr": [
+          60,
+          100
+        ],
+        "rr": [
+          12,
+          20
+        ],
+        "sbp": [
+          110,
+          131
+        ]
+      }
+    },
+    "paediatricDeviationScoring": [
+      {
+        "maxPercentOutsideBand": 0,
+        "score": 0
+      },
+      {
+        "maxPercentOutsideBand": 15,
+        "score": 1
+      },
+      {
+        "maxPercentOutsideBand": 30,
+        "score": 2
+      },
+      {
+        "maxPercentOutsideBand": null,
+        "score": 3
+      }
+    ],
+    "paediatricHighRiskCeilings": {
+      "note": "ESI v5 danger-zone ceilings. Exceeding one is scored 3 and also fires RULE-PAED-03.",
+      "hr": {
+        "neonate": 190,
+        "infant": 180,
+        "toddler": 140,
+        "preschool": 120,
+        "school": 120,
+        "adolescent": 100
+      },
+      "rr": {
+        "neonate": 60,
+        "infant": 55,
+        "toddler": 40,
+        "preschool": 35,
+        "school": 30,
+        "adolescent": 20
+      }
+    },
+    "paediatricHypotensionFloor": {
+      "neonate": {
+        "type": "absolute",
+        "value": 60
+      },
+      "infant": {
+        "type": "absolute",
+        "value": 70
+      },
+      "toddler": {
+        "type": "formula",
+        "expression": "70 + 2 * ageYears"
+      },
+      "preschool": {
+        "type": "formula",
+        "expression": "70 + 2 * ageYears"
+      },
+      "school": {
+        "type": "formula",
+        "expression": "70 + 2 * ageYears",
+        "appliesUpToAgeYears": 10
+      },
+      "adolescent": {
+        "type": "absolute",
+        "value": 90
+      }
+    },
+    "paediatricTemperature": {
+      "note": "Thermoregulatory set point does not vary meaningfully by age; urgency does, and that is carried by RULE-PAED-01 and the fever presentation modifiers rather than by the score. Use adultNEWS2.temp_c unchanged.",
+      "useAdultTable": true
+    },
+    "paediatricSpo2": {
+      "note": "Shifted one notch more sensitive than the adult table. Paediatric room-air normal is 97 or above, and a child compensates by respiratory effort until that effort fails, so the same reading carries more risk than in an adult.",
+      "bands": [
+        {
+          "max": 91,
+          "score": 3
+        },
+        {
+          "min": 92,
+          "max": 94,
+          "score": 2
+        },
+        {
+          "min": 95,
+          "max": 96,
+          "score": 1
+        },
+        {
+          "min": 97,
+          "score": 0
+        }
+      ],
+      "limitation": "A child with known congenital cyanotic heart disease has a documented baseline saturation that this table will overscore. Stage 1 holds no prior record and cannot detect that case. The nurse override is the mitigation, and this limitation is stated rather than hidden."
+    },
+    "paediatricOnOxygen": {
+      "note": "Identical to the adult scoring. The oxygen score exists because supplemental oxygen masks the SpO2 reading, and that masking is age-independent.",
+      "air": 0,
+      "oxygen": 2
+    },
+    "paediatricAcvpu": {
+      "note": "Numerically identical to the adult scale; RULE-CONSC-01 and RULE-CONSC-02 already apply to all populations. What differs is the assessment, not the score.",
+      "A": 0,
+      "C": 3,
+      "V": 3,
+      "P": 3,
+      "U": 3,
+      "assessmentGuidance": "Under 1 year, judge Alert by behavioural equivalents: recognises and fixes on the carer, is consolable, and has normal tone. A quiet, floppy, or inconsolable infant is not Alert."
+    },
+    "paediatricBradypnoeaFloor": {
+      "note": "Respiratory rate at or below this value fires RULE-PAED-05. Derived as 30 percent below the lower bound of paediatricNormals.rr for each band.",
+      "neonate": 21,
+      "infant": 21,
+      "toddler": 15,
+      "preschool": 14,
+      "school": 13,
+      "adolescent": 8
+    },
+    "parameterMaxima": {
+      "note": "All three population paths score the same seven parameters and sum to exactly 20, which is why combination.layerMax is 20. If a population path cannot reach 20, a parameter is missing from it.",
+      "rr": 3,
+      "spo2": 3,
+      "onOxygen": 2,
+      "sbp": 3,
+      "hr": 3,
+      "acvpu": 3,
+      "temp_c": 3,
+      "total": 20,
+      "populationPaths": {
+        "adult": {
+          "rr": "adultNEWS2.rr",
+          "spo2": "adultNEWS2.spo2",
+          "onOxygen": "adultNEWS2.onOxygen",
+          "sbp": "adultNEWS2.sbp",
+          "hr": "adultNEWS2.hr",
+          "acvpu": "adultNEWS2.acvpu",
+          "temp_c": "adultNEWS2.temp_c"
+        },
+        "paediatric": {
+          "rr": "paediatricNormals+paediatricDeviationScoring",
+          "spo2": "paediatricSpo2.bands",
+          "onOxygen": "paediatricOnOxygen",
+          "sbp": "paediatricNormals+paediatricDeviationScoring",
+          "hr": "paediatricNormals+paediatricDeviationScoring",
+          "acvpu": "paediatricAcvpu",
+          "temp_c": "adultNEWS2.temp_c"
+        },
+        "obstetric": {
+          "rr": "adultNEWS2.rr",
+          "spo2": "adultNEWS2.spo2",
+          "onOxygen": "adultNEWS2.onOxygen",
+          "sbp": "obstetricOverrides.sbp",
+          "hr": "obstetricOverrides.hr",
+          "acvpu": "adultNEWS2.acvpu",
+          "temp_c": "adultNEWS2.temp_c"
+        }
+      }
+    },
+    "obstetricOverrides": {
+      "note": "Adult table with shifted circulatory thresholds. Pregnancy lowers baseline pressure and raises baseline rate. The systolic bands follow ACOG: gestational hypertension begins at 141, severe features at 161 — the adult table scores all of that as 0.",
+      "sbp": [
+        {
+          "max": 89,
+          "score": 3
+        },
+        {
+          "min": 90,
+          "max": 99,
+          "score": 2
+        },
+        {
+          "min": 100,
+          "max": 140,
+          "score": 0
+        },
+        {
+          "min": 141,
+          "max": 150,
+          "score": 1
+        },
+        {
+          "min": 151,
+          "max": 160,
+          "score": 2
+        },
+        {
+          "min": 161,
+          "score": 3
+        }
+      ],
+      "hr": [
+        {
+          "max": 40,
+          "score": 3
+        },
+        {
+          "min": 41,
+          "max": 50,
+          "score": 1
+        },
+        {
+          "min": 51,
+          "max": 110,
+          "score": 0
+        },
+        {
+          "min": 111,
+          "max": 130,
+          "score": 2
+        },
+        {
+          "min": 131,
+          "score": 3
+        }
+      ]
+    },
+    "maxScore": 20
+  },
+  "presentation": {
+    "maxScore": 20,
+    "bandFloors": {
+      "note": "ESI v5 decision point B expressed as data: a high-risk presentation is level 2 REGARDLESS of vital signs. Without this, the continuous weighting makes a normal-physiology patient unable to exceed P3 no matter how dangerous the presentation — which would make 'presentations that lie' architecturally impossible to catch, and that is the failure this product exists to prevent. Applied exactly like a FLOOR rule (see TRD 12.4 step 5): raises the final band, never lowers it.",
+      "thresholds": [
+        {
+          "minPresentationScore": 15,
+          "floor": "P2"
+        },
+        {
+          "minPresentationScore": 10,
+          "floor": "P3"
+        }
+      ],
+      "source": "ESI Handbook v5 2023, decision point B"
+    },
+    "clampNote": "score = min(base + sum of firing modifiers, maxScore). Only chest_pain can exceed 20. When the sum is clamped, the derivation must still list every modifier that fired and mark the result as clamped — a nurse reading the reasoning must see everything the system saw, not only what fitted inside the ceiling.",
+    "defaultClass": "unknown",
+    "classes": {
+      "chest_pain": {
+        "base": 12,
+        "modifiers": [
+          {
+            "id": "PM-CP-01",
+            "label": "Diabetic or age 65 or over",
+            "points": 4,
+            "when": {
+              "any": [
+                {
+                  "field": "preexisting_flags",
+                  "op": "contains",
+                  "value": "diabetic"
+                },
+                {
+                  "field": "age_years",
+                  "op": ">=",
+                  "value": 65
+                }
+              ]
+            }
+          },
+          {
+            "id": "PM-CP-02",
+            "label": "Female — atypical ACS under-recognition",
+            "points": 3,
+            "when": {
+              "field": "sex",
+              "op": "=",
+              "value": "F"
+            }
+          },
+          {
+            "id": "PM-CP-03",
+            "label": "Diaphoretic",
+            "points": 4,
+            "when": {
+              "field": "visual.diaphoretic",
+              "op": "isTrue"
+            }
+          },
+          {
+            "id": "PM-CP-04",
+            "label": "Began during exertion",
+            "points": 3,
+            "when": {
+              "field": "complaint_qualifiers",
+              "op": "contains",
+              "value": "exertional"
+            }
+          }
+        ]
+      },
+      "abdominal_pain": {
+        "base": 6,
+        "modifiers": [
+          {
+            "id": "PM-AB-01",
+            "label": "Age 55 or over with diaphoresis or radiating pain — atypical ACS pattern",
+            "points": 7,
+            "when": {
+              "all": [
+                {
+                  "field": "age_years",
+                  "op": ">=",
+                  "value": 55
+                },
+                {
+                  "any": [
+                    {
+                      "field": "visual.diaphoretic",
+                      "op": "isTrue"
+                    },
+                    {
+                      "field": "complaint_qualifiers",
+                      "op": "contains",
+                      "value": "radiating"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": "PM-AB-02",
+            "label": "Pregnant or postpartum",
+            "points": 5,
+            "when": {
+              "field": "pregnancy_status",
+              "op": "in",
+              "value": [
+                "pregnant",
+                "postpartum"
+              ]
+            }
+          }
+        ]
+      },
+      "breathlessness": {
+        "base": 11,
+        "modifiers": [
+          {
+            "id": "PM-BR-01",
+            "label": "Cannot speak in full sentences",
+            "points": 3,
+            "when": {
+              "field": "visual.cannot_speak_full_sentences",
+              "op": "isTrue"
+            }
+          },
+          {
+            "id": "PM-BR-02",
+            "label": "Age 70 or over",
+            "points": 3,
+            "when": {
+              "field": "age_years",
+              "op": ">=",
+              "value": 70
+            }
+          }
+        ]
+      },
+      "altered_behaviour": {
+        "base": 10,
+        "modifiers": [
+          {
+            "id": "PM-AL-01",
+            "label": "Age 70 or over — delirium as a sepsis presentation",
+            "points": 4,
+            "when": {
+              "field": "age_years",
+              "op": ">=",
+              "value": 70
+            }
+          },
+          {
+            "id": "PM-AL-02",
+            "label": "Age under 5",
+            "points": 4,
+            "when": {
+              "field": "age_years",
+              "op": "<",
+              "value": 5
+            }
+          }
+        ]
+      },
+      "headache": {
+        "base": 5,
+        "modifiers": [
+          {
+            "id": "PM-HD-01",
+            "label": "Sudden onset or worst ever — thunderclap",
+            "points": 10,
+            "when": {
+              "any": [
+                {
+                  "field": "complaint_qualifiers",
+                  "op": "contains",
+                  "value": "thunderclap"
+                },
+                {
+                  "field": "complaint_qualifiers",
+                  "op": "contains",
+                  "value": "sudden_onset"
+                }
+              ]
+            }
+          },
+          {
+            "id": "PM-HD-02",
+            "label": "With fever and neck stiffness",
+            "points": 5,
+            "when": {
+              "all": [
+                {
+                  "field": "temp_c",
+                  "op": ">=",
+                  "value": 38.0
+                },
+                {
+                  "field": "complaint_qualifiers",
+                  "op": "contains",
+                  "value": "neck_stiffness"
+                }
+              ]
+            }
+          },
+          {
+            "id": "PM-HD-03",
+            "label": "Pregnant or postpartum",
+            "points": 8,
+            "when": {
+              "field": "pregnancy_status",
+              "op": "in",
+              "value": [
+                "pregnant",
+                "postpartum"
+              ]
+            },
+            "rationale": "New headache at term is pre-eclampsia until excluded. Blood pressure may still be below the obstetric rule threshold when the headache begins."
+          }
+        ]
+      },
+      "fever": {
+        "base": 4,
+        "modifiers": [
+          {
+            "id": "PM-FV-01",
+            "label": "Age under 90 days",
+            "points": 9,
+            "when": {
+              "field": "age_days",
+              "op": "<",
+              "value": 90
+            }
+          },
+          {
+            "id": "PM-FV-02",
+            "label": "Age 65 or over — atypical or afebrile sepsis",
+            "points": 5,
+            "when": {
+              "field": "age_years",
+              "op": ">=",
+              "value": 65
+            }
+          }
+        ]
+      },
+      "weakness_nonspecific": {
+        "base": 5,
+        "modifiers": [
+          {
+            "id": "PM-WK-01",
+            "label": "Age 75 or over — the most under-weighted geriatric complaint",
+            "points": 6,
+            "when": {
+              "field": "age_years",
+              "op": ">=",
+              "value": 75
+            }
+          },
+          {
+            "id": "PM-WK-02",
+            "label": "Carer or referrer reports a change from baseline",
+            "points": 5,
+            "when": {
+              "field": "complaint_qualifiers",
+              "op": "contains",
+              "value": "reported_change_from_baseline"
+            },
+            "rationale": "Collateral history of change is the single most informative signal in geriatric decompensation, and the one an unaccompanied patient cannot give. Afebrile sepsis in the elderly presents as 'not themselves' far more reliably than as a fever."
+          }
+        ]
+      },
+      "trauma_minor": {
+        "base": 3,
+        "modifiers": [
+          {
+            "id": "PM-TR-01",
+            "label": "Anticoagulated",
+            "points": 7,
+            "when": {
+              "field": "preexisting_flags",
+              "op": "contains",
+              "value": "anticoagulated"
+            }
+          },
+          {
+            "id": "PM-TR-02",
+            "label": "Age 75 or over — falls, occult head injury",
+            "points": 5,
+            "when": {
+              "field": "age_years",
+              "op": ">=",
+              "value": 75
+            }
+          }
+        ]
+      },
+      "limb_injury": {
+        "base": 2,
+        "modifiers": [
+          {
+            "id": "PM-LI-01",
+            "label": "Neurovascular compromise reported",
+            "points": 4,
+            "when": {
+              "field": "complaint_qualifiers",
+              "op": "contains",
+              "value": "neurovascular_compromise"
+            }
+          }
+        ]
+      },
+      "minor_illness": {
+        "base": 1,
+        "modifiers": []
+      },
+      "unknown": {
+        "base": 8,
+        "modifiers": [],
+        "note": "Absence of a complaint is not absence of risk. Used for unidentified or non-communicative patients."
+      }
+    }
+  },
+  "hazard": {
+    "maxScore": 20,
+    "hazardRates": {
+      "P2": 0.22,
+      "P3": 0.1,
+      "P4": 0.035,
+      "P5": 0.012
+    },
+    "driftWindowMinutes": 30,
+    "driftSensitivities": {
+      "rr": 1.4,
+      "spo2": -1.8,
+      "hr": 0.5,
+      "sbp": -0.6,
+      "temp_c": 0.4
+    },
+    "driftRequiresObservations": 2,
+    "note": "Sensitivities are index points per unit of change across the drift window. A negative sensitivity means a falling value raises risk. A single observation yields drift 0 and widens the interval instead."
+  },
+  "uncertainty": {
+    "inputWeights": {
+      "hr": 0.14,
+      "sbp": 0.14,
+      "rr": 0.16,
+      "spo2": 0.16,
+      "temp_c": 0.08,
+      "acvpu": 0.12,
+      "complaint_class": 0.12,
+      "visual": 0.08
+    },
+    "baseWidth": 5.0,
+    "incompletenessMultiplier": 2.2,
+    "singleReadingPenalty": 6.0,
+    "unknownAgePenalty": 4.0,
+    "unknownSexPenalty": 1.5,
+    "probableSplitThreshold": 0.65,
+    "insufficientCompletenessThreshold": 0.45,
+    "note": "halfWidth = baseWidth * (1 + incompletenessMultiplier * (1 - E)) + driftUncertainty + singleReadingPenalty + any unknown-field penalties.",
+    "driftUncertainty": {
+      "note": "Uncertainty in the Layer-3 drift estimate. A slope is only as trustworthy as the number of readings behind it, the span they cover, and whether they agree with each other. Zero when fewer than two observations exist — singleReadingPenalty applies instead.",
+      "slopeCoefficient": 0.35,
+      "sparsityFactor": "2 / (nObservations - 1)",
+      "coverageFactor": "clamp(hazard.driftWindowMinutes / observedSpanMinutes, 1.0, 2.0)",
+      "formula": "min(slopeCoefficient * abs(layer3DriftContribution) * sparsityFactor * coverageFactor * consistencyFactor, maximum)",
+      "maximum": 8.0,
+      "consistencyFactor": "1 - 0.65 * monotonicFraction",
+      "consistencyFactorRange": [
+        0.35,
+        1.0
+      ],
+      "monotonicFraction": "For each parameter contributing to drift, the fraction of consecutive steps whose direction matches the sign of that parameter's overall slope; averaged across contributing parameters, weighted by the absolute size of each contribution. Defined as 0 when nObservations < 3 — two points cannot agree or disagree, so they carry no consistency evidence.",
+      "rationale": "An earlier revision scaled uncertainty with drift magnitude alone, which made the engine LEAST certain about the patients deteriorating fastest — the exact cases the product exists to catch. Magnitude is not the only signal. Four readings moving the same way across three parameters is an established trajectory and the system should say so; the same magnitude inferred from two noisy readings is a guess. Consistency separates them."
+    },
+    "informationGain": {
+      "note": "How much a question would resolve the current ambiguity, on 0-1. A question earns its place by landing its two outcomes on opposite sides of the boundary that separates the candidate bands, decisively, and far apart.",
+      "separationWeight": 0.5,
+      "marginWeight": 0.3,
+      "spanWeight": 0.2,
+      "minimumInformationGain": 0.25,
+      "formula": "separationWeight * (separates ? 1 : 0) + marginWeight * min(margin / halfWidth, 1) + spanWeight * min(abs(yesPI - noPI) / (2 * halfWidth), 1)",
+      "definitions": {
+        "boundary": "bandThresholds[higher of the two candidate bands]",
+        "yesPI": "priorityIndex + expectedShiftIfYes",
+        "noPI": "priorityIndex + expectedShiftIfNo",
+        "separates": "(yesPI >= boundary) XOR (noPI >= boundary)",
+        "margin": "min(abs(yesPI - boundary), abs(noPI - boundary))"
+      },
+      "tieBreak": [
+        "highest expectedInformationGain",
+        "discriminatesBetween exactly equals candidateBands",
+        "order of appearance in resolvingQuestions"
+      ]
+    },
+    "safetyRelevantBoundaries": {
+      "note": "Abstention is reserved for boundaries where being wrong has a safety consequence. An interval straddling P4/P5 is real uncertainty about whether a patient needs one resource or none, which changes nothing about their safety and costs the nurse a question. Below P2/P3 the engine tie-breaks upward and reports PROBABLE. Abstaining everywhere would make abstention noise, and noise is how a safety signal stops being read.",
+      "boundaries": [
+        "P1/P2",
+        "P2/P3"
+      ],
+      "elsewhere": "tie-break upward, report PROBABLE, no resolving question"
+    }
+  },
+  "confidenceStates": {
+    "note": "Five states. UNRESOLVED and UNRESOLVABLE carry the same uncertainty but give the nurse different instructions, which is why they are separate states rather than one state with a nullable question.",
+    "ESTABLISHED": {
+      "abstains": false,
+      "requiresQuestion": false
+    },
+    "PROBABLE": {
+      "abstains": false,
+      "requiresQuestion": false
+    },
+    "UNRESOLVED": {
+      "abstains": true,
+      "requiresQuestion": true,
+      "instruction": "Ask the named question."
+    },
+    "UNRESOLVABLE": {
+      "abstains": true,
+      "requiresQuestion": false,
+      "requiresNoQuestionReason": true,
+      "instruction": "Questioning cannot separate these bands. Escalate for clinician review.",
+      "queueAtProvisionalBand": true
+    },
+    "INSUFFICIENT": {
+      "abstains": true,
+      "requiresQuestion": false,
+      "instruction": "Obtain the missing observations."
+    }
+  },
+  "noQuestionReasons": [
+    "all_questions_already_answered",
+    "no_question_above_information_threshold",
+    "no_questions_defined_for_class"
+  ],
+  "combination": {
+    "layerWeights": {
+      "physiology": 2.2,
+      "presentation": 1.6,
+      "hazard": 1.0
+    },
+    "layerMax": 20,
+    "note": "PriorityIndex = 100 * (2.2*L1 + 1.6*L2 + 1.0*L3) / (2.2*20 + 1.6*20 + 1.0*20). Measured physiology outranks reported complaint, which outranks elapsed time."
+  },
+  "bandThresholds": {
+    "P1": 82,
+    "P2": 62,
+    "P3": 38,
+    "P4": 18
+  },
+  "costMatrix": {
+    "undertriage": 8,
+    "overtriage": 1
+  },
+  "reassessMinutes": {
+    "P1": 0,
+    "P2": 15,
+    "P3": 30,
+    "P4": 60,
+    "P5": 120
+  },
+  "surge": {
+    "baselineArrivalsPerHour": 6,
+    "multiplier": 3,
+    "trailingWindowMinutes": 15,
+    "exitMultiplier": 2,
+    "exitSustainedMinutes": 10,
+    "highlightTopN": 5,
+    "reassessCompressionPct": 33
+  },
+  "fairness": {
+    "upgradeRateMultipleTolerance": 1.0
+  },
+  "resolvingQuestionRules": {
+    "note": "A question is offered only when its finding is not already recorded. Where alreadyAnsweredWhen evaluates true, the finding has already been captured at arrival and has already contributed through a presentation modifier — asking again would double-count it and would waste the one question the nurse gets. Skip it and offer the next-best question for the class, ranked by expectedInformationGain. If no question remains above uncertainty.informationGain.minimumInformationGain, the state is UNRESOLVABLE with the matching noQuestionReason. UNRESOLVED is never emitted with a null question.",
+    "onlyOneQuestionIsEverShown": true
+  },
+  "workedExamples": {
+    "note": "Executable fixtures. The Step 10 and Step 11 tests assert against these, so a numeric value that drifts out of step with the formulas fails a test instead of waiting for a human to notice it. Any change to a formula or constant must update these and keep them passing.",
+    "PT-0007-abstention": {
+      "given": {
+        "priorityIndex": 63.4,
+        "interval": [
+          55.1,
+          71.7
+        ],
+        "candidateBands": [
+          "P2",
+          "P3"
+        ],
+        "complaintClass": "abdominal_pain",
+        "complaintQualifiers": [
+          "radiating"
+        ],
+        "diaphoretic": false
+      },
+      "derived": {
+        "halfWidth": 8.3,
+        "boundary": 62.0,
+        "suppressedQuestions": [
+          "RQ-ABDO-01"
+        ],
+        "suppressionReason": "alreadyAnsweredWhen matched complaint_qualifiers contains radiating"
+      },
+      "questionScores": [
+        {
+          "id": "RQ-ABDO-02",
+          "yesPI": 74.4,
+          "noPI": 59.4,
+          "separates": true,
+          "margin": 2.6,
+          "expectedInformationGain": 0.7747
+        }
+      ],
+      "expect": {
+        "confidence": "UNRESOLVED",
+        "band": null,
+        "provisionalBand": "P2",
+        "resolvingQuestionId": "RQ-ABDO-02",
+        "expectedInformationGainRounded": 0.77,
+        "noQuestionReason": null,
+        "tieBrokenUpward": true
+      }
+    },
+    "RQ-ABDO-01-if-not-suppressed": {
+      "note": "Same encounter without the radiating qualifier. Confirms the ranking prefers RQ-ABDO-01 when it is available, and that suppression is what changes the answer.",
+      "given": {
+        "priorityIndex": 63.4,
+        "interval": [
+          55.1,
+          71.7
+        ],
+        "boundary": 62.0
+      },
+      "expect": {
+        "yesPI": 77.4,
+        "noPI": 57.4,
+        "separates": true,
+        "margin": 4.6,
+        "expectedInformationGain": 0.8663
+      }
+    },
+    "driftUncertainty": {
+      "note": "Same drift contribution, varying series quality. Confirms that fewer readings and a shorter observed span widen the interval. All cases here set monotonicFraction to 0 so they isolate the sparsity and coverage terms; the consistency term is exercised separately by PT-0002 and PT-0010.",
+      "driftContribution": 12.4,
+      "driftWindowMinutes": 30,
+      "cases": [
+        {
+          "nObservations": 1,
+          "observedSpanMinutes": 0,
+          "expect": 0.0,
+          "why": "singleReadingPenalty applies instead",
+          "monotonicFraction": 0
+        },
+        {
+          "nObservations": 2,
+          "observedSpanMinutes": 6,
+          "expect": 8.0,
+          "why": "capped at maximum",
+          "monotonicFraction": 0
+        },
+        {
+          "nObservations": 2,
+          "observedSpanMinutes": 30,
+          "expect": 8.0,
+          "why": "capped at maximum",
+          "monotonicFraction": 0
+        },
+        {
+          "nObservations": 3,
+          "observedSpanMinutes": 30,
+          "expect": 4.34,
+          "monotonicFraction": 0
+        },
+        {
+          "nObservations": 5,
+          "observedSpanMinutes": 30,
+          "expect": 2.17,
+          "monotonicFraction": 0
+        }
+      ],
+      "consistencyCases": [
+        {
+          "driftContribution": 20.0,
+          "nObservations": 4,
+          "observedSpanMinutes": 45,
+          "monotonicFraction": 1.0,
+          "expect": 1.63,
+          "why": "fully monotonic across four readings — consistencyFactor 0.35"
+        },
+        {
+          "driftContribution": 20.0,
+          "nObservations": 4,
+          "observedSpanMinutes": 45,
+          "monotonicFraction": 0.0,
+          "expect": 4.67,
+          "why": "same magnitude, no agreement between readings — consistencyFactor 1.0"
+        }
+      ]
+    }
+  },
+  "resolvingQuestions": [
+    {
+      "id": "RQ-CHEST-01",
+      "complaintClass": "chest_pain",
+      "question": "Is the pain crushing, or associated with sweating and nausea right now?",
+      "discriminatesBetween": [
+        "P1",
+        "P2"
+      ],
+      "expectedShiftIfYes": 12,
+      "expectedShiftIfNo": -5,
+      "alreadyAnsweredWhen": {
+        "field": "visual.diaphoretic",
+        "op": "isTrue"
+      }
+    },
+    {
+      "id": "RQ-CHEST-02",
+      "complaintClass": "chest_pain",
+      "question": "Did the pain begin during exertion?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 9,
+      "expectedShiftIfNo": -4,
+      "alreadyAnsweredWhen": {
+        "field": "complaint_qualifiers",
+        "op": "contains",
+        "value": "exertional"
+      }
+    },
+    {
+      "id": "RQ-ABDO-01",
+      "complaintClass": "abdominal_pain",
+      "question": "Does the pain radiate to the jaw, shoulder or arm?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 14,
+      "expectedShiftIfNo": -6,
+      "alreadyAnsweredWhen": {
+        "field": "complaint_qualifiers",
+        "op": "contains",
+        "value": "radiating"
+      }
+    },
+    {
+      "id": "RQ-ABDO-02",
+      "complaintClass": "abdominal_pain",
+      "question": "Is the abdomen rigid, or is there rebound tenderness?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 11,
+      "expectedShiftIfNo": -4
+    },
+    {
+      "id": "RQ-BREATH-01",
+      "complaintClass": "breathlessness",
+      "question": "Can the patient complete a full sentence without pausing for breath?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": -10,
+      "expectedShiftIfNo": 12,
+      "alreadyAnsweredWhen": {
+        "field": "visual.cannot_speak_full_sentences",
+        "op": "isTrue"
+      }
+    },
+    {
+      "id": "RQ-ALTER-01",
+      "complaintClass": "altered_behaviour",
+      "question": "Is this confusion new within the last 24 hours?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 13,
+      "expectedShiftIfNo": -6
+    },
+    {
+      "id": "RQ-HEAD-01",
+      "complaintClass": "headache",
+      "question": "Did the headache reach maximum intensity within 60 seconds?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 16,
+      "expectedShiftIfNo": -5,
+      "alreadyAnsweredWhen": {
+        "any": [
+          {
+            "field": "complaint_qualifiers",
+            "op": "contains",
+            "value": "thunderclap"
+          },
+          {
+            "field": "complaint_qualifiers",
+            "op": "contains",
+            "value": "sudden_onset"
+          }
+        ]
+      }
+    },
+    {
+      "id": "RQ-HEAD-02",
+      "complaintClass": "headache",
+      "question": "Is there fever with neck stiffness or intolerance of light?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 12,
+      "expectedShiftIfNo": -4,
+      "alreadyAnsweredWhen": {
+        "field": "complaint_qualifiers",
+        "op": "contains",
+        "value": "neck_stiffness"
+      }
+    },
+    {
+      "id": "RQ-FEVER-01",
+      "complaintClass": "fever",
+      "question": "Is the child feeding and passing urine normally?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": -9,
+      "expectedShiftIfNo": 11
+    },
+    {
+      "id": "RQ-FEVER-02",
+      "complaintClass": "fever",
+      "question": "Is there a rash that does not fade under pressure?",
+      "discriminatesBetween": [
+        "P1",
+        "P2"
+      ],
+      "expectedShiftIfYes": 18,
+      "expectedShiftIfNo": -3
+    },
+    {
+      "id": "RQ-WEAK-01",
+      "complaintClass": "weakness_nonspecific",
+      "question": "Is the weakness one-sided, or is there new difficulty speaking?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 17,
+      "expectedShiftIfNo": -6
+    },
+    {
+      "id": "RQ-TRAUMA-01",
+      "complaintClass": "trauma_minor",
+      "question": "Was there a head strike or any loss of consciousness?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": 13,
+      "expectedShiftIfNo": -5
+    },
+    {
+      "id": "RQ-LIMB-01",
+      "complaintClass": "limb_injury",
+      "question": "Is the limb cold, pale or numb below the injury?",
+      "discriminatesBetween": [
+        "P3",
+        "P4"
+      ],
+      "expectedShiftIfYes": 12,
+      "expectedShiftIfNo": -4,
+      "alreadyAnsweredWhen": {
+        "field": "complaint_qualifiers",
+        "op": "contains",
+        "value": "neurovascular_compromise"
+      }
+    },
+    {
+      "id": "RQ-MINOR-01",
+      "complaintClass": "minor_illness",
+      "question": "Has the patient been unable to keep fluids down for more than 24 hours?",
+      "discriminatesBetween": [
+        "P3",
+        "P4"
+      ],
+      "expectedShiftIfYes": 8,
+      "expectedShiftIfNo": -3
+    },
+    {
+      "id": "RQ-UNKNOWN-01",
+      "complaintClass": "unknown",
+      "question": "Can the patient tell you their name and where they are?",
+      "discriminatesBetween": [
+        "P2",
+        "P3"
+      ],
+      "expectedShiftIfYes": -8,
+      "expectedShiftIfNo": 14,
+      "alreadyAnsweredWhen": {
+        "field": "acvpu",
+        "op": "!=",
+        "value": "A"
+      }
+    }
+  ]
+}
