@@ -97,6 +97,16 @@
 | [D-087](#d-087--the-manual-surge-control-enters-surge-immediately) | 36 | The manual surge control enters surge immediately | superseded by D-088 |
 | [D-088](#d-088--surge-rehearsal-preserves-the-trailing-rate-gate) | 36 | Surge rehearsal preserves the trailing-rate gate | accepted |
 | [D-089](#d-089--late-provisional-review-accepts-the-answer-flow) | 36 | Late provisional review accepts the answer flow | accepted |
+| [D-090](#d-090--row-meta-stays-inside-the-complaint-column) | 35 rework | Row meta stays inside the complaint column | accepted |
+| [D-091](#d-091--safety-states-keep-their-full-names) | 35 rework | Safety states keep their full names | accepted |
+| [D-092](#d-092--the-empty-inspector-names-the-three-longest-waits) | 35 rework | The empty inspector names the three longest waits | accepted |
+| [D-093](#d-093--the-1024-drawer-reserves-queue-space) | 35 rework | The 1024 drawer reserves queue space | accepted |
+| [D-094](#d-094--the-layout-integrity-exemption-was-inherited-not-opted-into) | 35 rework | Layout-integrity ellipsis requires explicit opt-in | accepted |
+| [D-095](#d-095--confidence-marks-are-drawn-not-typed) | 35 rework | Confidence marks are drawn, not typed | accepted |
+| [D-096](#d-096--row-tokens-are-short-because-the-row-is-a-scanning-surface) | 16 rework | Row tokens use governed short forms | accepted |
+| [D-097](#d-097--per-asset-budgets-measure-transferred-bytes) | 34 rework | Per-asset budgets measure transferred bytes | accepted |
+| [D-098](#d-098--windows-only-path-assumption-in-the-service-worker-test) | 32 rework | Service-worker test paths are portable | accepted |
+| [D-099](#d-099--golden-snapshots-regenerated-for-an-additive-field) | 11 rework | Goldens accept an additive display field | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -1575,3 +1585,158 @@ answer as a UI-only band assignment; weaken an uncertainty invariant.
 
 **Consequences.** No provisional decisions remain. The three-button wording
 in App Flow is corrected to match its explicitly listed controls.
+
+### D-090 · Row meta stays inside the complaint column
+**Step:** 35 rework · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Render complaint and row-state meta as two clipped grid rows
+inside the complaint column; no queue descendant may use absolute positioning.
+
+**Why.** The former absolute meta line widened itself across five vital
+columns and painted over the complaint. That was a containment bug, not a
+spacing problem.
+
+**Alternatives rejected.** Raise the old overlay (preserves the spill); hide
+meta states (removes safety information).
+
+**Consequences.** Browser tests compare rendered bounds and fail on overlap or
+column escape.
+
+### D-091 · Safety states keep their full names
+**Step:** 35 rework · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Widen the confidence column and render all five confidence names
+in full. Put the provisional band beside the abstention glyph.
+
+**Why.** Fixed abbreviations would add an undocumented vocabulary, while
+truncation makes a safety state ambiguous. The full protocol terms already fit
+when the fixed column is widened.
+
+**Alternatives rejected.** Four-letter forms (new vocabulary); tooltips only
+(not available at arm's length or on touch).
+
+**Consequences.** Tests fail if confidence text clips or the provisional label
+drops below the binding micro-label size.
+
+### D-092 · The empty inspector names the three longest waits
+**Step:** 35 rework · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Interpret “three longest waits by band” as the three encounters
+with the longest elapsed arrival wait, each labelled with its current or
+provisional band.
+
+**Why.** This directly answers which long wait belongs to which acuity without
+inventing a per-band aggregation or hiding encounter identity.
+
+**Alternatives rejected.** One aggregate per band (cannot identify a patient);
+oldest reassessment only (does not report arrival wait).
+
+**Consequences.** The empty inspector also reports abstentions, last override,
+and degraded boundary counts without changing clinical ordering.
+
+### D-093 · The 1024 drawer reserves queue space
+**Step:** 35 rework · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** At the 1024 px drawer breakpoint, limit the queue rail to the
+upper 60% of the board region and scroll it there; reserve the lower 40% for
+the inspector.
+
+**Why.** The former absolute drawer visually covered rows that continued into
+the simulation console and colophon. Clipping the rail at the drawer edge
+keeps both regions readable without changing the desktop split.
+
+**Alternatives rejected.** Let rows continue behind the drawer (obscured
+clinical text); remove the drawer (loses the specified inspector access).
+
+**Consequences.** A browser geometry test fails if any visible row intersects
+the inspector, console or colophon at 1024×768.
+
+---
+
+### D-094 · The layout-integrity exemption was inherited, not opted into
+**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** `deliberateEllipsis` in `tests/e2e/layout-integrity.spec.js` now
+requires `data-ellipsis="ok"` on the element itself, rather than accepting any
+element with `text-overflow: ellipsis` inside a `[title]` ancestor.
+
+**Why.** `board.js` sets `cells.detail.title` on the whole meta line, so the
+old condition exempted every state token inside it. That is why `INSUFFICIENT`
+rendering as `INS`, and a resolving question truncated to under half its
+length, both passed a test written to catch exactly that. A truncated token is
+not a word: the reader cannot tell `INS` from a state they do not recognise.
+Free text may ellipsis because the full value is in the row title and the
+inspector, and `.complaint-text` now says so explicitly.
+
+**Consequences.** 76 layout cases across every state, viewport and theme.
+
+### D-095 · Confidence marks are drawn, not typed
+**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** `assets/js/util/glyph.js` draws the five confidence marks as
+inline SVG in `currentColor`. The `confidenceGlyphs` character maps are gone
+from `board.js` and `inspector.js`.
+
+**Why.** IBM Plex contains none of U+25CF U+25D1 U+25D0 U+25CB — measured, not
+assumed, and the upstream family does not have them either. Every confidence
+mark was resolving to whatever the device substituted; on Windows the
+half-filled circles rendered as unrelated characters. The mark is one of the
+three carriers of confidence (UIUX 3.2) and the one that survives colour-vision
+deficiency. A carrier that changes shape per device is not a carrier.
+
+**Alternatives rejected.** Re-subsetting the fonts (the glyphs are not in the
+source family). Naming fallback fonts known to have them (still device-dependent).
+
+### D-096 · Row tokens are short because the row is a scanning surface
+**Step:** 16 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Movement causes cap at the largest contributor plus a count;
+resolving questions show a `shortLabel` from the protocol; `REASSESS 6m`
+replaces `REASSESS · 6m OVERDUE`; `○ INSUFFICIENT` drops its instruction.
+Vitals columns were narrowed and the reclaimed width went to the complaint.
+
+**Why.** The tokens were 200–421px wide in a 142px slice. App Flow 4.1 shows
+the row form as `resolve: pain radiating?`, not the full sentence — the
+implementation had drifted from its own specification. The full question is in
+the inspector, where the nurse has already committed attention to one patient.
+
+### D-097 · Per-asset budgets measure transferred bytes
+**Step:** 34 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** The JavaScript and CSS ceilings are now gzipped (55 kB and 8 kB)
+rather than uncompressed source (135 kB and 22 kB). Total cold transfer stays
+at 120 kB and remains the governing budget.
+
+**Why.** An uncompressed-source ceiling measures bytes no device downloads, and
+one fitted to the code as written blocks the next legitimate change by a few
+hundred bytes. It did: the resolving-question short labels put JavaScript 311
+bytes over while total transfer still had 4.9 kB of headroom. Golfing working
+code to fit a number that models nothing is the wrong repair. Both per-asset
+budgets changed together so the rule is consistent rather than adjusted twice.
+
+**Consequences.** Current: JS 43.2 kB gzipped, CSS 4.9 kB gzipped, total
+transfer 115.9 kB.
+
+### D-098 · Windows-only path assumption in the service-worker test
+**Step:** 32 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** `filesBelow(assetRoot.pathname.slice(1))` became
+`filesBelow(fileURLToPath(assetRoot))`.
+
+**Why.** A `file:` URL pathname is `/C:/Users/...` on Windows, where slicing one
+character is correct, and `/root/app/assets` on POSIX, where it is not. The test
+passed only on the machine it was written on and would have failed on any Linux
+CI runner or container.
+
+### D-099 · Golden snapshots regenerated for an additive field
+**Step:** 11 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** All three golden files were regenerated after
+`resolvingQuestionShortLabel` was added to the assessment.
+
+**Why.** Regenerating a golden to make a test pass is normally the thing not to
+do. It is legitimate here only because it was verified first: every clinical
+field — band, provisionalBand, bandSetBy, confidence, priorityIndex, interval,
+rulesFired, tieBrokenUpward, noQuestionReason — was compared across all 20
+encounters at t=0, t=30 and t=60 before rewriting. Clinical drift: zero. The
+single added key was the new display label.

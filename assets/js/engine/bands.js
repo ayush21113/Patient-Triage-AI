@@ -69,6 +69,7 @@ function clearQuestion(result) {
   return {
     ...result,
     resolvingQuestion: null,
+    resolvingQuestionShortLabel: null,
     resolvingQuestionId: null,
     expectedInformationGain: null,
     noQuestionReason: null

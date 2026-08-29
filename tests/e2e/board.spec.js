@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import { mkdir } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { expect, test } from "@playwright/test";
 
@@ -22,6 +23,97 @@ async function axeViolations(page) {
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("#queue-body tr")).toHaveCount(20);
+});
+
+test("captures normal-mode audit evidence before degraded mode", async ({ page }) => {
+  const evidence = fileURLToPath(new URL("./.playwright/", import.meta.url));
+  await mkdir(evidence, { recursive: true });
+  for (const [width, height] of [[1280, 800], [1024, 768]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto("/");
+    await expect(page.locator("#queue-body tr")).toHaveCount(20);
+    await page.screenshot({
+      path: `${evidence}ui-rework-normal-${width}x${height}.png`
+    });
+  }
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.getByRole("button", { name: "Lose monitors" }).click();
+  await page.screenshot({ path: `${evidence}ui-rework-degraded-1280x800.png` });
+});
+
+test("the 1024 drawer cannot obscure visible queue rows", async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 });
+  const intersections = await page.locator("#queue-body tr").evaluateAll(rows => {
+    const rail = document.querySelector(".queue-rail").getBoundingClientRect();
+    const blockers = ["#inspector", ".simulation-console", ".colophon"]
+      .map(selector => document.querySelector(selector).getBoundingClientRect());
+    return rows.filter(row => {
+      const box = row.getBoundingClientRect();
+      const top = Math.max(box.top, rail.top);
+      const bottom = Math.min(box.bottom, rail.bottom);
+      return bottom > top && blockers.some(blocker =>
+        top < blocker.bottom && bottom > blocker.top
+      );
+    }).map(row => row.dataset.encounterId);
+  });
+  expect(intersections).toEqual([]);
+});
+
+test("queue text stays inside its two-line row without overlap", async ({ page }) => {
+  const defects = await page.locator("#queue-body tr:not(.row-collapsed)")
+    .evaluateAll(rows => rows.flatMap(row => {
+      const cell = row.querySelector(".complaint-cell").getBoundingClientRect();
+      const complaint = row.querySelector(".complaint-text")
+        .getBoundingClientRect();
+      const detailNode = row.querySelector(".row-detail");
+      const detail = detailNode.getBoundingClientRect();
+      const problems = [];
+      if (!detailNode.hidden && complaint.bottom > detail.top + 0.5) {
+        problems.push("complaint overlaps meta");
+      }
+      if (complaint.left < cell.left || complaint.right > cell.right + 0.5 ||
+          (!detailNode.hidden && (detail.left < cell.left ||
+            detail.right > cell.right + 0.5))) {
+        problems.push("complaint content leaves column");
+      }
+      if ([...row.querySelectorAll("*")].some(node =>
+        getComputedStyle(node).position === "absolute")) {
+        problems.push("absolute positioning in queue row");
+      }
+      return problems.map(problem => `${row.dataset.encounterId}: ${problem}`);
+    }));
+  expect(defects).toEqual([]);
+});
+
+test("confidence and provisional-band tokens are fully readable", async ({ page }) => {
+  const clipped = await page.locator(".confidence-cell").evaluateAll(cells =>
+    cells.filter(cell => cell.scrollWidth > cell.clientWidth).map(cell =>
+      `${cell.parentElement.dataset.encounterId}: ${cell.textContent}`
+    )
+  );
+  expect(clipped).toEqual([]);
+  const provisional = page.locator(".band-abstaining").first();
+  await expect(provisional).toContainText(/⊘\s*P[1-5]/);
+  expect(await provisional.locator(".provisional-band").evaluate(node =>
+    Number.parseFloat(getComputedStyle(node).fontSize)
+  )).toBeGreaterThanOrEqual(10);
+});
+
+test("degraded mode stays ordered and concise", async ({ page }) => {
+  await page.getByRole("button", { name: "Lose monitors" }).click();
+  await expect(page.locator("#mode-strip")).toHaveText(
+    /DEGRADED — no monitors · 19 of 20 cannot be discriminated · entered \d{2}:\d{2}/
+  );
+  expect(await page.locator("#mode-strip").evaluate(node =>
+    node.scrollHeight <= node.clientHeight
+  )).toBe(true);
+  await expect(page.locator("#unobtainable-note")).toBeVisible();
+  const bands = await page.locator("#queue-body .band-chip").allTextContents();
+  const acuity = bands.map(value => Number(value.match(/P([1-5])/)?.[1]));
+  expect(acuity).toEqual([...acuity].sort((left, right) => left - right));
+  await expect(page.locator("#inspector")).toContainText(
+    "Cannot discriminate · by boundary"
+  );
 });
 
 test("keyboard path covers capture, override and audit export", async ({ page }) => {

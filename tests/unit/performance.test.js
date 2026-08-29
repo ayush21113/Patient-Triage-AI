@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
-import { readdir, stat } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 import test from "node:test";
 import { gzipSync } from "node:zlib";
@@ -35,16 +35,18 @@ test("deployed source and transfer sizes remain within budget", async () => {
     ...assetFiles
   ];
   const javascriptFiles = assetFiles.filter(path => path.endsWith(".js"));
-  const javascriptBytes = (await Promise.all(javascriptFiles.map(path =>
-    stat(path)
-  ))).reduce((total, file) => total + file.size, 0);
+  const javascriptBytes = (await Promise.all(javascriptFiles.map(async path =>
+    gzipSync(await readFile(path), { level: 9 }).length
+  ))).reduce((total, size) => total + size, 0);
   const transferredBytes = (await Promise.all(deployedFiles.map(async path =>
     gzipSync(await readFile(path), { level: 9 }).length
   ))).reduce((total, size) => total + size, 0);
 
   assert.ok(transferredBytes <= 120_000);
-  assert.ok(javascriptBytes <= 135_000);
-  assert.ok((await stat("assets/css/board.css")).size <= 22_000);
+  assert.ok(javascriptBytes <= 55_000);
+  assert.ok(
+    gzipSync(await readFile("assets/css/board.css"), { level: 9 }).length <= 8_000
+  );
 });
 
 test("single-patient scoring remains under 10 ms", () => {

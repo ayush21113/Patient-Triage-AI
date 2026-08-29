@@ -1,4 +1,4 @@
-const CACHE_NAME = "patienttriage-v6";
+const CACHE_NAME = "patienttriage-v7";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -37,6 +37,7 @@ const PRECACHE = [
   "./assets/js/sim/surge.js",
   "./assets/js/state.js",
   "./assets/js/util/dom.js",
+  "./assets/js/util/glyph.js",
   "./assets/js/util/fmt.js",
   "./assets/js/util/storage.js"
 ];

@@ -1,15 +1,9 @@
 import { el } from "../util/dom.js";
+import { confidenceMark } from "../util/glyph.js";
 import { confidenceBand, sparkline } from "./charts.js";
 import { applyOverrideOrder } from "./override.js";
 
 const MILLISECONDS_PER_MINUTE = 60_000;
-const confidenceGlyphs = {
- ESTABLISHED: "●",
- PROBABLE: "◑",
- UNRESOLVED: "◐",
- UNRESOLVABLE: "◐",
- INSUFFICIENT: "○"
-};
 const ageUnits = {
  days: "d",
  months: "mo",
@@ -73,26 +67,50 @@ function derivationLine(label, detail, contribution = "") {
 }
 
 function boardSummary(inspector, board, now, viewState) {
+ const elapsed = at => Math.floor((now - at) / MILLISECONDS_PER_MINUTE);
  const counts = Object.fromEntries(
   ["P1", "P2", "P3", "P4", "P5"].map(band => [band, 0])
  );
+ const degraded = (viewState.mode ?? "NORMAL").includes("DEGRADED");
+ const boundaries = {};
+ let abstaining = 0;
  for (const { assessment } of board) {
   counts[assessment.provisionalBand] += 1;
+  if (assessment.band !== null) continue;
+  abstaining += 1;
+  if (degraded) {
+   const bands = assessment.candidateBands.join(" / ");
+   boundaries[bands] = (boundaries[bands] ?? 0) + 1;
+  }
  }
- const oldest = board.map(({ encounter }) => ({
+ const waits = board.map(({ encounter, assessment }) => ({
   id: encounter.encounter_id,
-  minutes: Math.floor((now - encounter.observations.at(-1).observed_at) /
-   MILLISECONDS_PER_MINUTE)
- })).sort((left, right) => right.minutes - left.minutes)[0];
+  band: assessment.band ?? assessment.provisionalBand,
+  minutes: elapsed(encounter.arrived_at)
+ })).sort((left, right) => right.minutes - left.minutes);
+ const overrides = Object.values(viewState.overrides ?? {});
+ const lastOverride = overrides.sort((left, right) => right.at - left.at)[0];
  const title = el("h2", { id: "inspector-heading" });
  title.textContent = "Board summary";
  const summary = el("dl", { class: "board-summary" });
  const items = [
   ["Waiting", board.length],
   ...Object.entries(counts),
-  ["Oldest un-reassessed", `${oldest.id} · ${oldest.minutes} min`],
+  ["Abstaining", abstaining],
   ["Mode", viewState.mode ?? "NORMAL"],
-  ["Overrides this shift", Object.keys(viewState.overrides ?? {}).length]
+  ["Overrides this shift", overrides.length],
+  ["Last override", lastOverride
+   ? `${lastOverride.encounterId} · ${elapsed(lastOverride.at)} min ago`
+   : "None this shift"],
+  ["Three longest waits · by band", ""],
+  ...waits.slice(0, 3).map(({ band, id, minutes }) => [
+   band,
+   `${id} · ${minutes} min`
+  ]),
+  ...Object.keys(boundaries).length
+   ? [["Cannot discriminate · by boundary", ""],
+    ...Object.entries(boundaries)]
+   : []
  ];
  for (const [term, value] of items) {
   const dt = el("dt");
@@ -117,9 +135,10 @@ function surgeSummary(inspector, board) {
   complaint.textContent = encounter.complaint_text ??
    "Complaint not obtained";
   const confidence = el("span");
-  confidence.textContent = `${confidenceGlyphs[assessment.confidence]} ${
-   assessment.confidence
-  }`;
+  confidence.append(
+   confidenceMark(assessment.confidence),
+   document.createTextNode(` ${assessment.confidence}`)
+  );
   item.append(headingNode, complaint, confidence);
   stack.append(item);
  }
@@ -412,9 +431,13 @@ export function renderInspector(
  const confidenceTitle = el("p", {
   class: `confidence-title confidence-${assessment.confidence.toLowerCase()}`
  });
- confidenceTitle.textContent = `CONFIDENCE ${
-  confidenceGlyphs[assessment.confidence]
- } ${assessment.confidence} — ${confidenceCopy(assessment)}`;
+ confidenceTitle.append(
+  document.createTextNode("CONFIDENCE "),
+  confidenceMark(assessment.confidence),
+  document.createTextNode(
+   ` ${assessment.confidence} — ${confidenceCopy(assessment)}`
+  )
+ );
  confidence.append(confidenceTitle);
  if (assessment.tieBrokenUpward) {
   const tie = el("p");

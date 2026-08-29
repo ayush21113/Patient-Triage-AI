@@ -1,19 +1,5 @@
 import { el, on } from "../util/dom.js";
 
-function ambiguitySummary(board) {
-  const counts = new Map();
-  for (const { assessment } of board) {
-    if (!["UNRESOLVED", "UNRESOLVABLE", "INSUFFICIENT"]
-      .includes(assessment.confidence)) continue;
-    const bands = assessment.candidateBands.join(" from ");
-    counts.set(bands, (counts.get(bands) ?? 0) + 1);
-  }
-  if (counts.size === 0) return "No unresolved band boundary.";
-  return [...counts].map(([bands, count]) =>
-    `Cannot discriminate ${bands} for ${count} patient${count === 1 ? "" : "s"}`
-  ).join(" · ");
-}
-
 export function renderModeStrip(strip, modeDetail, board = []) {
   if (!modeDetail || modeDetail.toMode === "NORMAL") {
     strip.hidden = true;
@@ -31,9 +17,9 @@ export function renderModeStrip(strip, modeDetail, board = []) {
     }× baseline`
     : "";
   const degraded = modeDetail.toMode.includes("DEGRADED")
-    ? `DEGRADED — no monitors · scoring from visual assessment and complaint only · ${
-      ambiguitySummary(board)
-    }`
+    ? `DEGRADED — no monitors · ${board.filter(({ assessment }) =>
+      assessment.band === null
+    ).length} of ${board.length} cannot be discriminated`
     : "";
   strip.hidden = false;
   strip.textContent = `${[surge, degraded].filter(Boolean).join(" + ")} · entered ${time}`;

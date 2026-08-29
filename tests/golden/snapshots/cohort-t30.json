@@ -83,6 +83,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -168,6 +169,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -253,6 +255,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -350,6 +353,7 @@
         }
       },
       "resolvingQuestion": "Is the weakness one-sided, or is there new difficulty speaking?",
+      "resolvingQuestionShortLabel": "one-sided / speech?",
       "resolvingQuestionId": "RQ-WEAK-01",
       "expectedInformationGain": 0.84,
       "noQuestionReason": null,
@@ -440,6 +444,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -540,6 +545,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -639,6 +645,7 @@
         }
       },
       "resolvingQuestion": "Is the abdomen rigid, or is there rebound tenderness?",
+      "resolvingQuestionShortLabel": "rigid abdomen?",
       "resolvingQuestionId": "RQ-ABDO-02",
       "expectedInformationGain": 0.72,
       "noQuestionReason": null,
@@ -729,6 +736,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -814,6 +822,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -899,6 +908,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -994,6 +1004,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1079,6 +1090,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1179,6 +1191,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1279,6 +1292,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1379,6 +1393,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1464,6 +1479,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1564,6 +1580,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1649,6 +1666,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1726,6 +1744,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,
@@ -1816,6 +1835,7 @@
         }
       },
       "resolvingQuestion": null,
+      "resolvingQuestionShortLabel": null,
       "resolvingQuestionId": null,
       "expectedInformationGain": null,
       "noQuestionReason": null,

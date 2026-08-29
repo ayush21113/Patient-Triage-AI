@@ -14,6 +14,11 @@ test("the anti-generic design bans remain enforced", () => {
   assert.doesNotMatch(css, /gradient|box-shadow|backdrop-filter/i);
   assert.doesNotMatch(`${css}\n${application}`, /\b(?:Inter|Roboto|Poppins|Montserrat|Nunito|Space Grotesk|Lucide|Feather|Heroicons|Font Awesome|Material Icons)\b/i);
   assert.doesNotMatch(css, /border-radius:\s*(?:[3-9]|\d{2,})px/i);
+  const signalBackgrounds = [...css.matchAll(/([^{}]+)\{([^{}]+)\}/g)]
+    .filter(([, , declarations]) =>
+      /background(?:-color)?:\s*var\(--sig-/.test(declarations)
+    ).map(([, selector]) => selector.trim());
+  assert.deepEqual(signalBackgrounds, [".band-p1"]);
 });
 
 test("colour literals stay inside the token block", () => {

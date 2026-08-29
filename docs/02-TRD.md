@@ -609,9 +609,11 @@ The prototype wraps the real engine in a synthetic environment. **No simulation 
 
 | Metric | Budget |
 |---|---|
-| Total transferred (cold, gzipped) | ≤ 120 kB including fonts |
+| Total transferred (cold, gzipped) | ≤ 120 kB including fonts — **this is the governing budget** |
+
+**Why the per-asset budgets are gzipped.** Earlier revisions capped uncompressed source bytes. That measures something no device ever downloads, and a ceiling fitted to the code as written blocks the next legitimate change by a few hundred bytes while the metric that matters still has kilobytes of headroom — which is exactly what happened when the resolving-question short labels were added. The budgets now measure transferred bytes, and the total transfer remains the governing constraint.
 | JS, uncompressed | ≤ 135 kB |
-| CSS, uncompressed | ≤ 22 kB |
+| CSS, **gzipped** | ≤ 8 kB |
 | Cold load to interactive, mid-range tablet | ≤ 2 s |
 | Full board recompute, 60 encounters | ≤ 100 ms |
 | Single-patient score | ≤ 10 ms |

@@ -1,23 +1,10 @@
 import { el, on } from "../util/dom.js";
+import { confidenceMark } from "../util/glyph.js";
 import { applyOverrideOrder } from "./override.js";
 
 const MILLISECONDS_PER_MINUTE = 60_000;
 const rowsByTable = new WeakMap();
 const actionsByTable = new WeakMap();
-const confidenceDisplay = {
- ESTABLISHED: "● ESTAB",
- PROBABLE: "◑ PROB",
- UNRESOLVED: "◐ UNRES",
- UNRESOLVABLE: "◐ UNRESOLV",
- INSUFFICIENT: "○ INSUFF"
-};
-const confidenceLabels = {
- ESTABLISHED: "Established confidence",
- PROBABLE: "Probable confidence",
- UNRESOLVED: "Unresolved — one question available",
- UNRESOLVABLE: "Unresolvable — clinician escalation required",
- INSUFFICIENT: "Insufficient evidence"
-};
 const ageUnits = {
  days: "d",
  months: "mo",
@@ -63,9 +50,11 @@ function createRow(encounterId) {
  const bandCell = cell("band-cell");
  bandCell.append(band);
  const complaint = cell("complaint-cell");
- const complaintText = el("span", { class: "complaint-text" });
+ const complaintLayout = el("div", { class: "complaint-layout" });
+ const complaintText = el("span", { class: "complaint-text", "data-ellipsis": "ok" });
  const detail = el("span", { class: "row-detail" });
- complaint.append(complaintText, detail);
+ complaintLayout.append(complaintText, detail);
+ complaint.append(complaintLayout);
  const wait = cell("wait-cell numeric");
  const waitMain = el("span", { class: "wait-main" });
  const waitToken = el("span", { class: "wait-token" });
@@ -163,6 +152,10 @@ function setVital(cellNode, value, unit, direction) {
  valueNode.textContent = value;
  unitNode.textContent = unit;
  unitNode.hidden = ["—", "——"].includes(value);
+ cellNode.setAttribute("aria-label", value === "——"
+  ? unit + " unobtainable"
+  : value === "—" ? unit + " not recorded" : value + " " + unit);
+ cellNode.classList.toggle("vital-unobtainable", value === "——");
  mark.textContent = direction === "up" ? "▲" : direction === "down" ? "▼" : "";
  mark.className = `drift-mark${direction ? ` drift-${direction}` : ""}`;
  mark.hidden = direction === null;
@@ -189,10 +182,14 @@ function detailToken(className, value) {
  return token;
 }
 
-function displayDriftDetail(value) {
- return value?.replace(/\d+\.\d{2,}/g, number =>
-  String(Math.round(Number(number) * 10) / 10)
- );
+function displayDriftDetail(value, max = 2) {
+ const causes = value?.replace(/\d+\.\d{2,}/g, n =>
+  String(Math.round(Number(n) * 10) / 10)
+ ).split(" · ");
+ if (!causes) return value;
+ return causes.length <= max
+  ? causes.join(" · ")
+  : `${causes.slice(0, max).join(" · ")} +${causes.length - max}`;
 }
 
 function updateRow(entry, boardRow, now, viewState) {
@@ -263,17 +260,17 @@ function updateRow(entry, boardRow, now, viewState) {
   const direction = movement.direction === "up" ? "▲" : "▼";
   cells.detail.append(detailToken(
    `movement-${movement.direction}`,
-   `${direction} MOVED ${movement.direction.toUpperCase()} ${
+   `${direction} ${movement.direction.toUpperCase()} ${
     movement.positions
-   } · ${displayDriftDetail(movement.cause)}`
+   } · ${displayDriftDetail(movement.cause, 1)}`
   ));
  }
  if (overdue) {
   cells.detail.append(detailToken(
    "reassess-token",
-   `${"▲".repeat(reassessment.level)} REASSESS · ${
+   `${"▲".repeat(reassessment.level)} REASSESS ${
     reassessment.overdueMinutes
-   }m OVERDUE`
+   }m`
   ));
  }
  if (pinned) {
@@ -288,22 +285,21 @@ function updateRow(entry, boardRow, now, viewState) {
  if (assessment.confidence === "UNRESOLVED") {
   cells.detail.append(detailToken(
    "resolve-token",
-   `◐ RESOLVE · ${assessment.resolvingQuestion}`
+   `◐ RESOLVE · ${assessment.resolvingQuestionShortLabel}`
   ));
  } else if (assessment.confidence === "UNRESOLVABLE") {
   cells.detail.append(detailToken(
    "escalate-token",
-   `◐ ESCALATE — cannot discriminate ${
-    assessment.candidateBands.join(" from ")
-   }`
+   `◐ ESCALATE · ${assessment.candidateBands.join("/")}`
   ));
  } else if (assessment.confidence === "INSUFFICIENT") {
   cells.detail.append(detailToken(
    "resolve-token",
-   "○ INSUFFICIENT · obtain missing observations"
+   "○ INSUFFICIENT"
   ));
  }
  cells.detail.hidden = cells.detail.childElementCount === 0;
+ cells.detail.title = cells.detail.textContent;
  const changed = [
   setVital(
    cells.hr,
@@ -340,32 +336,28 @@ function updateRow(entry, boardRow, now, viewState) {
  entry.row.classList.toggle("row-value-changed", entry.valueChangeTicks > 0);
  cells.waitMain.replaceChildren();
  const waitValue = el("span", { class: "wait-value" });
- waitValue.textContent = Math.floor(
+ const waitedMinutes = Math.floor(
   (now - encounter.arrived_at) / MILLISECONDS_PER_MINUTE
  );
- const waitUnit = el("span", { class: "vital-unit" });
- waitUnit.textContent = "m";
- cells.waitMain.append(waitValue, waitUnit);
- cells.waitToken.textContent = "";
- cells.waitToken.hidden = true;
- cells.confidence.textContent = confidenceDisplay[assessment.confidence];
- cells.confidence.dataset.confidence = assessment.confidence;
- cells.confidence.title = confidenceLabels[assessment.confidence];
- cells.confidence.setAttribute(
-  "aria-label",
-  confidenceLabels[assessment.confidence]
+ waitValue.textContent = String(waitedMinutes) + "m";
+ cells.waitMain.append(waitValue);
+ cells.waitToken.textContent = overdue ? "▲ DUE" : "";
+ cells.waitToken.hidden = !overdue;
+ cells.confidence.replaceChildren(
+  confidenceMark(assessment.confidence),
+  document.createTextNode(` ${assessment.confidence}`)
  );
+ cells.confidence.dataset.confidence = assessment.confidence;
  cells.collapsedBand.textContent = `${bandGlyphs[band]} ${band}`;
  cells.collapsedBand.className = `collapsed-band band-text-${
   band.toLowerCase()
  }`;
  cells.collapsedId.textContent = id;
  cells.collapsedComplaint.textContent = complaint;
+ cells.collapsedComplaint.title = complaint;
  cells.collapsedWait.textContent = `${overdue
   ? `${"▲".repeat(reassessment.level)} REASSESS · `
-  : ""}${Math.floor(
-  (now - encounter.arrived_at) / MILLISECONDS_PER_MINUTE
- )}m`;
+  : ""}${waitedMinutes}m`;
 }
 
 export function renderBoard(
@@ -377,6 +369,9 @@ export function renderBoard(
  onReassess = () => {}
 ) {
  board = applyOverrideOrder(board, viewState.overrides);
+ const degraded = (viewState.mode ?? "NORMAL").includes("DEGRADED");
+ const unobtainableNote = document.querySelector("#unobtainable-note");
+ if (unobtainableNote) unobtainableNote.hidden = !degraded;
  if ((viewState.mode ?? "NORMAL").includes("SURGE")) {
   viewState = {
    ...viewState,

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
 
 async function filesBelow(directory) {
@@ -16,7 +17,7 @@ test("precache covers the complete application asset surface", async () => {
     /const PRECACHE = (\[[\s\S]*?\]);/
   )[1]);
   const assetRoot = new URL("../../assets", import.meta.url);
-  const deployedAssets = (await filesBelow(assetRoot.pathname.slice(1)))
+  const deployedAssets = (await filesBelow(fileURLToPath(assetRoot)))
     .map(path => `./assets/${path.replaceAll("\\", "/").split("/assets/")[1]}`)
     .sort();
   assert.deepEqual(

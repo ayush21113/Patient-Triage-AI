@@ -1335,7 +1335,8 @@
   },
   "resolvingQuestionRules": {
     "note": "A question is offered only when its finding is not already recorded. Where alreadyAnsweredWhen evaluates true, the finding has already been captured at arrival and has already contributed through a presentation modifier — asking again would double-count it and would waste the one question the nurse gets. Skip it and offer the next-best question for the class, ranked by expectedInformationGain. If no question remains above uncertainty.informationGain.minimumInformationGain, the state is UNRESOLVABLE with the matching noQuestionReason. UNRESOLVED is never emitted with a null question.",
-    "onlyOneQuestionIsEverShown": true
+    "onlyOneQuestionIsEverShown": true,
+    "shortLabel": "A four-word form of the question, for the queue row only. The row is a scanning surface: the full question is shown in the inspector, where the nurse has already committed attention to one patient. App Flow section 4.1 shows the row form as 'resolve: pain radiating?', not the full sentence."
   },
   "workedExamples": {
     "note": "Executable fixtures. The Step 10 and Step 11 tests assert against these, so a numeric value that drifts out of step with the formulas fails a test instead of waiting for a human to notice it. Any change to a formula or constant must update these and keep them passing.",
@@ -1475,7 +1476,8 @@
       "alreadyAnsweredWhen": {
         "field": "visual.diaphoretic",
         "op": "isTrue"
-      }
+      },
+      "shortLabel": "crushing / sweating?"
     },
     {
       "id": "RQ-CHEST-02",
@@ -1491,7 +1493,8 @@
         "field": "complaint_qualifiers",
         "op": "contains",
         "value": "exertional"
-      }
+      },
+      "shortLabel": "exertional onset?"
     },
     {
       "id": "RQ-ABDO-01",
@@ -1507,7 +1510,8 @@
         "field": "complaint_qualifiers",
         "op": "contains",
         "value": "radiating"
-      }
+      },
+      "shortLabel": "radiates to arm?"
     },
     {
       "id": "RQ-ABDO-02",
@@ -1518,7 +1522,8 @@
         "P3"
       ],
       "expectedShiftIfYes": 11,
-      "expectedShiftIfNo": -4
+      "expectedShiftIfNo": -4,
+      "shortLabel": "rigid abdomen?"
     },
     {
       "id": "RQ-BREATH-01",
@@ -1533,7 +1538,8 @@
       "alreadyAnsweredWhen": {
         "field": "visual.cannot_speak_full_sentences",
         "op": "isTrue"
-      }
+      },
+      "shortLabel": "full sentences?"
     },
     {
       "id": "RQ-ALTER-01",
@@ -1544,7 +1550,8 @@
         "P3"
       ],
       "expectedShiftIfYes": 13,
-      "expectedShiftIfNo": -6
+      "expectedShiftIfNo": -6,
+      "shortLabel": "new in 24h?"
     },
     {
       "id": "RQ-HEAD-01",
@@ -1569,7 +1576,8 @@
             "value": "sudden_onset"
           }
         ]
-      }
+      },
+      "shortLabel": "peaked in 60s?"
     },
     {
       "id": "RQ-HEAD-02",
@@ -1585,7 +1593,8 @@
         "field": "complaint_qualifiers",
         "op": "contains",
         "value": "neck_stiffness"
-      }
+      },
+      "shortLabel": "fever + neck stiffness?"
     },
     {
       "id": "RQ-FEVER-01",
@@ -1596,7 +1605,8 @@
         "P3"
       ],
       "expectedShiftIfYes": -9,
-      "expectedShiftIfNo": 11
+      "expectedShiftIfNo": 11,
+      "shortLabel": "feeding normally?"
     },
     {
       "id": "RQ-FEVER-02",
@@ -1607,7 +1617,8 @@
         "P2"
       ],
       "expectedShiftIfYes": 18,
-      "expectedShiftIfNo": -3
+      "expectedShiftIfNo": -3,
+      "shortLabel": "non-blanching rash?"
     },
     {
       "id": "RQ-WEAK-01",
@@ -1618,7 +1629,8 @@
         "P3"
       ],
       "expectedShiftIfYes": 17,
-      "expectedShiftIfNo": -6
+      "expectedShiftIfNo": -6,
+      "shortLabel": "one-sided / speech?"
     },
     {
       "id": "RQ-TRAUMA-01",
@@ -1629,7 +1641,8 @@
         "P3"
       ],
       "expectedShiftIfYes": 13,
-      "expectedShiftIfNo": -5
+      "expectedShiftIfNo": -5,
+      "shortLabel": "head strike or LOC?"
     },
     {
       "id": "RQ-LIMB-01",
@@ -1645,7 +1658,8 @@
         "field": "complaint_qualifiers",
         "op": "contains",
         "value": "neurovascular_compromise"
-      }
+      },
+      "shortLabel": "cold / pale / numb?"
     },
     {
       "id": "RQ-MINOR-01",
@@ -1656,7 +1670,8 @@
         "P4"
       ],
       "expectedShiftIfYes": 8,
-      "expectedShiftIfNo": -3
+      "expectedShiftIfNo": -3,
+      "shortLabel": "fluids down 24h?"
     },
     {
       "id": "RQ-UNKNOWN-01",
@@ -1672,7 +1687,8 @@
         "field": "acvpu",
         "op": "!=",
         "value": "A"
-      }
+      },
+      "shortLabel": "knows name / place?"
     }
   ]
 }

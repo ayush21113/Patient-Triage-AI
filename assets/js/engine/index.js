@@ -124,6 +124,7 @@ export function score(encounter, protocol, now) {
       ...(information.length > 0 ? { modelIndex, information } : {})
     },
     resolvingQuestion: banding.resolvingQuestion,
+    resolvingQuestionShortLabel: banding.resolvingQuestionShortLabel,
     resolvingQuestionId: banding.resolvingQuestionId,
     expectedInformationGain: banding.expectedInformationGain,
     noQuestionReason: banding.noQuestionReason,

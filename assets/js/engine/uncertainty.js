@@ -245,6 +245,7 @@ export function selectResolvingQuestion(
 
  return {
   resolvingQuestion: best.question.question,
+  resolvingQuestionShortLabel: best.question.shortLabel,
   resolvingQuestionId: best.question.id,
   expectedInformationGain: Math.round(best.informationGain * 100) / 100,
   noQuestionReason: null
@@ -357,6 +358,7 @@ export function classifyUncertainty(
  let { confidence } = classification;
  let questionResult = {
   resolvingQuestion: null,
+  resolvingQuestionShortLabel: null,
   resolvingQuestionId: null,
   expectedInformationGain: null,
   noQuestionReason: null
