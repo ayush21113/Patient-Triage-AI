@@ -11,10 +11,7 @@ It is not an autonomous triage system, a diagnostic device, an order-entry syste
 
 ## Demo
 
-- **Live prototype:** deploy from this repository on Vercel using the settings in [Deploy](#deploy).
-- **Five-minute demo script:** see [Five-Minute Demo](#five-minute-demo).
-- **UI walkthrough document:** [docs/PatientTriage-ai_UI-Walkthrough.docx](docs/PatientTriage-ai_UI-Walkthrough.docx)
-- **Brief coverage map:** [docs/08-BRIEF-COVERAGE.md](docs/08-BRIEF-COVERAGE.md)
+- **Live prototype:** [https://patient-triage-ai-three.vercel.app/](https://patient-triage-ai-three.vercel.app/)
 
 ## Implementation Approach
 
