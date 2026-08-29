@@ -1,9 +1,9 @@
-const CACHE_NAME = "patienttriage-v8";
+const CACHE_NAME = "patienttriage-v9";
 const PRECACHE = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-  "./assets/css/board.css",
+  "./assets/css/board.css?v=9",
   "./assets/data/cohort.json",
   "./assets/data/protocol.v1.json",
   "./assets/fonts/ibm-plex-mono.woff2",

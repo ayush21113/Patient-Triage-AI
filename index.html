@@ -7,13 +7,16 @@
   <meta name="theme-color" content="#F2F0EA">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/maskable.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="assets/css/board.css">
+  <link rel="stylesheet" href="assets/css/board.css?v=9">
 </head>
 <body>
   <div class="app-shell">
     <section id="emergency-alert" class="emergency-alert" aria-live="assertive" hidden></section>
     <header class="board-header">
-      <h1>Emergency Department · Triage Board</h1>
+      <div class="brand-lockup">
+        <h1>PatientTriage.ai</h1>
+        <span class="brand-context">Emergency department · Live decision support</span>
+      </div>
       <p class="header-status">
         <time id="board-clock" class="numeric">——:——:——</time>
         <span id="waiting-count">Waiting ——</span>

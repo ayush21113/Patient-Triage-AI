@@ -108,6 +108,8 @@
 | [D-098](#d-098--windows-only-path-assumption-in-the-service-worker-test) | 32 rework | Service-worker test paths are portable | accepted |
 | [D-099](#d-099--golden-snapshots-regenerated-for-an-additive-field) | 11 rework | Goldens accept an additive display field | accepted |
 | [D-100](#d-100--fairness-chart-labels-and-values-clear-their-marks) | 35 rework | Fairness chart labels and values clear their marks | accepted |
+| [D-101](#d-101--the-app-shell-uses-a-neutral-command-bar) | 35 rework | App shell uses a neutral command bar | accepted |
+| [D-102](#d-102--the-stylesheet-url-tracks-the-offline-cache-version) | 35 rework | Stylesheet URL tracks the offline cache version | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -1759,3 +1761,39 @@ width); clip the labels (hides the subgroup); move percentages to the scale end
 
 **Consequences.** A wide-viewport browser test now fails if any fairness-chart
 text intersects a bar or baseline.
+
+### D-101 · The app shell uses a neutral command bar
+**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Give the persistent header an ink ground and a distinct product
+lockup, then strengthen queue, inspector and action hierarchy with neutral
+ground shifts while retaining the table and every safety token.
+
+**Why.** The clinical-document treatment made product identity, live state,
+working data and controls visually equivalent. In use, the board read as a
+report sheet instead of operational software.
+
+**Alternatives rejected.** Cards, shadows, gradients and large radii (binding
+design bans); cosmetic color accents (color is clinical signal); route-based
+navigation (the single-board workflow is intentional).
+
+**Consequences.** The App Flow and UIUX header language now describes a
+clinical command bar. Clinical behavior and the signal palette are unchanged.
+
+### D-102 · The stylesheet URL tracks the offline cache version
+**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Version the stylesheet request with the same revision as the
+service-worker cache while continuing to verify it against the physical deploy
+surface with the query removed.
+
+**Why.** A cache-first client could receive new HTML and the prior stylesheet
+during activation, producing a mixed render until another reload. The versioned
+request misses the old cache and makes the visual release coherent immediately.
+
+**Alternatives rejected.** Network-first assets (weakens offline behavior);
+rename the CSS file every release (changes the fixed tree); rely on users to
+reload twice (not an operational control).
+
+**Consequences.** Future stylesheet releases must advance both the request
+query and service-worker cache name.

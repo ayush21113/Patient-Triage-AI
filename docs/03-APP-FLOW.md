@@ -65,11 +65,12 @@ flowchart TD
 
 ## 3. S0 · Board header
 
-A single 44 px strip. It is a running header of a clinical document, not a navigation bar.
+A single 44 px clinical command bar. It separates product identity, live board
+status and global actions from the warm-paper working surface below.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│ EMERGENCY DEPARTMENT · TRIAGE BOARD        14:32:07   WAITING 18   P1 1  P2 4 │
+│ PATIENTTRIAGE.AI · LIVE DECISION SUPPORT   14:32:07   WAITING 18   P1 1  P2 4 │
 │ Protocol v1 · Engine 1.0.0 · Last recompute 00:12 ago     [FAIRNESS] [AUDIT]  │
 └──────────────────────────────────────────────────────────────────────────────┘
 ```

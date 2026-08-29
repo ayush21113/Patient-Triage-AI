@@ -21,7 +21,8 @@ test("precache covers the complete application asset surface", async () => {
     .map(path => `./assets/${path.replaceAll("\\", "/").split("/assets/")[1]}`)
     .sort();
   assert.deepEqual(
-    manifest.filter(path => path.startsWith("./assets/")).sort(),
+    manifest.filter(path => path.startsWith("./assets/"))
+      .map(path => path.split("?")[0]).sort(),
     deployedAssets
   );
   assert.ok(manifest.includes("./"));
