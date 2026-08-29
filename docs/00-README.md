@@ -20,7 +20,7 @@ Read in order. Each one assumes the ones before it.
 
 | # | Document | Answers |
 |---|---|---|
-| 1 | [Product Requirements](01-PRD.md) | What we are building and why. Users, principles, functional requirements, metrics, rollout, risks. |
+| 1 | [Product Requirements](01-PRD.md) | What we are building and why. Users, principles, functional requirements, metrics, rollout, risks, adoption, scalability. |
 | 2 | [Technical Requirements](02-TRD.md) | The stack, the architecture, and the complete scoring-engine specification. Every prohibition an AI agent needs. |
 | 3 | [App Flow](03-APP-FLOW.md) | Every screen, every navigation path, every interaction trigger. The five-minute demo path. |
 | 4 | [UI/UX Brief](04-UIUX-BRIEF.md) | The visual system. Colour tokens, type scale, spacing, components, motion, and the binding anti-generic contract. |

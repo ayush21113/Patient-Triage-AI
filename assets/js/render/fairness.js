@@ -10,9 +10,7 @@ function heading(text) {
 
 function dimensionSection(dimension, groups) {
   const section = el("section", { class: "fairness-dimension" });
-  section.append(heading(dimension), priorityDistributionBars(groups.map(
-    group => ({ ...group, label: group.subgroup })
-  )));
+  section.append(heading(dimension), priorityDistributionBars(groups));
   return section;
 }
 

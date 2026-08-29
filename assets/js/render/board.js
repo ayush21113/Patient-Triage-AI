@@ -268,7 +268,7 @@ function updateRow(entry, boardRow, now, viewState) {
  if (overdue) {
   cells.detail.append(detailToken(
    "reassess-token",
-   `${"▲".repeat(reassessment.level)} REASSESS ${
+   `REASSESS ${
     reassessment.overdueMinutes
    }m`
   ));
@@ -341,7 +341,7 @@ function updateRow(entry, boardRow, now, viewState) {
  );
  waitValue.textContent = String(waitedMinutes) + "m";
  cells.waitMain.append(waitValue);
- cells.waitToken.textContent = overdue ? "▲ DUE" : "";
+  cells.waitToken.textContent = overdue ? "DUE" : "";
  cells.waitToken.hidden = !overdue;
  cells.confidence.replaceChildren(
   confidenceMark(assessment.confidence),
@@ -356,7 +356,7 @@ function updateRow(entry, boardRow, now, viewState) {
  cells.collapsedComplaint.textContent = complaint;
  cells.collapsedComplaint.title = complaint;
  cells.collapsedWait.textContent = `${overdue
-  ? `${"▲".repeat(reassessment.level)} REASSESS · `
+  ? "REASSESS · "
   : ""}${waitedMinutes}m`;
 }
 

@@ -196,13 +196,23 @@ Stated as assumptions, per the Round 2 brief, and adjustable without code change
 | Department volume | 100–500+ patient visits per day | Surge threshold calibration |
 | Baseline arrival rate | 6 patients/hour (mid-size ED) | Surge trigger = ≥3× = 18/hour |
 | Triage scale | 5-level, ESI v5 aligned (P1–P5 ↔ ESI 1–5) | Band mapping |
-| Prior-record availability | ~50% of arrivals have some prior record; the system assumes **none** | Zero-history path is the default path, not the exception |
+| Prior-record availability | ~50% of arrivals have some prior record; the system assumes **none** | Zero-history path is the default path, not the exception (§7.1) |
 | Regulatory frame | **DPDP Act 2023 (India)** primary; designed to satisfy HIPAA §164 and GDPR Art. 9 by construction | Retention, consent, minimisation |
 | Data retention | Encounter record 24 h on device; audit log 7 years, de-identified | Data policy |
 | Undertriage : overtriage cost | 8 : 1 | Tie-breaking, threshold placement |
 | Reassessment intervals | P2 15 min · P3 30 min · P4 60 min · P5 120 min | Re-triage prompts |
 
 These are directional, not fixed. Every one is a named constant in a single configuration file so that a deploying hospital changes its own policy without touching the engine.
+
+### 7.1 Designing for the half with no record
+
+The brief assumes roughly half of arrivals have a prior record. We design as though none of them do, and that is a deliberate choice rather than a simplification.
+
+A system that performs well on the half with history and degrades on the half without has optimised for the easier population. The patient with no record is disproportionately the one who is unaccompanied, unable to speak, new to the area, or brought in by a stranger — and disproportionately the one who is undertriaged. Building the zero-history path as the *normal* path means the hard case is the one that is well tested, and the system cannot quietly become worse for the people it is already worst for.
+
+It also makes the deployment claim honest. If value depended on record availability, Stage 1 could not be a single tablet in a department with no integration, and the pilot could not start until the integration did.
+
+**What the other half gets.** History does not go unused; it arrives at Stage 2 as a *source of observations*, not a separate scoring path. An HL7/FHIR feed writes into `OBSERVATION` with `source = monitor_feed`, and prior conditions populate `preexisting_flags`, which existing presentation modifiers already read — anticoagulated, diabetic, cardiac history. The engine does not branch on whether a record exists. A patient with history simply has higher evidence completeness, and therefore a narrower interval, which is exactly the effect it should have.
 
 ---
 
@@ -248,7 +258,11 @@ The prototype is a **simulation harness around the real engine.** The scoring en
 | 8 | A clinician override, and the log it produces | Drag-to-top on any row; audit drawer shows the full captured state |
 
 **Out of scope for Round 2 (explicitly, and stated in the pitch):**
-EHR/HL7 integration · real patient data · authentication and role management · multi-hospital capacity network · trained ML weights (the model layer is a calibrated rule-and-weight system, not a fitted classifier) · regulatory submission artefacts.
+EHR/HL7 integration · real patient data · authentication and role management · trained ML weights (the model layer is a calibrated rule-and-weight system, not a fitted classifier) · regulatory submission artefacts.
+
+**The Overflow Valve (FR-7.1, FR-7.2) is deliberately not prototyped**, and this is worth stating rather than leaving as an absence. It needs a live capacity feed from partner clinics and a city hospital network — infrastructure that does not exist to integrate against, and that cannot be honestly simulated without inventing the one thing the feature depends on. Prototyping it would have produced a convincing screen backed by nothing.
+
+That is also the argument the staged rollout makes: a hospital gets the whole of Stage 1 — a live, re-triaging, abstaining, auditable queue — before any of that infrastructure exists. A feature that requires the city to cooperate is the right thing to build third, and the wrong thing to demo first.
 
 ---
 
@@ -278,7 +292,41 @@ Each stage delivers safety value on its own. A hospital does not need to reach s
 
 ---
 
-## 12. Open questions
+## 12. Adoption — getting a fatigued staff to use it rather than work around it
+
+A triage tool that is not used is worse than no tool, because it produces a record of vigilance that did not happen. The people who will decide whether this survives are at hour nine of a twelve-hour shift, interrupted every ninety seconds, and have been handed software before that made their night worse.
+
+Five decisions in this product exist for adoption rather than for accuracy:
+
+| Decision | What it buys |
+|---|---|
+| **The override has no dialog and no justification field** | The moment a nurse decides the machine is wrong is the moment a confirmation box becomes an insult. The gesture is one drag. The audit log, not the dialog, is what makes it safe. |
+| **The system abstains out loud** | A tool that is confidently wrong once is never trusted again. A tool that says "I cannot separate P2 from P3, ask this" is a colleague. Abstention is the single largest trust investment in the design, and it costs accuracy on paper to buy credibility in use. |
+| **Alerts are rare by construction** | Hard rules are absolute physiological criteria, not probabilistic thresholds, so they fire seldom and mean something when they do. The interruptive alert bar is the only interruptive element in the entire interface. |
+| **90-second capture, no new hardware, works offline** | The tool asks for no workflow change that the department has to fund, schedule, or train around. It runs on a tablet they already have, in a corridor with no signal. |
+| **The nurse is never scored** | Override rate is reported per shift and per cohort as a *model* calibration signal. It is never surfaced as an individual performance metric, and `STAFF` holds a pseudonymous ID with no name. A system that grades its users gets gamed, then abandoned. |
+
+**Rollout as change management.** Stage 1 changes nothing about how the department works: the nurse triages exactly as before, and the board runs alongside as a second opinion that cannot move anyone. The only thing it adds is that patients who are quietly worsening become visible. That is a small enough ask to say yes to, and it is the stage at which trust is either earned or not.
+
+**What we would measure in a pilot.** Override rate and direction in week one versus week six; the proportion of abstentions that get an answer rather than being ignored; and the number of shifts where the board is left closed. The last one is the real adoption metric, and it is the one most pilots do not collect.
+
+---
+
+## 13. Scalability — one assistant across very different hospitals
+
+A workflow built for a large urban trauma centre does not transfer to a small rural department, and a scoring model tuned on one case mix is unsafe on another. The product handles this by making almost nothing about a hospital a property of the software.
+
+**Clinical variation lives in a file, not in code.** `protocol.v1.json` holds every contestable value: red-flag rules and their thresholds, age bands, physiologic tables, presentation classes and modifiers, band thresholds, hazard rates, reassessment intervals, the cost ratio, and the surge trigger. A paediatric hospital ships a protocol whose population paths are weighted differently. An obstetric unit extends the obstetric rules. A rural department with a two-bed resuscitation area raises its own surge threshold, because for them three times baseline is a different number. None of that is a software release, and the protocol version is stamped on every assessment so a decision stays interpretable under the rules that produced it.
+
+**Scale variation is a parameter, not an architecture.** The surge trigger is a multiple of *that department's* measured baseline arrival rate, not an absolute count — so a department seeing 100 visits a day and one seeing 500 both enter surge when they are three times their own normal, which is the only definition of "overwhelmed" that means the same thing in both places.
+
+**Technical-maturity variation is the rollout.** A hospital with no electronic record, no network in the triage corridor, and one spare tablet gets the whole of Stage 1. A hospital with a modern EHR adds the Stage 2 listener and the queue starts updating itself. A hospital with bed management and a regional network reaches Stage 3. Each stage delivers safety value alone, and — the point that matters for adoption — **a hospital never has to reach the next stage to keep the value of the last one.**
+
+**What does not flex, and should not.** The engine, the invariants, the audit contract and the recommend-not-decide boundary are the same everywhere. A hospital may change what counts as a red flag; it may not change whether a fired red flag can be overruled by the model, whether a score can be returned without a confidence value, or whether an override is logged. Those are the properties that make the thing safe, and a deployment that could switch them off would not be the same product.
+
+---
+
+## 14. Open questions
 
 1. Who owns the protocol file clinically — ED clinical lead, or hospital quality committee? Affects the change-control workflow.
 2. Should override reason chips be configurable per department, or standardised for cross-site comparability?

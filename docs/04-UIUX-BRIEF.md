@@ -59,7 +59,7 @@ This project **must not** produce that. The contract below is binding. A pull re
 
 Three to five decisive choices are what separate a designed interface from a defaulted one. Ours:
 
-1. **Warm paper workspace, ink command bar, zero shadows.** The working surface is `#F2F0EA`, not white and not `slate-50`; the persistent header uses neutral ink to establish the application boundary. Structure is carried by hairlines and deliberate ground shifts. There are no cards or floating elevated surfaces anywhere in the application.
+1. **Warm paper ground, ink rules, zero shadows.** The background is `#F2F0EA`, not white and not `slate-50`. Structure is carried entirely by 1 px hairlines. There is no card, no panel, no elevated surface anywhere in the application.
 2. **Type is IBM Plex, used as three distinct voices.** Plex Mono for every number and code. Plex Sans Condensed for uppercase letterspaced micro-labels. Plex Serif — used in exactly one place, the inspector's derivation headings — so that the reasoning panel reads as an argument in prose rather than as a widget.
 3. **Colour is a signal, never a surface.** The interface is achromatic. Five hues exist, each bound to one meaning, and each also carries a text token and a glyph. Nothing is coloured because it looks good.
 4. **Asymmetric 62/38 split, and a real table.** Not halves, not thirds, not a card grid. The queue is a genuine fixed-column table so that vitals align vertically down twenty rows — the single property that makes a board scannable and that no card layout can provide.

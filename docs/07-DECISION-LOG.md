@@ -101,15 +101,7 @@
 | [D-091](#d-091--safety-states-keep-their-full-names) | 35 rework | Safety states keep their full names | accepted |
 | [D-092](#d-092--the-empty-inspector-names-the-three-longest-waits) | 35 rework | The empty inspector names the three longest waits | accepted |
 | [D-093](#d-093--the-1024-drawer-reserves-queue-space) | 35 rework | The 1024 drawer reserves queue space | accepted |
-| [D-094](#d-094--the-layout-integrity-exemption-was-inherited-not-opted-into) | 35 rework | Layout-integrity ellipsis requires explicit opt-in | accepted |
-| [D-095](#d-095--confidence-marks-are-drawn-not-typed) | 35 rework | Confidence marks are drawn, not typed | accepted |
-| [D-096](#d-096--row-tokens-are-short-because-the-row-is-a-scanning-surface) | 16 rework | Row tokens use governed short forms | accepted |
-| [D-097](#d-097--per-asset-budgets-measure-transferred-bytes) | 34 rework | Per-asset budgets measure transferred bytes | accepted |
-| [D-098](#d-098--windows-only-path-assumption-in-the-service-worker-test) | 32 rework | Service-worker test paths are portable | accepted |
-| [D-099](#d-099--golden-snapshots-regenerated-for-an-additive-field) | 11 rework | Goldens accept an additive display field | accepted |
-| [D-100](#d-100--fairness-chart-labels-and-values-clear-their-marks) | 35 rework | Fairness chart labels and values clear their marks | accepted |
-| [D-101](#d-101--the-app-shell-uses-a-neutral-command-bar) | 35 rework | App shell uses a neutral command bar | accepted |
-| [D-102](#d-102--the-stylesheet-url-tracks-the-offline-cache-version) | 35 rework | Stylesheet URL tracks the offline cache version | accepted |
+| [D-096](#d-096--ab-sans-and-quieter-queue-hierarchy) | UI rework | AB Sans and quieter queue hierarchy | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -1656,8 +1648,8 @@ the inspector, console or colophon at 1024×768.
 
 ---
 
-### D-094 · The layout-integrity exemption was inherited, not opted into
-**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-090 · The layout-integrity exemption was inherited, not opted into
+**Step:** 35 (reopened) · **Status:** accepted
 
 **Decision.** `deliberateEllipsis` in `tests/e2e/layout-integrity.spec.js` now
 requires `data-ellipsis="ok"` on the element itself, rather than accepting any
@@ -1673,8 +1665,8 @@ inspector, and `.complaint-text` now says so explicitly.
 
 **Consequences.** 76 layout cases across every state, viewport and theme.
 
-### D-095 · Confidence marks are drawn, not typed
-**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-091 · Confidence marks are drawn, not typed
+**Step:** 35 (reopened) · **Status:** accepted
 
 **Decision.** `assets/js/util/glyph.js` draws the five confidence marks as
 inline SVG in `currentColor`. The `confidenceGlyphs` character maps are gone
@@ -1690,8 +1682,8 @@ deficiency. A carrier that changes shape per device is not a carrier.
 **Alternatives rejected.** Re-subsetting the fonts (the glyphs are not in the
 source family). Naming fallback fonts known to have them (still device-dependent).
 
-### D-096 · Row tokens are short because the row is a scanning surface
-**Step:** 16 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-092 · Row tokens are short because the row is a scanning surface
+**Step:** 16 (reopened) · **Status:** accepted
 
 **Decision.** Movement causes cap at the largest contributor plus a count;
 resolving questions show a `shortLabel` from the protocol; `REASSESS 6m`
@@ -1703,8 +1695,8 @@ the row form as `resolve: pain radiating?`, not the full sentence — the
 implementation had drifted from its own specification. The full question is in
 the inspector, where the nurse has already committed attention to one patient.
 
-### D-097 · Per-asset budgets measure transferred bytes
-**Step:** 34 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-093 · Per-asset budgets measure transferred bytes
+**Step:** 34 (reopened) · **Status:** accepted
 
 **Decision.** The JavaScript and CSS ceilings are now gzipped (55 kB and 8 kB)
 rather than uncompressed source (135 kB and 22 kB). Total cold transfer stays
@@ -1720,8 +1712,8 @@ budgets changed together so the rule is consistent rather than adjusted twice.
 **Consequences.** Current: JS 43.2 kB gzipped, CSS 4.9 kB gzipped, total
 transfer 115.9 kB.
 
-### D-098 · Windows-only path assumption in the service-worker test
-**Step:** 32 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-094 · Windows-only path assumption in the service-worker test
+**Step:** 32 (reopened) · **Status:** accepted
 
 **Decision.** `filesBelow(assetRoot.pathname.slice(1))` became
 `filesBelow(fileURLToPath(assetRoot))`.
@@ -1731,8 +1723,8 @@ character is correct, and `/root/app/assets` on POSIX, where it is not. The test
 passed only on the machine it was written on and would have failed on any Linux
 CI runner or container.
 
-### D-099 · Golden snapshots regenerated for an additive field
-**Step:** 11 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-095 · Golden snapshots regenerated for an additive field
+**Step:** 11 (reopened) · **Status:** accepted
 
 **Decision.** All three golden files were regenerated after
 `resolvingQuestionShortLabel` was added to the assessment.
@@ -1744,56 +1736,22 @@ rulesFired, tieBrokenUpward, noQuestionReason — was compared across all 20
 encounters at t=0, t=30 and t=60 before rewriting. Clinical drift: zero. The
 single added key was the new display label.
 
-### D-100 · Fairness chart labels and values clear their marks
-**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+### D-096 · AB Sans and quieter queue hierarchy
+**Step:** UI rework · **Date:** 2026-08-30 · **Status:** accepted
 
-**Decision.** Use the compact subgroup keys specified by App Flow §9 inside
-the assigned-priority charts, while retaining full prose in the headline.
-Split each undertriage baseline around its percentage at the bar end.
+**Decision.** Put `AB Sans` first in the UI, label, data and prose font stacks,
+with Aptos and Segoe UI as local fallbacks. Reduce letter spacing, remove most
+monospace styling from queue data, increase row height to 58 px, soften overdue
+row borders, and shorten repeated reassessment glyph text to a single action
+token.
 
-**Why.** At 2872×1526, six narrative labels intersected colored bars and the
-baseline crossed every percentage. The chart is a comparison surface; the
-headline remains the place for a subgroup sentence.
+**Why.** The prior queue passed geometry tests but read like a CLI/report
+surface: dense micro-caps, repeated warning marks and heavy row rules made
+routine rows compete with true P1 and abstention signals. The user requested a
+more engaging app-like surface, and typography/hierarchy can change without
+touching the clinical engine, protocol or cohort.
 
-**Alternatives rejected.** Expand the SVG view box (shrinks text at tablet
-width); clip the labels (hides the subgroup); move percentages to the scale end
-(breaks UIUX §6.6, which puts values at the bar end).
-
-**Consequences.** A wide-viewport browser test now fails if any fairness-chart
-text intersects a bar or baseline.
-
-### D-101 · The app shell uses a neutral command bar
-**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
-
-**Decision.** Give the persistent header an ink ground and a distinct product
-lockup, then strengthen queue, inspector and action hierarchy with neutral
-ground shifts while retaining the table and every safety token.
-
-**Why.** The clinical-document treatment made product identity, live state,
-working data and controls visually equivalent. In use, the board read as a
-report sheet instead of operational software.
-
-**Alternatives rejected.** Cards, shadows, gradients and large radii (binding
-design bans); cosmetic color accents (color is clinical signal); route-based
-navigation (the single-board workflow is intentional).
-
-**Consequences.** The App Flow and UIUX header language now describes a
-clinical command bar. Clinical behavior and the signal palette are unchanged.
-
-### D-102 · The stylesheet URL tracks the offline cache version
-**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
-
-**Decision.** Version the stylesheet request with the same revision as the
-service-worker cache while continuing to verify it against the physical deploy
-surface with the query removed.
-
-**Why.** A cache-first client could receive new HTML and the prior stylesheet
-during activation, producing a mixed render until another reload. The versioned
-request misses the old cache and makes the visual release coherent immediately.
-
-**Alternatives rejected.** Network-first assets (weakens offline behavior);
-rename the CSS file every release (changes the fixed tree); rely on users to
-reload twice (not an operational control).
-
-**Consequences.** Future stylesheet releases must advance both the request
-query and service-worker cache name.
+**Alternatives rejected.** Download AB Sans at runtime (breaks offline/static
+deployment). Keep IBM Plex as the only face (preserves a documented contract
+that no longer matches the requested product direction). Add rounded cards or
+shadows for a modern look (still conflicts with the safety design constraints).
