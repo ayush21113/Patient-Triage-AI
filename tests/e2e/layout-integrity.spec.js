@@ -201,3 +201,43 @@ for (const screen of surveyScreens) {
     }
   }
 }
+
+test("S6 fairness chart text clears marks at 2872x1526", async ({ page }) => {
+  await page.setViewportSize({ width: 2872, height: 1526 });
+  await page.goto("/");
+  await page.locator("#queue-body tr").first().waitFor();
+  await page.getByRole("button", { name: "Pause simulation" }).click();
+  await page.getByRole("button", { name: "Surge ×3" }).click();
+  await page.getByRole("button", { name: "t + 15 min" }).click();
+  await page.getByRole("button", { name: "Lose monitors" }).click();
+  await page.getByRole("button", { name: "Fairness" }).click();
+
+  const collisions = await page.locator("#fairness-monitor").evaluate(root =>
+    [...root.querySelectorAll(".fairness-bars")].flatMap(svg => {
+      const texts = [...svg.querySelectorAll("text")];
+      const marks = [...svg.querySelectorAll("rect, line")];
+      return texts.flatMap(textNode => {
+        const textRect = textNode.getBoundingClientRect();
+        return marks.flatMap(mark => {
+          const markRect = mark.getBoundingClientRect();
+          const overlapWidth = Math.min(textRect.right, markRect.right) -
+            Math.max(textRect.left, markRect.left);
+          const overlapHeight = Math.min(textRect.bottom, markRect.bottom) -
+            Math.max(textRect.top, markRect.top);
+          const crossesLine = mark.tagName.toLowerCase() === "line" &&
+            overlapWidth > 1 && markRect.y > textRect.top + 1 &&
+            markRect.y < textRect.bottom - 1;
+          if ((overlapWidth > 1 && overlapHeight > 1) || crossesLine) {
+            return [{
+              text: textNode.textContent,
+              mark: mark.getAttribute("class")
+            }];
+          }
+          return [];
+        });
+      });
+    })
+  );
+
+  expect(collisions).toEqual([]);
+});

@@ -79,6 +79,7 @@ export function fairnessBars(groups) {
   const rowHeight = 25;
   const labelWidth = 112;
   const barWidth = 140;
+  const valueCharacterWidth = 8;
   const maximum = Math.max(...groups.map(({ value }) => value), 1);
   const svg = svgElement("svg", {
     class: "fairness-bars",
@@ -89,28 +90,42 @@ export function fairnessBars(groups) {
   groups.forEach(({ label, value, worstServed }, index) => {
     const y = index * rowHeight + 5;
     const className = worstServed ? "fairness-worst" : "fairness-bar";
+    const barEnd = labelWidth + value / maximum * barWidth;
+    const valueText = `${value}%`;
+    const valueX = barEnd + 4;
     const labelNode = svgElement("text", { x: 0, y: y + 9 });
     labelNode.textContent = label;
     svg.append(labelNode, svgElement("line", {
       class: "fairness-baseline",
       x1: labelWidth,
-      x2: labelWidth + barWidth,
+      x2: barEnd,
       y1: y + 5,
       y2: y + 5
     }), svgElement("rect", {
       class: className,
       x: labelWidth,
       y,
-      width: value / maximum * barWidth,
+      width: barEnd - labelWidth,
       height: 10
     }));
     const valueNode = svgElement("text", {
       class: "fairness-value",
-      x: labelWidth + value / maximum * barWidth + 4,
+      x: valueX,
       y: y + 9
     });
-    valueNode.textContent = `${value}%`;
+    valueNode.textContent = valueText;
     svg.append(valueNode);
+    const remainingBaselineStart = valueX +
+      valueText.length * valueCharacterWidth + 4;
+    if (remainingBaselineStart < labelWidth + barWidth) {
+      svg.append(svgElement("line", {
+        class: "fairness-baseline",
+        x1: remainingBaselineStart,
+        x2: labelWidth + barWidth,
+        y1: y + 5,
+        y2: y + 5
+      }));
+    }
   });
   return svg;
 }

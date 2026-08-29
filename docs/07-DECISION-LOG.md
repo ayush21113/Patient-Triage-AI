@@ -107,6 +107,7 @@
 | [D-097](#d-097--per-asset-budgets-measure-transferred-bytes) | 34 rework | Per-asset budgets measure transferred bytes | accepted |
 | [D-098](#d-098--windows-only-path-assumption-in-the-service-worker-test) | 32 rework | Service-worker test paths are portable | accepted |
 | [D-099](#d-099--golden-snapshots-regenerated-for-an-additive-field) | 11 rework | Goldens accept an additive display field | accepted |
+| [D-100](#d-100--fairness-chart-labels-and-values-clear-their-marks) | 35 rework | Fairness chart labels and values clear their marks | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -1740,3 +1741,21 @@ field — band, provisionalBand, bandSetBy, confidence, priorityIndex, interval,
 rulesFired, tieBrokenUpward, noQuestionReason — was compared across all 20
 encounters at t=0, t=30 and t=60 before rewriting. Clinical drift: zero. The
 single added key was the new display label.
+
+### D-100 · Fairness chart labels and values clear their marks
+**Step:** 35 (reopened) · **Date:** 2026-08-29 · **Status:** accepted
+
+**Decision.** Use the compact subgroup keys specified by App Flow §9 inside
+the assigned-priority charts, while retaining full prose in the headline.
+Split each undertriage baseline around its percentage at the bar end.
+
+**Why.** At 2872×1526, six narrative labels intersected colored bars and the
+baseline crossed every percentage. The chart is a comparison surface; the
+headline remains the place for a subgroup sentence.
+
+**Alternatives rejected.** Expand the SVG view box (shrinks text at tablet
+width); clip the labels (hides the subgroup); move percentages to the scale end
+(breaks UIUX §6.6, which puts values at the bar end).
+
+**Consequences.** A wide-viewport browser test now fails if any fairness-chart
+text intersects a bar or baseline.
