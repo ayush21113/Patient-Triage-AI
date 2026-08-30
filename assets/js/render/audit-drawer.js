@@ -72,16 +72,21 @@ function auditTable(records, valid) {
 
 export async function renderAuditDrawer(
   drawer,
+  boardRegion,
+  fairnessMonitor,
   open,
   audit,
   handlers
 ) {
+  drawer.hidden = !open;
+  if (open) {
+    boardRegion.hidden = true;
+    fairnessMonitor.hidden = true;
+  }
   if (!open) {
-    drawer.hidden = true;
     renderedHash.delete(drawer);
     return;
   }
-  drawer.hidden = false;
   if (!audit) {
     drawer.textContent = "AUDIT CHAIN BROKEN — new records are not being written.";
     return;

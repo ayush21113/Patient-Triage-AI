@@ -3,23 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PatientTriage.ai</title>
-  <meta name="theme-color" content="#111C33">
+  <title>PatientTriage.ai — Intelligent Emergency Triage</title>
+  <meta name="description" content="AI-powered emergency department triage decision support system. Real-time patient prioritisation with fairness monitoring and full audit trails.">
+  <meta name="theme-color" content="#0B1121">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/icons/maskable.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/board.css">
 </head>
 <body>
   <div class="app-shell">
     <nav class="nav-rail" aria-label="Primary">
       <div class="rail-brand">
-        <span class="rail-mark" aria-hidden="true">PT</span>
         <span>
           <strong>PatientTriage.ai</strong>
           <small>Protocol v1</small>
         </span>
       </div>
-      <button class="rail-item rail-item-active" type="button" aria-current="page">
+      <button id="open-board" class="rail-item rail-item-active" type="button" aria-current="page">
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
         Board
       </button>
@@ -55,37 +58,48 @@
       <section id="kpi-row" class="kpi-row" aria-label="Board metrics">
         <article class="kpi-tile" data-kpi="waiting">
           <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
-          <span class="kpi-label">Waiting</span>
-          <strong id="kpi-waiting" class="numeric">——</strong>
-          <span id="kpi-waiting-note" class="kpi-note">Live queue</span>
+          <div class="kpi-tile-content">
+            <span class="kpi-label">Waiting</span>
+            <strong id="kpi-waiting" class="numeric">——</strong>
+            <span id="kpi-waiting-note" class="kpi-note">Live queue</span>
+          </div>
         </article>
         <article class="kpi-tile" data-kpi="p1">
           <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4v10"/><path d="M12 18h.01"/></svg></span>
-          <span class="kpi-label">P1</span>
-          <strong id="kpi-p1" class="numeric">——</strong>
-          <span id="kpi-p1-note" class="kpi-note">Immediate</span>
+          <div class="kpi-tile-content">
+            <span class="kpi-label">P1</span>
+            <strong id="kpi-p1" class="numeric">——</strong>
+            <span id="kpi-p1-note" class="kpi-note">Immediate</span>
+          </div>
         </article>
         <article class="kpi-tile" data-kpi="p2">
           <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19l7-14 7 14z"/></svg></span>
-          <span class="kpi-label">P2</span>
-          <strong id="kpi-p2" class="numeric">——</strong>
-          <span id="kpi-p2-note" class="kpi-note">High risk</span>
+          <div class="kpi-tile-content">
+            <span class="kpi-label">P2</span>
+            <strong id="kpi-p2" class="numeric">——</strong>
+            <span id="kpi-p2-note" class="kpi-note">High risk</span>
+          </div>
         </article>
         <article class="kpi-tile" data-kpi="abstaining">
           <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><path d="M8 12h8"/></svg></span>
-          <span class="kpi-label">Abstaining</span>
-          <strong id="kpi-abstaining" class="numeric">——</strong>
-          <span id="kpi-abstaining-note" class="kpi-note">Needs resolution</span>
+          <div class="kpi-tile-content">
+            <span class="kpi-label">Abstaining</span>
+            <strong id="kpi-abstaining" class="numeric">——</strong>
+            <span id="kpi-abstaining-note" class="kpi-note">Needs resolution</span>
+          </div>
         </article>
         <article class="kpi-tile" data-kpi="longest">
           <span class="kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></span>
-          <span class="kpi-label">Longest wait</span>
-          <strong id="kpi-longest" class="numeric">——</strong>
-          <span id="kpi-longest-note" class="kpi-note">By current queue</span>
+          <div class="kpi-tile-content">
+            <span class="kpi-label">Longest wait</span>
+            <strong id="kpi-longest" class="numeric">——</strong>
+            <span id="kpi-longest-note" class="kpi-note">By current queue</span>
+          </div>
         </article>
       </section>
 
       <main id="board-region" class="board-grid">
+        <section id="board-summary-card" class="board-summary-card card"></section>
         <section class="queue-card card" aria-labelledby="queue-caption">
           <header class="card-header">
             <h2 id="queue-caption">Waiting queue</h2>
@@ -98,7 +112,7 @@
             <col class="col-band">
             <col class="col-id">
             <col class="col-age-sex">
-            <col>
+            <col class="col-complaint">
             <col class="col-hr">
             <col class="col-bp">
             <col class="col-rr">
@@ -133,9 +147,9 @@
     </main>
 
     <main id="fairness-monitor" class="fairness-monitor card" aria-labelledby="fairness-heading" tabindex="0" hidden></main>
+    <main id="audit-drawer" class="audit-drawer card" aria-labelledby="audit-heading" tabindex="0" hidden></main>
 
     <section class="simulation-console" aria-label="Prototype controls">
-      <span>Prototype controls — not part of the clinical product</span>
       <div class="simulation-controls">
         <button id="clock-toggle" type="button" aria-label="Pause simulation">Pause</button>
         <button class="speed-control" data-speed="1" type="button">1×</button>
@@ -149,18 +163,11 @@
       </div>
     </section>
 
-    <footer class="colophon" data-ellipsis="ok">
-      PatientTriage.ai · engine 1.0.0 · protocol v1 · board rendered
-      <time class="numeric">14:32:07 IST</time> · This display is decision support.
-      It does not assign a triage category, move a patient, or order treatment.
-      The attending clinician's judgement governs.
-    </footer>
     </div>
   </div>
   <div id="sheet-backdrop" class="sheet-backdrop" hidden>
     <section id="capture-sheet" class="capture-sheet" role="dialog" aria-modal="true" aria-labelledby="capture-sheet-heading"></section>
   </div>
-  <section id="audit-drawer" class="audit-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-heading" hidden></section>
   <script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

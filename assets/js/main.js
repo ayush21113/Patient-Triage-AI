@@ -44,13 +44,33 @@ const modeStrip = document.querySelector("#mode-strip");
 const emergencyAlert = document.querySelector("#emergency-alert");
 const boardRegion = document.querySelector("#board-region");
 const fairnessMonitor = document.querySelector("#fairness-monitor");
+const openBoard = document.querySelector("#open-board");
 const openFairness = document.querySelector("#open-fairness");
 const openAudit = document.querySelector("#open-audit");
 persistenceStatus.hidden = auditStore.persistent && audit !== null;
 if (audit === null) persistenceStatus.textContent = "AUDIT CHAIN BROKEN";
 const store = createStore();
 let simulation;
+
+function updateActiveTab() {
+  const state = store.getState();
+  if (state.auditOpen) {
+    openBoard?.classList.remove("rail-item-active");
+    openFairness?.classList.remove("rail-item-active");
+    openAudit?.classList.add("rail-item-active");
+  } else if (state.fairnessOpen) {
+    openBoard?.classList.remove("rail-item-active");
+    openFairness?.classList.add("rail-item-active");
+    openAudit?.classList.remove("rail-item-active");
+  } else {
+    openBoard?.classList.add("rail-item-active");
+    openFairness?.classList.remove("rail-item-active");
+    openAudit?.classList.remove("rail-item-active");
+  }
+}
+
 function render(board = simulation.board(), now = simulation.clock.now()) {
+  updateActiveTab();
   audit?.recordScores(board, now).catch(() => {
     persistenceStatus.hidden = false;
     persistenceStatus.textContent = "AUDIT CHAIN BROKEN";
@@ -64,7 +84,16 @@ function render(board = simulation.board(), now = simulation.clock.now()) {
     encounterId => store.dispatch({ type: "OPEN_REASSESS", encounterId })
   );
   renderHeader(boardHeader, board, now, store.getState());
+  try {
+    const summaryCardNode = document.querySelector("#board-summary-card");
+    if (summaryCardNode) {
+      renderBoardSummaryCard(summaryCardNode, board, now, store.getState());
+    }
+  } catch (err) {
+    console.error("Board summary error:", err);
+  }
   renderInspector(inspector, board, now, store.getState(), protocol, {
+    onOpenReassess: encounterId => store.dispatch({ type: "OPEN_REASSESS", encounterId }),
     onQuestionAnswer: (row, answer) => {
       const question = protocol.resolvingQuestions.find(({ id }) =>
         id === row.assessment.resolvingQuestionId
@@ -134,6 +163,8 @@ function render(board = simulation.board(), now = simulation.clock.now()) {
   );
   renderAuditDrawer(
     auditDrawer,
+    boardRegion,
+    fairnessMonitor,
     store.getState().auditOpen,
     audit,
     {
@@ -164,8 +195,18 @@ simulation = createBoardSimulation(cohort, protocol, render, change => {
 });
 store.subscribe(() => render());
 on(openArrival, "click", () => store.dispatch({ type: "OPEN_ARRIVAL" }));
-on(openFairness, "click", () => store.dispatch({ type: "OPEN_FAIRNESS" }));
-on(openAudit, "click", () => store.dispatch({ type: "OPEN_AUDIT" }));
+on(openBoard, "click", () => {
+  store.dispatch({ type: "CLOSE_FAIRNESS" });
+  store.dispatch({ type: "CLOSE_AUDIT" });
+});
+on(openFairness, "click", () => {
+  store.dispatch({ type: "CLOSE_AUDIT" });
+  store.dispatch({ type: "OPEN_FAIRNESS" });
+});
+on(openAudit, "click", () => {
+  store.dispatch({ type: "CLOSE_FAIRNESS" });
+  store.dispatch({ type: "OPEN_AUDIT" });
+});
 bindOverrideInteractions(tableBody, {
   selectedEncounterId: () => store.getState().selectedEncounterId,
   onSelect: encounterId => store.dispatch({

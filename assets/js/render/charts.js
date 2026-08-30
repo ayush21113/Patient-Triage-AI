@@ -17,15 +17,21 @@ function svgElement(tagName, attributes = {}) {
 }
 
 function bandFor(row, overrides = {}) {
-  return overrides[row.encounter.encounter_id]?.band ??
-    row.assessment.band ?? row.assessment.provisionalBand;
+  const map = overrides ?? {};
+  return map[row?.encounter?.encounter_id]?.band ??
+    row?.assessment?.band ?? row?.assessment?.provisionalBand ?? "P5";
 }
 
-export function bandDistributionDonut(board, overrides = {}) {
+export function bandDistributionDonut(board = [], overrides = {}) {
   const bands = ["P1", "P2", "P3", "P4", "P5"];
   const counts = Object.fromEntries(bands.map(band => [band, 0]));
-  for (const row of board) counts[bandFor(row, overrides)] += 1;
-  const total = board.length || 1;
+  const safeBoard = board ?? [];
+  for (const row of safeBoard) {
+    const b = bandFor(row, overrides);
+    if (counts[b] !== undefined) counts[b] += 1;
+    else counts["P5"] += 1;
+  }
+  const total = safeBoard.length || 1;
   const radius = 32;
   const circumference = 2 * Math.PI * radius;
   let offset = 0;
@@ -57,21 +63,35 @@ export function bandDistributionDonut(board, overrides = {}) {
     }));
     offset += length;
   }
-  const totalNode = svgElement("text", { class: "donut-total", x: 46, y: 39 });
+  const totalNode = svgElement("text", {
+    class: "donut-total",
+    x: 46,
+    y: 40,
+    "text-anchor": "middle",
+    "dominant-baseline": "central"
+  });
   totalNode.textContent = String(board.length);
-  const labelNode = svgElement("text", { class: "donut-label", x: 46, y: 67 });
+  const labelNode = svgElement("text", {
+    class: "donut-label",
+    x: 46,
+    y: 56,
+    "text-anchor": "middle",
+    "dominant-baseline": "central"
+  });
   labelNode.textContent = "WAITING";
   svg.append(totalNode, labelNode);
 
   const legend = htmlElement("div", { class: "band-donut-legend" });
   for (const band of bands) {
-    const item = htmlElement("span");
+    if (counts[band] === 0) continue;
+    const item = htmlElement("div", { class: "legend-item" });
     const swatch = htmlElement("span", {
       class: `legend-swatch donut-${band.toLowerCase()}`
     });
-    item.append(swatch, document.createTextNode(
-      `${band} ${counts[band]} · ${Math.round(counts[band] / total * 100)}%`
-    ));
+    const pct = Math.round(counts[band] / total * 100);
+    const textNode = htmlElement("span", { class: "legend-text" });
+    textNode.textContent = `${band}: ${counts[band]} (${pct}%)`;
+    item.append(swatch, textNode);
     legend.append(item);
   }
   card.append(svg, legend);
@@ -96,13 +116,13 @@ export function derivationContributionBar(assessment, protocol) {
   for (const [label, value, key] of layers) {
     const segment = htmlElement("span", {
       class: `contribution-segment contribution-${key}`,
-      style: `width: ${value / total * 100}%`
+      style: `width: ${(value / total) * 100}%`
     });
-    const item = htmlElement("span");
-    item.append(
-      htmlElement("span", { class: `legend-swatch contribution-${key}` }),
-      document.createTextNode(`${label} ${value.toFixed(1)}`)
-    );
+    const item = htmlElement("div", { class: "contribution-legend-item" });
+    const swatch = htmlElement("span", { class: `legend-swatch contribution-${key}` });
+    const text = htmlElement("span", { class: "legend-text" });
+    text.textContent = `${label} ${value.toFixed(1)}`;
+    item.append(swatch, text);
     track.append(segment);
     legend.append(item);
   }
@@ -177,10 +197,10 @@ export function sparkline(values) {
 }
 
 export function fairnessBars(groups) {
-  const width = 620;
-  const rowHeight = 30;
-  const labelWidth = 210;
-  const barWidth = 250;
+  const width = 800;
+  const rowHeight = 32;
+  const labelWidth = 180;
+  const barWidth = 360;
   const maximum = Math.max(...groups.map(({ value }) => value), 1);
   const svg = svgElement("svg", {
     class: "fairness-bars",
@@ -189,34 +209,32 @@ export function fairnessBars(groups) {
     "aria-label": "Subgroup upgrade-rate comparison"
   });
   groups.forEach(({ label, value, worstServed }, index) => {
-    const y = index * rowHeight + 5;
+    const y = index * rowHeight;
     const className = worstServed ? "fairness-worst" : "fairness-bar";
     const labelNode = svgElement("text", {
+      class: "fairness-label-text",
       x: 0,
-      y: y + 11,
-      textLength: labelWidth - 8,
-      lengthAdjust: "spacingAndGlyphs"
+      y: y + 18
     });
     labelNode.textContent = label;
     svg.append(labelNode, svgElement("line", {
       class: "fairness-baseline",
       x1: labelWidth,
       x2: labelWidth + barWidth,
-      y1: y + 5,
-      y2: y + 5
+      y1: y + 14,
+      y2: y + 14
     }), svgElement("rect", {
       class: className,
       x: labelWidth,
-      y,
-      width: value / maximum * barWidth,
-      height: 10
+      y: y + 7,
+      width: Math.max(value / maximum * barWidth, 2),
+      height: 14,
+      rx: 3
     }));
     const valueNode = svgElement("text", {
       class: "fairness-value",
-      x: labelWidth + value / maximum * barWidth + 4,
-      y: y + 11,
-      textLength: 42,
-      lengthAdjust: "spacingAndGlyphs"
+      x: labelWidth + (value / maximum * barWidth) + 8,
+      y: y + 18
     });
     valueNode.textContent = `${value}%`;
     svg.append(valueNode);
@@ -226,10 +244,10 @@ export function fairnessBars(groups) {
 
 export function priorityDistributionBars(groups) {
   const bands = ["P1", "P2", "P3", "P4", "P5"];
-  const width = 760;
-  const rowHeight = 30;
-  const labelWidth = 210;
-  const barWidth = 260;
+  const width = 800;
+  const rowHeight = 32;
+  const labelWidth = 180;
+  const barWidth = 360;
   const svg = svgElement("svg", {
     class: "fairness-bars priority-distribution",
     viewBox: `0 0 ${width} ${groups.length * rowHeight}`,
@@ -237,12 +255,11 @@ export function priorityDistributionBars(groups) {
     "aria-label": "Assigned priority distribution by subgroup"
   });
   groups.forEach(({ label, distribution, n }, index) => {
-    const y = index * rowHeight + 5;
+    const y = index * rowHeight;
     const labelNode = svgElement("text", {
+      class: "fairness-label-text",
       x: 0,
-      y: y + 11,
-      textLength: labelWidth - 8,
-      lengthAdjust: "spacingAndGlyphs"
+      y: y + 18
     });
     labelNode.textContent = label;
     svg.append(labelNode);
@@ -254,9 +271,10 @@ export function priorityDistributionBars(groups) {
       const segment = svgElement("rect", {
         class: `priority-segment priority-${band.toLowerCase()}`,
         x,
-        y,
+        y: y + 7,
         width: segmentWidth,
-        height: 10
+        height: 14,
+        rx: 2
       });
       segment.append(svgElement("title"));
       segment.firstChild.textContent = `${band}: ${count}`;
@@ -265,10 +283,8 @@ export function priorityDistributionBars(groups) {
     }
     const valueNode = svgElement("text", {
       class: "fairness-value",
-      x: labelWidth + barWidth + 8,
-      y: y + 11,
-      textLength: width - labelWidth - barWidth - 12,
-      lengthAdjust: "spacingAndGlyphs"
+      x: labelWidth + barWidth + 12,
+      y: y + 18
     });
     valueNode.textContent = bands.filter(band => distribution[band])
       .map(band => `${band} ${distribution[band]}`).join(" · ");
