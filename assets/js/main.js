@@ -63,7 +63,7 @@ function render(board = simulation.board(), now = simulation.clock.now()) {
     encounterId => store.dispatch({ type: "SELECT_ENCOUNTER", encounterId }),
     encounterId => store.dispatch({ type: "OPEN_REASSESS", encounterId })
   );
-  renderHeader(boardHeader, board, now, store.getState().overrides);
+  renderHeader(boardHeader, board, now, store.getState());
   renderInspector(inspector, board, now, store.getState(), protocol, {
     onQuestionAnswer: (row, answer) => {
       const question = protocol.resolvingQuestions.find(({ id }) =>

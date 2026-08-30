@@ -27,7 +27,7 @@ Where each item in the Round 2 problem statement is answered. Written so a reade
 | Explainable in seconds, by an interrupted clinician | Row meta line for the glance; inspector for the full derivation, every layer and contribution, on the same screen |
 | Asymmetric under/over-triage cost | Explicit 8:1 cost matrix. Ties break upward and the interface says so. Presentation floors implement ESI decision point B so a dangerous presentation reaches P2 on normal vitals — without them the continuous score cannot exceed P3, which is proven arithmetically in TRD §4.3 |
 | Hospitals differ in scale and specialty | PRD §13. Every contestable clinical value is in a hospital-owned protocol file; the surge trigger is a multiple of that department's own baseline |
-| Accountability, override, audit, regulation | Recommend-not-decide boundary; append-only hash-chained log; DPDP Act 2023 primary, satisfying HIPAA and GDPR by construction |
+| Accountability, override, audit, regulation | Recommend-not-decide boundary; append-only hash-chained log; DPDP Act 2023 primary; designed to support HIPAA and GDPR compatibility review subject to site-specific validation |
 | Integration is rarely simple | Three stages, each delivering value alone. Stage 1 needs one tablet and no integration |
 
 ## Solutioning areas
@@ -44,7 +44,7 @@ Where each item in the Round 2 problem statement is answered. Written so a reade
 
 ## Stated assumptions
 
-Regulatory jurisdiction **India, DPDP Act 2023**, designed to satisfy HIPAA §164 and GDPR Art. 9 without change. Five-level scale, ESI v5 aligned. Baseline 6 arrivals/hour, surge at 3×. Undertriage:overtriage 8:1. Retention 24 h for encounters, 7 years de-identified for audit. All in PRD §7, all in the protocol file.
+Regulatory jurisdiction **India, DPDP Act 2023**, with a minimisation and audit design intended to support HIPAA §164 and GDPR Art. 9 compatibility review after site-specific legal and security validation. Five-level scale, ESI v5 aligned. Baseline 6 arrivals/hour, surge at 3×. Undertriage:overtriage 8:1. Retention 24 h for encounters, 7 years de-identified for audit. All in PRD §7, all in the protocol file.
 
 ## Deliberately not built
 

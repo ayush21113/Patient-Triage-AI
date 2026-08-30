@@ -598,7 +598,7 @@ The prototype wraps the real engine in a synthetic environment. **No simulation 
 | PHI in transit | **None.** Stage 1 makes zero network calls after the initial asset load. |
 | Storage | `localStorage` (session) and IndexedDB (audit), both device-local. Cleared on shift close except the audit log. |
 | Retention | Encounter records 24 h; audit records 7 years, de-identified at shift close (age band retained, exact age dropped). |
-| Regulatory frame | **DPDP Act 2023 (India)** as primary; the minimisation design also satisfies HIPAA §164.312 and GDPR Art. 9(2)(h) without change. |
+| Regulatory frame | **DPDP Act 2023 (India)** as primary; the minimisation design is structured to support HIPAA §164.312 and GDPR Art. 9(2)(h) compatibility review, subject to site-specific legal and security validation. |
 | Consent | Stage 1 processes no identified personal data, so it operates on the care-provision basis; the consent artefact becomes relevant at Stage 2 (EHR link) and is specified there. |
 | Audit integrity | Append-only. Each record carries a SHA-256 hash chained to its predecessor (`prevHash`), making silent modification detectable. Implemented with `crypto.subtle`. |
 | Transport | Vercel serves HTTPS only; `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, and a CSP with no `unsafe-inline` script are set in `vercel.json`. |

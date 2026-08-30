@@ -384,9 +384,9 @@ CREATE POLICY nurse_current_shift ON encounter
 | `FAIRNESS_SNAPSHOT` | Indefinite | Already aggregate, never identified |
 | `PROTOCOL` | Indefinite | Superseded versions retained — an assessment must always be interpretable under the rules in force at the time |
 
-**Regulatory frame.** Primary: **India's DPDP Act 2023** — purpose limitation, data minimisation, storage limitation, and the fiduciary duties that follow from processing health data. The same design satisfies **HIPAA** §164.312(b) audit controls and §164.514 de-identification, and **GDPR** Art. 9(2)(h) processing for health care with Art. 5(1)(c) minimisation, without modification.
+**Regulatory frame.** Primary: **India's DPDP Act 2023** — purpose limitation, data minimisation, storage limitation, and the fiduciary duties that follow from processing health data. The same design is structured to support **HIPAA** §164.312(b) audit controls and §164.514 de-identification review, and **GDPR** Art. 9(2)(h) processing for health care with Art. 5(1)(c) minimisation, subject to site-specific legal and security validation.
 
-The reason one design satisfies three regimes is that Stage 1 collects no direct identifier at all. Compliance is cheap when there is nothing to protect, and that is an architectural choice made at the first schema decision rather than a legal exercise performed afterwards.
+The reason one design can be reviewed against all three regimes is that Stage 1 collects no direct identifier at all. Compliance risk is reduced when less data is collected, and that is an architectural choice made at the first schema decision rather than a legal exercise performed afterwards.
 
 **What a clinician override must legally record**, and does: who (pseudonymous staff ID), when (timestamp), what the system recommended (band, confidence, index, interval), what the clinician decided (band), what the clinician was looking at (full inputs and derivation snapshot), and under which rule set (protocol version). This is the complete set required for an independent reviewer to reconstruct the decision, and it is exactly what §3.5 stores.
 

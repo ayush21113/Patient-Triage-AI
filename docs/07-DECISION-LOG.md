@@ -102,6 +102,9 @@
 | [D-092](#d-092--the-empty-inspector-names-the-three-longest-waits) | 35 rework | The empty inspector names the three longest waits | accepted |
 | [D-093](#d-093--the-1024-drawer-reserves-queue-space) | 35 rework | The 1024 drawer reserves queue space | accepted |
 | [D-096](#d-096--ab-sans-and-quieter-queue-hierarchy) | UI rework | AB Sans and quieter queue hierarchy | accepted |
+| [D-097](#d-097--pilot-economics-are-framed-as-a-falsifiable-business-case) | Submission hardening | Pilot economics are framed as a falsifiable business case | accepted |
+| [D-098](#d-098--hipaagdpr-are-compatibility-targets-not-certification-claims) | Submission hardening | HIPAA/GDPR are compatibility targets, not certification claims | accepted |
+| [D-099](#d-099--dashboard-redesign-follows-the-reference-language-without-losing-row-density) | UI redesign | Dashboard redesign follows the reference language without losing row density | accepted |
 
 ### D-001 · Required tree and offline boundary
 **Step:** 1 · **Date:** 2026-08-23 · **Status:** accepted
@@ -1755,3 +1758,116 @@ touching the clinical engine, protocol or cohort.
 deployment). Keep IBM Plex as the only face (preserves a documented contract
 that no longer matches the requested product direction). Add rounded cards or
 shadows for a modern look (still conflicts with the safety design constraints).
+
+### D-097 · Pilot economics are framed as a falsifiable business case
+**Step:** Submission hardening · **Date:** 2026-08-30 · **Status:** accepted
+
+**Decision.** Add pilot economics as an envelope, impact measures and
+break-even logic rather than inventing a guaranteed ROI number.
+
+**Why.** The Round 2 proposal needs a stronger business case, but the
+prototype has not run in a real ED. Claiming quantified savings would be weaker
+than stating what the pilot will measure: highest-risk time-to-clinician,
+post-triage upgrades, override direction, abstention response, fairness drift
+and nurse workload.
+
+**Alternatives rejected.** Add a projected rupee/dollar ROI without site data
+(false precision). Leave the business case qualitative only (judge-facing gap).
+
+### D-098 · HIPAA/GDPR are compatibility targets, not certification claims
+**Step:** Submission hardening · **Date:** 2026-08-30 · **Status:** accepted
+
+**Decision.** Replace “satisfies HIPAA/GDPR by construction” language with
+“designed to support compatibility review, subject to site-specific legal and
+security validation.”
+
+**Why.** Data minimisation and audit controls reduce compliance risk, but HIPAA
+and GDPR require organisational controls, risk assessment and deployment-context
+validation beyond this prototype.
+
+**Alternatives rejected.** Keep the stronger wording (overclaims legal status).
+Remove HIPAA/GDPR entirely (loses useful expansion framing).
+
+### D-099 · Dashboard redesign follows the reference language without losing row density
+**Step:** UI redesign · **Date:** 2026-08-30 · **Status:** accepted
+
+**Decision.** Replace the warm clinical-instrument surface with the
+`UI-REDESIGN-BRIEF.md` healthcare-dashboard system: navy rail, tinted page,
+white cards, constrained shadows/radii, KPI tiles, status pills, and inline SVG
+infographics. Keep the queue as a table and use compact 36px body rows.
+
+**Why.** The owner explicitly superseded the old UIUX colour, spacing,
+component and icon rules. The brief also makes visible row count the governing
+constraint: at 1280×800, at least 12 queue rows must be visible, and any design
+choice that costs rows loses. A 44px row with the rail, header, KPI row, console
+and footer cannot meet that density; compact rows preserve the product's
+standing-nurse glance use case.
+
+**Alternatives rejected.** Preserve 44px rows exactly (misses the hard density
+requirement). Use card-per-patient rows (breaks vertical vital alignment).
+Import a chart or icon library (violates the no-runtime-dependency contract).
+
+**Consequences.** `design-contract.test.js` now constrains the new visual
+contract instead of banning cards outright, and the visible-row count is exposed
+in the queue card for browser verification.
+
+### D-100 · The UI accent moves from blue to a deep clinical green
+**Step:** UI redesign · **Date:** 2026-08-30 · **Status:** accepted
+
+**Decision.** Retire the blue accent and replace it with a deep pine green.
+Light theme `--accent: #165BC8 → #0F4130` and `--accent-bg: #EBF3FF → #E8F0EC`;
+dark theme `--accent: #7FB4FF → #72C96E` and `--accent-bg: #102A52 → #123A2A`.
+The active-rail marker `--rail-active: #165BC8 → #4FA37C` takes a *lighter*
+green than `--accent` because it is the only accent surface drawn on the navy
+rail rather than on the tinted page.
+
+**Measured contrast (WCAG 2.x relative luminance, computed not asserted).**
+
+| Pair | Ratio | Needs | Verdict |
+| --- | --- | --- | --- |
+| `--accent` #0F4130 vs page `--bg` #F4F7FB | 10.74:1 | ≥4.5 | pass |
+| `--accent` vs `--surface` #FFFFFF | 11.54:1 | ≥4.5 | pass |
+| White text **on** `--accent` (filled button) | 11.54:1 | ≥4.5 | pass |
+| `--accent` on `--accent-bg` #E8F0EC (KPI icon, pressed control) | 9.95:1 | ≥4.5 | pass |
+| `--ink` #0F1A2E on `--accent-bg` (selected row) | 14.99:1 | ≥4.5 | pass |
+| `--rail-active` #4FA37C on `--rail-2` #1B2942 | 4.76:1 | ≥3.0 | pass |
+| `--rail-active` on `--rail` #111C33 | 5.54:1 | ≥3.0 | pass |
+| dark `--accent` #72C96E on dark `--bg` #0C1420 | 9.06:1 | ≥4.5 | pass |
+| dark `--accent` on dark `--surface` #141E2E | 8.20:1 | ≥4.5 | pass |
+| dark `--accent` on dark `--accent-bg` #123A2A | 6.19:1 | ≥4.5 | pass |
+| dark `--ink` #EAF0F8 on dark `--accent-bg` | 11.01:1 | ≥4.5 | pass |
+
+**Why this green.** The accent must clear 4.5:1 both as a stroke on the page and
+as a fill under white text, which caps its luminance and forces the dark end of
+the green range — pushing it toward forest rather than a "success toast" lime,
+which is also the right register for a clinical board.
+
+**Clinical signal colours were not touched.** `--p1`/`--p2`/`--p3`/`--p45` and
+their tints, `--abstain` and `--nurse` are byte-identical before and after. Note
+that the band palette contains **no green** — P4/P5 is achromatic `#5F6B7F`
+(ΔE2000 28.3 from the new accent) — so the "must differ from the P4 band green"
+constraint is vacuous in this build. The real adjacency risk is `--nurse`
+#0A6B49, the nurse-override signal. Separation achieved is ΔE2000 **14.0** with
+L\* 24.0 vs 39.7 (ΔL\* −15.7), i.e. the accent is obviously darker and less
+chromatic. ΔE ≥ 20 is **not** reachable against #0A6B49 by any colour that is
+still a green and still clears the contrast floor; the alternatives were to go
+teal (reads as blue again, defeating the change) or near-black (stops reading as
+green). Darkness plus the differing form factor — accent appears as strokes,
+icons and thin rules, `--nurse` only as a filled tint chip — carries the
+distinction. Dark mode separates by hue instead: #72C96E is a grassier 140°
+against the mint 163° of `--nurse` #79D4AC, ΔE2000 11.7.
+
+**Alternatives rejected.** #10484B / #0C4A4D (best nurse separation at ΔE 18.5,
+but genuinely teal — the owner asked to move *away* from blue). #0D3B2E (ΔE 16.3
+but C\* 19.5, drifts toward black). #0F5132, #14532D (handsome, but ΔE ≤ 8.5
+from `--nurse` — too close to a clinical signal). Keeping `--rail-active` equal
+to `--accent` as before (a #0F4130 marker scores 1.26:1 on `--rail-2`
+and 1.47:1 on `--rail` — effectively invisible).
+
+**Consequences.** This also fixes two latent defects rather than introducing
+them. (1) The old `--rail-active` #165BC8 scored **2.33:1** on `--rail-2` and
+2.72:1 on `--rail`, failing the WCAG 1.4.11 3:1 floor for a non-text indicator;
+the green marker now passes at 4.76:1. (2) The old blue accent sat ΔE2000 **3.4**
+from `--abstain` #1257B0, so "interactive" and "model abstained" were very nearly
+the same colour; that separation is now ΔE 36.0. All 153 unit, property and
+golden tests pass, including `design-contract.test.js`.

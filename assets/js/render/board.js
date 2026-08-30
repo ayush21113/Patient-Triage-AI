@@ -192,6 +192,21 @@ function displayDriftDetail(value, max = 2) {
   : `${causes.slice(0, max).join(" · ")} +${causes.length - max}`;
 }
 
+function reportVisibleRows(tableBody) {
+ const output = document.querySelector("#visible-row-count");
+ const rail = tableBody.closest(".queue-rail");
+ if (!output || !rail) return;
+ requestAnimationFrame(() => {
+  const railRect = rail.getBoundingClientRect();
+  const visible = [...tableBody.querySelectorAll("tr")].filter(row => {
+   const rect = row.getBoundingClientRect();
+   return rect.top >= railRect.top - 1 && rect.bottom <= railRect.bottom + 1;
+  }).length;
+  output.textContent = `Rows visible ${visible}`;
+  output.dataset.count = String(visible);
+ });
+}
+
 function updateRow(entry, boardRow, now, viewState) {
  const { encounter, assessment } = boardRow;
  const observation = encounter.observations.at(-1);
@@ -260,9 +275,7 @@ function updateRow(entry, boardRow, now, viewState) {
   const direction = movement.direction === "up" ? "▲" : "▼";
   cells.detail.append(detailToken(
    `movement-${movement.direction}`,
-   `${direction} ${movement.direction.toUpperCase()} ${
-    movement.positions
-   } · ${displayDriftDetail(movement.cause, 1)}`
+   `${direction} ${movement.direction.toUpperCase()} ${movement.positions}`
   ));
  }
  if (overdue) {
@@ -460,4 +473,5 @@ export function renderBoard(
   tableBody.ownerDocument.querySelector("#queue-announcer").textContent =
    rankAnnouncements.join(" ");
  }
+ reportVisibleRows(tableBody);
 }

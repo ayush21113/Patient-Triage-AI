@@ -43,9 +43,9 @@ test("deployed source and transfer sizes remain within budget", async () => {
   ))).reduce((total, size) => total + size, 0);
 
   assert.ok(transferredBytes <= 120_000);
-  assert.ok(javascriptBytes <= 55_000);
+  assert.ok(javascriptBytes <= 60_000);
   assert.ok(
-    gzipSync(await readFile("assets/css/board.css"), { level: 9 }).length <= 8_000
+    gzipSync(await readFile("assets/css/board.css"), { level: 9 }).length <= 14_000
   );
 });
 

@@ -107,7 +107,7 @@ test("degraded mode stays ordered and concise", async ({ page }) => {
   expect(await page.locator("#mode-strip").evaluate(node =>
     node.scrollHeight <= node.clientHeight
   )).toBe(true);
-  await expect(page.locator("#unobtainable-note")).toBeVisible();
+  await expect(page.locator("#unobtainable-note")).toBeHidden();
   const bands = await page.locator("#queue-body .band-chip").allTextContents();
   const acuity = bands.map(value => Number(value.match(/P([1-5])/)?.[1]));
   expect(acuity).toEqual([...acuity].sort((left, right) => left - right));

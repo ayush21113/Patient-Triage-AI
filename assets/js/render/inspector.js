@@ -1,6 +1,11 @@
 import { el } from "../util/dom.js";
 import { confidenceMark } from "../util/glyph.js";
-import { confidenceBand, sparkline } from "./charts.js";
+import {
+ confidenceBand,
+ bandDistributionDonut,
+ derivationContributionBar,
+ sparkline
+} from "./charts.js";
 import { applyOverrideOrder } from "./override.js";
 
 const MILLISECONDS_PER_MINUTE = 60_000;
@@ -119,7 +124,11 @@ function boardSummary(inspector, board, now, viewState) {
   dd.textContent = value;
   summary.append(dt, dd);
  }
- inspector.replaceChildren(title, summary);
+ inspector.replaceChildren(
+  title,
+  bandDistributionDonut(board, viewState.overrides),
+  summary
+ );
 }
 
 function surgeSummary(inspector, board) {
@@ -131,7 +140,7 @@ function surgeSummary(inspector, board) {
   const band = assessment.band ?? assessment.provisionalBand;
   const headingNode = el("strong", { class: "numeric" });
   headingNode.textContent = `${band} · ${encounter.encounter_id}`;
-  const complaint = el("span");
+  const complaint = el("span", { "data-ellipsis": "ok" });
   complaint.textContent = encounter.complaint_text ??
    "Complaint not obtained";
   const confidence = el("span");
@@ -185,6 +194,7 @@ function renderQuestion(assessment, onAnswer) {
 function renderDerivation(assessment, protocol) {
  const section = el("section", { class: "inspector-section derivation" });
  section.append(heading("Derivation"));
+ section.append(derivationContributionBar(assessment, protocol));
  if (assessment.rulesFired.length === 0) {
   section.append(derivationLine("L0 Hard rules", "None fired", "—"));
  } else {

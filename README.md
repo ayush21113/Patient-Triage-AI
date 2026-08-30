@@ -78,6 +78,25 @@ The repository includes:
 
 The assumed primary regulatory jurisdiction is **India under the DPDP Act 2023**. The data-minimisation and audit design is also structured to be compatible with HIPAA and GDPR health-data obligations. See [docs/05-BACKEND-SCHEMA.md](docs/05-BACKEND-SCHEMA.md).
 
+## Pilot Business Case
+
+The Stage 1 business case is intentionally framed as a low-cost safety pilot, not a claimed production ROI.
+
+**Pilot envelope:** one ED, one offline-capable tablet, no EHR integration, four to six weeks, and a weekly clinical-governance review. This keeps the first deployment small enough to approve while still exposing the core risk signal: patients whose acuity rises while they wait.
+
+**Impact measures:**
+
+- P95 time-to-clinician for the highest-risk waiting patients.
+- Number and severity of post-triage acuity upgrades.
+- Clinician override rate and direction.
+- Abstention response rate for unresolved and unresolvable cases.
+- Fairness drift across age, sex, and language subgroups.
+- Nurse workload impact during normal, surge, and degraded-monitor modes.
+
+**Benefit logic:** if the pilot prevents even a small number of clinically significant waiting-room escalations, the value case is risk reduction rather than generic software efficiency. The next investment decision should be based on measured signal quality, clinician trust, and whether the board improves highest-risk flow without unacceptable additional nurse workload.
+
+HIPAA and GDPR are treated as compatibility targets for later deployment review, not as a completed legal certification. A hospital deployment would still require site-specific privacy, security, legal, and clinical-governance validation.
+
 ## Dependencies
 
 ### Runtime

@@ -197,7 +197,7 @@ Stated as assumptions, per the Round 2 brief, and adjustable without code change
 | Baseline arrival rate | 6 patients/hour (mid-size ED) | Surge trigger = ≥3× = 18/hour |
 | Triage scale | 5-level, ESI v5 aligned (P1–P5 ↔ ESI 1–5) | Band mapping |
 | Prior-record availability | ~50% of arrivals have some prior record; the system assumes **none** | Zero-history path is the default path, not the exception (§7.1) |
-| Regulatory frame | **DPDP Act 2023 (India)** primary; designed to satisfy HIPAA §164 and GDPR Art. 9 by construction | Retention, consent, minimisation |
+| Regulatory frame | **DPDP Act 2023 (India)** primary; designed to support HIPAA §164 and GDPR Art. 9 compatibility review, subject to site-specific legal and security validation | Retention, consent, minimisation |
 | Data retention | Encounter record 24 h on device; audit log 7 years, de-identified | Data policy |
 | Undertriage : overtriage cost | 8 : 1 | Tie-breaking, threshold placement |
 | Reassessment intervals | P2 15 min · P3 30 min · P4 60 min · P5 120 min | Re-triage prompts |
