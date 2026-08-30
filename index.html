@@ -103,7 +103,10 @@
         <section class="queue-card card" aria-labelledby="queue-caption">
           <header class="card-header">
             <h2 id="queue-caption">Waiting queue</h2>
-            <span id="visible-row-count" class="card-action numeric">Rows visible ——</span>
+            <div class="queue-header-actions">
+              <button id="add-patient-queue-btn" class="add-patient-queue-btn" type="button">+ Add New Patient</button>
+              <span id="visible-row-count" class="card-action numeric">Rows visible ——</span>
+            </div>
           </header>
           <div class="queue-rail">
         <p id="queue-announcer" class="sr-only" aria-live="polite"></p>

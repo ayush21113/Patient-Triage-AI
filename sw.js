@@ -1,4 +1,4 @@
-const CACHE_NAME = "patienttriage-v45";
+const CACHE_NAME = "patienttriage-v47";
 const PRECACHE = [
   "./",
   "./index.html",

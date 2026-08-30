@@ -186,17 +186,44 @@ function vitalControls(latest = null) {
 }
 
 function visualControls(latest = {}, showObstetric = false) {
- const fieldset = toggleGroup(
-  "Visual checks",
-  visualChecks.map(([value, label]) => [value, label, latest[value] ?? false]),
-  "visual-grid"
- );
- const obstetric = fieldset.querySelector(
-  '[data-value="heavy_vaginal_bleeding"]'
- );
- obstetric.hidden = !showObstetric;
- bindMultiSelect(fieldset);
- return fieldset;
+  const fieldset = toggleGroup(
+    "Visual checks",
+    visualChecks.map(([value, label]) => [value, label, latest[value] ?? false]),
+    "visual-grid"
+  );
+  const obstetric = fieldset.querySelector('[data-value="heavy_vaginal_bleeding"]');
+  if (obstetric) obstetric.hidden = !showObstetric;
+  bindMultiSelect(fieldset);
+
+  const customRow = el("div", { class: "custom-note-row" });
+  const customInput = el("input", {
+    type: "text",
+    class: "custom-note-input",
+    placeholder: "Type custom check/note (e.g. Nausea)..."
+  });
+  const addBtn = el("button", { type: "button", class: "add-note-btn" });
+  addBtn.textContent = "+ Add Note";
+
+  on(addBtn, "click", () => {
+    const text = customInput.value.trim();
+    if (!text) return;
+    const value = `custom_${text.toLowerCase().replace(/\s+/g, "_")}`;
+    const grid = fieldset.querySelector(".visual-grid");
+    const chip = toggleButton(value, text, true);
+    grid.append(chip);
+    customInput.value = "";
+  });
+
+  on(customInput, "keydown", event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      addBtn.click();
+    }
+  });
+
+  customRow.append(customInput, addBtn);
+  fieldset.append(customRow);
+  return fieldset;
 }
 
 function observationFrom(form, acvpu, visual) {

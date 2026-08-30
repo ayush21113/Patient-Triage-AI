@@ -195,6 +195,10 @@ simulation = createBoardSimulation(cohort, protocol, render, change => {
 });
 store.subscribe(() => render());
 on(openArrival, "click", () => store.dispatch({ type: "OPEN_ARRIVAL" }));
+const addPatientQueueBtn = document.querySelector("#add-patient-queue-btn");
+if (addPatientQueueBtn) {
+  on(addPatientQueueBtn, "click", () => store.dispatch({ type: "OPEN_ARRIVAL" }));
+}
 on(openBoard, "click", () => {
   store.dispatch({ type: "CLOSE_FAIRNESS" });
   store.dispatch({ type: "CLOSE_AUDIT" });
